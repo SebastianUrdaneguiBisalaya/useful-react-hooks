@@ -1,10 +1,8 @@
-<div style="display: flex; justify-content: center; align-items: center; margin-bottom: 20px;width: 100%;">
-    <img src="./public/logo.png" alt="logo"     width="80" />
-</div>
-
-<div style="display: flex; justify-content: center; align-items: center; margin-bottom: 20px;">
-    <h1><strong>useful-react-hooks</strong></h1>
-</div>
+<p align="center">
+    <a href="https://exploryq.vercel.app" align="center">
+        <img width="60" src="./public/logo.png" alt="Website Link" />
+    </a>
+</p>
 
 > Developed by [**Sebastian Marat Urdanegui Bisalaya**](https://sebastianurdanegui.com)
 
