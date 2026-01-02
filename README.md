@@ -1,4 +1,4 @@
-<div style="display: flex; justify-content: center; align-items: center; margin-bottom: 20px;">
+<div style="display: flex; justify-content: center; align-items: center; margin-bottom: 20px;width: 100%;">
     <img src="./public/logo.png" alt="logo"     width="80" />
 </div>
 
