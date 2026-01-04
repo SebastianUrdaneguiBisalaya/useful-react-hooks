@@ -1,28 +1,40 @@
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+	font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+	color-scheme: light dark;
+	color: rgba(255, 255, 255, 0.87);
+	background-color: #242424;
 }
 
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  justify-content: center;
-  width: 100%;
-  min-height: 100vh;
+	margin: 0;
+	display: flex;
+	place-items: center;
+	justify-content: center;
+	width: 100%;
+	min-height: 100vh;
 }
 
 .container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center; 
-  align-items: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.container-div {
+	width: 100px;
+	height: 100px;
+	background-color: red;
+}
+
+.container-div-obsever {
+	width: 100px;
+	height: 100px;
+	background-color: blue;
 }
