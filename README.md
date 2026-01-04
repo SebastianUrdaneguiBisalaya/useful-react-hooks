@@ -2,7 +2,7 @@
     <img src="./public/logo.png" alt="useful-react-hooks">
 </p>
 
-<h2 align="center">vibeHooks</h2>
+<h1 align="center">vibeHooks</h1>
 
 > Developed by [**Sebastian Marat Urdanegui Bisalaya**](https://sebastianurdanegui.com)
 
