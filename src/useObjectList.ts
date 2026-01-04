@@ -11,6 +11,12 @@ export interface ObjectListReturn<T extends Record<string, unknown>> {
     remove: (idx: number) => void;
     update: (idx: number, item: T) => void;
     updatePartial: (idx: number, partial: Partial<T>) => void;
+    find: (predicate: (item: T, idx: number) => boolean) => T | undefined;
+    findIndex: (predicate: (item: T, idx: number) => boolean) => number;
+    filter: (predicate: (item: T, idx: number) => boolean) => T[];
+    some: (predicate: (item: T, idx: number) => boolean) => boolean;
+    every: (predicate: (item: T, idx: number) => boolean) => boolean;
+    map: <U>(mapper: (item: T, idx: number) => U) => U[];
 }
 
 /**
@@ -25,6 +31,12 @@ export interface ObjectListReturn<T extends Record<string, unknown>> {
  * - `remove`: remove an item by index
  * - `update`: replace an item entirely
  * - `updatePartial`: shallow-merge specific fields into an existing item
+ * - `find`: find the first item that matches the predicate
+ * - `findIndex`: find the index of the first item that matches the predicate
+ * - `filter`: filter the list based on the predicate
+ * - `some`: check if any item in the list matches the predicate
+ * - `every`: check if all items in the list match the predicate
+ * - `map`: map the list to a new array based on the mapper function
  *
  * @example
  * ```tsx
@@ -37,6 +49,12 @@ export interface ObjectListReturn<T extends Record<string, unknown>> {
  *   remove,
  *   update,
  *   updatePartial,
+ *   find,
+ *   findIndex,
+ *   filter,
+ *   some,
+ *   every,
+ *   map,
  * } = useObjectList<Item>({
  *   defaultValue: [
  *     { id: 1, name: 'item1', active: true },
@@ -93,6 +111,30 @@ export function useObjectList<T extends Record<string, unknown>>({ defaultValue 
         })
     }, []);
 
+    const find = (predicate: (item: T, idx: number) => boolean) => {
+        return items.find(predicate);
+    }
+
+    const findIndex = (predicate: (item: T, idx: number) => boolean) => {
+        return items.findIndex(predicate);
+    }
+    
+    const filter = (predicate: (item: T, idx: number) => boolean) => {
+        return items.filter(predicate);
+    }
+
+    const some = (predicate: (item: T, idx: number) => boolean) => {
+        return items.some(predicate);
+    }
+
+    const every = (predicate: (item: T, idx: number) => boolean) => {
+        return items.every(predicate);
+    }
+
+    const map = <U>(mapper: (item: T, idx: number) => U) => {
+        return items.map(mapper);
+    }
+
     return {
         items,
         insert,
@@ -100,5 +142,11 @@ export function useObjectList<T extends Record<string, unknown>>({ defaultValue 
         remove,
         update,
         updatePartial,
+        find,
+        findIndex,
+        filter,
+        some,
+        every,
+        map,
     }
 }
