@@ -5,11 +5,9 @@ import { useScreenSize } from './useScreenSize';
 /**
  * `useIsDesktop` returns true if the screen size is greater than or equal to the given width.
  * 
- * @typeParm boolean
- * 
  * @param width Width to compare with the screen size.
- 
-* @returns A boolean value indicating if the screen size is greater than or equal to the given width.
+ * 
+ * @returns A boolean value indicating if the screen size is greater than or equal to the given width.
  * 
  * @example
  * ```tsx
