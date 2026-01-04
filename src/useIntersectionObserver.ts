@@ -68,6 +68,7 @@ export function useIntersectionObserver<T extends Element = HTMLElement>(options
     const onceRef = React.useRef(false);
 
     React.useEffect(() => {
+        if (typeof window === 'undefined') return;
         const element = ref.current;
         if (!element) return;
 
