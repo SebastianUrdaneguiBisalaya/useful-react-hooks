@@ -1,0 +1,6 @@
+dist
+package-lock.json
+.eslintrc.cjs
+.eslintrc.js
+node_modules
+public
