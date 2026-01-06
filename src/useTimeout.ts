@@ -1,35 +1,35 @@
 import * as React from 'react';
 
 export interface UseTimeoutOptions {
-  /**
-   * Delay in milliseconds before the callback is executed.
-   * If null or undefined, the timeout won't be set.
-   */
-  delay: number | null;
-  /**
-   * Whether the timeout should start immediately on mount.
-   * @default true
-   */
-  startOnMount?: boolean;
+	/**
+	 * Delay in milliseconds before the callback is executed.
+	 * If null or undefined, the timeout won't be set.
+	 */
+	delay: number | null;
+	/**
+	 * Whether the timeout should start immediately on mount.
+	 * @default true
+	 */
+	startOnMount?: boolean;
 }
 
 export interface UseTimeoutReturn {
-  /**
-   * Start or restart the timeout.
-   */
-  start: () => void;
-  /**
-   * Cancel the pending timeout.
-   */
-  cancel: () => void;
-  /**
-   * Reset the timeout (cancel and start again).
-   */
-  reset: () => void;
-  /**
-   * Whether the timeout is currently active.
-   */
-  isActive: boolean;
+	/**
+	 * Start or restart the timeout.
+	 */
+	start: () => void;
+	/**
+	 * Cancel the pending timeout.
+	 */
+	cancel: () => void;
+	/**
+	 * Reset the timeout (cancel and start again).
+	 */
+	reset: () => void;
+	/**
+	 * Whether the timeout is currently active.
+	 */
+	isActive: boolean;
 }
 
 /**
@@ -52,7 +52,7 @@ export interface UseTimeoutReturn {
  * const timeout = useTimeout(() => {
  *   showNotification('Session expired');
  * }, { delay: 5000, startOnMount: false });
- * 
+ *
  * // Start manually
  * <button onClick={timeout.start}>Start Timer</button>
  * <button onClick={timeout.cancel}>Cancel</button>
@@ -66,54 +66,54 @@ export interface UseTimeoutReturn {
  *
  */
 export function useTimeout(
-    callback: () => void,
-    { delay, startOnMount = true }: UseTimeoutOptions
+	callback: () => void,
+	{ delay, startOnMount = true }: UseTimeoutOptions
 ): UseTimeoutReturn {
-    const timeoutRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
-    const callbackRef = React.useRef(callback);
-    const [isActive, setIsActive] = React.useState<boolean>(false);
+	const timeoutRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+	const callbackRef = React.useRef(callback);
+	const [isActive, setIsActive] = React.useState<boolean>(false);
 
-    React.useEffect(() => {
-        callbackRef.current = callback;
-    }, [callback]);
+	React.useEffect(() => {
+		callbackRef.current = callback;
+	}, [callback]);
 
-    const cancel = React.useCallback(() => {
-        if (timeoutRef.current !== null) {
-            clearTimeout(timeoutRef.current);
-            timeoutRef.current = null;
-            setIsActive(false);
-        }
-    }, []);
+	const cancel = React.useCallback(() => {
+		if (timeoutRef.current !== null) {
+			clearTimeout(timeoutRef.current);
+			timeoutRef.current = null;
+			setIsActive(false);
+		}
+	}, []);
 
-    const start = React.useCallback(() => {
-        cancel();
-        if (delay === null || delay === undefined) {
-            return;
-        }
-        setIsActive(true);
-        timeoutRef.current = setTimeout(() => {
-            callbackRef.current();
-            timeoutRef.current = null;
-            setIsActive(false);
-        }, delay);
-    }, [delay, cancel]);
+	const start = React.useCallback(() => {
+		cancel();
+		if (delay === null || delay === undefined) {
+			return;
+		}
+		setIsActive(true);
+		timeoutRef.current = setTimeout(() => {
+			callbackRef.current();
+			timeoutRef.current = null;
+			setIsActive(false);
+		}, delay);
+	}, [delay, cancel]);
 
-    const reset = React.useCallback(() => {
-        cancel();
-        start();
-    }, [cancel, start]);
+	const reset = React.useCallback(() => {
+		cancel();
+		start();
+	}, [cancel, start]);
 
-    React.useEffect(() => {
-        if (startOnMount) {
-            start();
-        }
-        return cancel;
-    }, [startOnMount, start, cancel]);
+	React.useEffect(() => {
+		if (startOnMount) {
+			start();
+		}
+		return cancel;
+	}, [startOnMount, start, cancel]);
 
-    return {
-        start,
-        cancel,
-        reset,
-        isActive,
-    }
+	return {
+		start,
+		cancel,
+		reset,
+		isActive,
+	};
 }

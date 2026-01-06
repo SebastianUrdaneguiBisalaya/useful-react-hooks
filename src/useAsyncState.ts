@@ -1,54 +1,54 @@
 import * as React from 'react';
 
 type AsyncState<T> = {
-    data: T | null;
-    error: Error | null;
-    isLoading: boolean;
-    isSuccess: boolean;
-    isError: boolean;
-    isIdle: boolean;
-}
+	data: T | null;
+	error: Error | null;
+	isLoading: boolean;
+	isSuccess: boolean;
+	isError: boolean;
+	isIdle: boolean;
+};
 
 type FetchConfig = RequestInit & {
-    params?: Record<string, string | number | boolean>;
-    timeout?: number;
-    retries?: number;
-    retryDelay?: number;
-    onSuccess?: (data: any) => void;
-    onError?: (error: Error) => void;
-}
+	params?: Record<string, string | number | boolean>;
+	timeout?: number;
+	retries?: number;
+	retryDelay?: number;
+	onSuccess?: (data: any) => void;
+	onError?: (error: Error) => void;
+};
 
 type UseAsyncStateReturn<T> = AsyncState<T> & {
-    execute: (url: string, config?: FetchConfig) => Promise<T | null>;
-    reset: () => void;
-    mutate: (data: T) => void;
-    retry: () => Promise<T | null>;
-}
+	execute: (url: string, config?: FetchConfig) => Promise<T | null>;
+	reset: () => void;
+	mutate: (data: T) => void;
+	retry: () => Promise<T | null>;
+};
 
 class FetchError extends Error {
-    constructor(
-        message: string,
-        public status?: number,
-        public statusText?: string,
-        public response?: Response
-    ) {
-        super(message);
-        this.name = 'FetchError';
-    }
+	constructor(
+		message: string,
+		public status?: number,
+		public statusText?: string,
+		public response?: Response
+	) {
+		super(message);
+		this.name = 'FetchError';
+	}
 }
 
 export interface UseAsyncStateOptions<T> {
-    initialData?: T | null;
-    onSuccess?: (data: T) => void;
-    onError?: (error: Error) => void;
+	initialData?: T | null;
+	onSuccess?: (data: T) => void;
+	onError?: (error: Error) => void;
 }
 
 /**
  * `useAsyncState` is a comprehensive hook for managing asynchronous fetch operations with built-in state management.
  * This hook eliminates the need to manually manage loading state, errors, retries, and data handling for fetch requests.
- * 
+ *
  * @template T - The expected type of the response data.
- * 
+ *
  * @param options - Configuration options for the hook.
  *
  * @returns An object containing the following properties:
@@ -62,35 +62,35 @@ export interface UseAsyncStateOptions<T> {
  * - `reset`: Function to reset all state to initial values
  * - `mutate`: Function to manually update the data (optimistic updates)
  * - `retry`: Function to retry the last failed request
- * 
+ *
  * @example
  * ```tsx
  * function UserProfile() {
  *   const { data, isLoading, isError, error, execute } = useAsyncState<User>();
- * 
+ *
  *   React.useEffect(() => {
  *     execute('https://api.example.com/user/123');
  *   }, []);
- * 
+ *
  *   if (isLoading) return <div>Loading...</div>;
  *   if (isError) return <div>Error: {error?.message}</div>;
  *   if (!data) return null;
- * 
+ *
  *   return <div>Welcome, {data.name}!</div>;
  * }
  * ```
- * 
+ *
  * @example
  * ```tsx
  * // POST request with error handling and retry
  * function CreatePost() {
- *   const { 
- *     data, 
- *     isLoading, 
- *     isError, 
- *     error, 
- *     execute, 
- *     retry 
+ *   const {
+ *     data,
+ *     isLoading,
+ *     isError,
+ *     error,
+ *     execute,
+ *     retry
  *   } = useAsyncState<Post>({
  *     onSuccess: (post) => {
  *       console.log('Post created:', post);
@@ -100,7 +100,7 @@ export interface UseAsyncStateOptions<T> {
  *       console.error('Failed to create post:', err);
  *     }
  *   });
- * 
+ *
  *   const handleSubmit = async (formData: PostFormData) => {
  *     await execute('https://api.example.com/posts', {
  *       method: 'POST',
@@ -114,7 +114,7 @@ export interface UseAsyncStateOptions<T> {
  *       timeout: 5000
  *     });
  *   };
- * 
+ *
  *   return (
  *     <form onSubmit={(e) => {
  *       e.preventDefault();
@@ -134,18 +134,18 @@ export interface UseAsyncStateOptions<T> {
  *   );
  * }
  * ```
- * 
+ *
  * @example
  * ```tsx
  * // With query parameters and optimistic updates
  * function TodoList() {
- *   const { 
- *     data: todos, 
- *     isLoading, 
- *     execute, 
- *     mutate 
+ *   const {
+ *     data: todos,
+ *     isLoading,
+ *     execute,
+ *     mutate
  *   } = useAsyncState<Todo[]>({ initialData: [] });
- * 
+ *
  *   const fetchTodos = () => {
  *     execute('https://api.example.com/todos', {
  *       params: {
@@ -155,14 +155,14 @@ export interface UseAsyncStateOptions<T> {
  *       }
  *     });
  *   };
- * 
+ *
  *   const toggleTodo = async (id: string) => {
  *     // Optimistic update
- *     const updated = todos?.map(todo => 
+ *     const updated = todos?.map(todo =>
  *       todo.id === id ? { ...todo, done: !todo.done } : todo
  *     ) || [];
  *     mutate(updated);
- * 
+ *
  *     // Actual API call
  *     try {
  *       await execute(`https://api.example.com/todos/${id}`, {
@@ -175,11 +175,11 @@ export interface UseAsyncStateOptions<T> {
  *       mutate(todos);
  *     }
  *   };
- * 
+ *
  *   React.useEffect(() => {
  *     fetchTodos();
  *   }, []);
- * 
+ *
  *   return (
  *     <ul>
  *       {todos?.map(todo => (
@@ -191,18 +191,18 @@ export interface UseAsyncStateOptions<T> {
  *   );
  * }
  * ```
- * 
+ *
  * @example
  * ```tsx
  * // Advanced usage with all features
  * function AdvancedExample() {
- *   const { 
- *     data, 
- *     error, 
- *     isLoading, 
+ *   const {
+ *     data,
+ *     error,
+ *     isLoading,
  *     isError,
  *     isSuccess,
- *     execute, 
+ *     execute,
  *     reset,
  *     retry
  *   } = useAsyncState<ApiResponse>({
@@ -216,7 +216,7 @@ export interface UseAsyncStateOptions<T> {
  *       }
  *     }
  *   });
- * 
+ *
  *   const makeRequest = async () => {
  *     await execute('https://api.example.com/data', {
  *       method: 'GET',
@@ -234,17 +234,17 @@ export interface UseAsyncStateOptions<T> {
  *       retryDelay: 2000,    // Wait 2 seconds between retries
  *     });
  *   };
- * 
+ *
  *   return (
  *     <div>
  *       <button onClick={makeRequest}>Fetch Data</button>
  *       <button onClick={reset}>Reset</button>
- *       
+ *
  *       {isLoading && <Spinner />}
  *       {isError && (
- *         <ErrorMessage 
- *           message={error?.message} 
- *           onRetry={retry} 
+ *         <ErrorMessage
+ *           message={error?.message}
+ *           onRetry={retry}
  *         />
  *       )}
  *       {isSuccess && data && <DataDisplay data={data} />}
@@ -259,181 +259,197 @@ export interface UseAsyncStateOptions<T> {
  * @version 0.0.1
  *
  */
-export function useAsyncState<T>(options?: UseAsyncStateOptions<T>): UseAsyncStateReturn<T> {
-    const { initialData = null, onSuccess, onError } = options || {};
+export function useAsyncState<T>(
+	options?: UseAsyncStateOptions<T>
+): UseAsyncStateReturn<T> {
+	const { initialData = null, onSuccess, onError } = options || {};
 
-    const [state, setState] = React.useState<AsyncState<T>>({
-        data: initialData,
-        error: null,
-        isLoading: false,
-        isSuccess: false,
-        isError: false,
-        isIdle: true,
-    });
+	const [state, setState] = React.useState<AsyncState<T>>({
+		data: initialData,
+		error: null,
+		isLoading: false,
+		isSuccess: false,
+		isError: false,
+		isIdle: true,
+	});
 
-    const lastRequestRef = React.useRef<{ url: string; config: FetchConfig | undefined; } | null>(null);
-    const abortControllerRef = React.useRef<AbortController | null>(null);
+	const lastRequestRef = React.useRef<{
+		url: string;
+		config: FetchConfig | undefined;
+	} | null>(null);
+	const abortControllerRef = React.useRef<AbortController | null>(null);
 
-    const buildUrl = React.useCallback((url: string, params?: Record<string, string | number | boolean>) => {
-        if (!params || Object.keys(params).length === 0) return url;
+	const buildUrl = React.useCallback(
+		(url: string, params?: Record<string, string | number | boolean>) => {
+			if (!params || Object.keys(params).length === 0) return url;
 
-        const urlObj = new URL(url);
-        Object.entries(params).forEach(([key, value]) => {
-            urlObj.searchParams.append(key, value.toString());
-        });
-        return urlObj.toString();
-    }, []);
+			const urlObj = new URL(url);
+			Object.entries(params).forEach(([key, value]) => {
+				urlObj.searchParams.append(key, value.toString());
+			});
+			return urlObj.toString();
+		},
+		[]
+	);
 
-    const performFetch = React.useCallback(
-        async (url: string, config?: FetchConfig, attemptNumber: number = 1): Promise<T> => {
-            const {
-                params,
-                timeout = 30000,
-                retries = 0,
-                retryDelay = 1000,
-                onSuccess: configOnSuccess,
-                onError: configOnError,
-                ...fetchConfig
-            } = config || {};
+	const performFetch = React.useCallback(
+		async (
+			url: string,
+			config?: FetchConfig,
+			attemptNumber: number = 1
+		): Promise<T> => {
+			const {
+				params,
+				timeout = 30000,
+				retries = 0,
+				retryDelay = 1000,
+				onSuccess: configOnSuccess,
+				onError: configOnError,
+				...fetchConfig
+			} = config || {};
 
-            abortControllerRef.current = new AbortController();
-            const { signal } = abortControllerRef.current;
+			abortControllerRef.current = new AbortController();
+			const { signal } = abortControllerRef.current;
 
-            const fullUrl = buildUrl(url, params);
+			const fullUrl = buildUrl(url, params);
 
-            const timeoutPromise = new Promise<never>((_, reject) => {
-                setTimeout(() => {
-                    abortControllerRef.current?.abort();
-                    reject(new FetchError('Request timeout', undefined, 'Timeout'));
-                }, timeout);
-            });
+			const timeoutPromise = new Promise<never>((_, reject) => {
+				setTimeout(() => {
+					abortControllerRef.current?.abort();
+					reject(new FetchError('Request timeout', undefined, 'Timeout'));
+				}, timeout);
+			});
 
-            try {
-                const response = await Promise.race([
-                    fetch(fullUrl, { ...fetchConfig, signal }),
-                    timeoutPromise,
-                ]) as Response;
+			try {
+				const response = (await Promise.race([
+					fetch(fullUrl, { ...fetchConfig, signal }),
+					timeoutPromise,
+				])) as Response;
 
-                if (!response.ok) {
-                    const errorText = await response.text().catch(() => response.statusText);
-                    throw new FetchError(
-                        errorText || `HTTP Error ${response.status}`,
-                        response.status,
-                        response.statusText,
-                        response
-                    );
-                }
+				if (!response.ok) {
+					const errorText = await response
+						.text()
+						.catch(() => response.statusText);
+					throw new FetchError(
+						errorText || `HTTP Error ${response.status}`,
+						response.status,
+						response.statusText,
+						response
+					);
+				}
 
-                const contentType = response.headers.get('Content-Type');
-                let data: T;
+				const contentType = response.headers.get('Content-Type');
+				let data: T;
 
-                if (contentType?.includes('application/json')) {
-                    data = await response.json();
-                } else if (contentType?.includes('text/')) {
-                    data = (await response.text()) as T;
-                } else {
-                    data = (await response.blob()) as T;
-                }
+				if (contentType?.includes('application/json')) {
+					data = await response.json();
+				} else if (contentType?.includes('text/')) {
+					data = (await response.text()) as T;
+				} else {
+					data = (await response.blob()) as T;
+				}
 
-                configOnSuccess?.(data);
-                onSuccess?.(data);
-                return data;
-            } catch (err: unknown) {
-                const error = err instanceof Error ? err : new Error(String(err));
-                if (attemptNumber <= retries && error.name !== 'AbortError') {
-                    await new Promise(resolve => setTimeout(resolve, retryDelay));
-                    return performFetch(url, config, attemptNumber + 1);
-                }
-                configOnError?.(error);
-                onError?.(error);
-                throw error;
-            }
-        } 
-    , [buildUrl, onSuccess, onError]);
+				configOnSuccess?.(data);
+				onSuccess?.(data);
+				return data;
+			} catch (err: unknown) {
+				const error = err instanceof Error ? err : new Error(String(err));
+				if (attemptNumber <= retries && error.name !== 'AbortError') {
+					await new Promise(resolve => setTimeout(resolve, retryDelay));
+					return performFetch(url, config, attemptNumber + 1);
+				}
+				configOnError?.(error);
+				onError?.(error);
+				throw error;
+			}
+		},
+		[buildUrl, onSuccess, onError]
+	);
 
-    const execute = React.useCallback(
-        async (url: string, config?: FetchConfig): Promise<T | null> => {
-            abortControllerRef.current?.abort();
-            lastRequestRef.current = { url, config };
+	const execute = React.useCallback(
+		async (url: string, config?: FetchConfig): Promise<T | null> => {
+			abortControllerRef.current?.abort();
+			lastRequestRef.current = { url, config };
 
-            setState(prev => ({
-                ...prev,
-                isLoading: true,
-                isSuccess: false,
-                isError: false,
-                isIdle: false,
-                error: null,
-            }));
+			setState(prev => ({
+				...prev,
+				isLoading: true,
+				isSuccess: false,
+				isError: false,
+				isIdle: false,
+				error: null,
+			}));
 
-            try {
-                const data = await performFetch(url, config);
-                setState({
-                    data,
-                    error: null,
-                    isLoading: false,
-                    isSuccess: true,
-                    isError: false,
-                    isIdle: false,
-                });
-                return data;
-            } catch (err: unknown) {
-                const error = err instanceof Error ? err : new Error(String(err));
-                if (error.name !== 'AbortError') {
-                    return null;
-                }
-                setState(prev => ({
-                    ...prev,
-                    error,
-                    isLoading: false,
-                    isSuccess: false,
-                    isError: true,
-                }));
-                return null;
-            }
-        }
-    , [performFetch]);
+			try {
+				const data = await performFetch(url, config);
+				setState({
+					data,
+					error: null,
+					isLoading: false,
+					isSuccess: true,
+					isError: false,
+					isIdle: false,
+				});
+				return data;
+			} catch (err: unknown) {
+				const error = err instanceof Error ? err : new Error(String(err));
+				if (error.name !== 'AbortError') {
+					return null;
+				}
+				setState(prev => ({
+					...prev,
+					error,
+					isLoading: false,
+					isSuccess: false,
+					isError: true,
+				}));
+				return null;
+			}
+		},
+		[performFetch]
+	);
 
-    const reset = React.useCallback(() => {
-        abortControllerRef.current?.abort();
-        lastRequestRef.current = null;
+	const reset = React.useCallback(() => {
+		abortControllerRef.current?.abort();
+		lastRequestRef.current = null;
 
-        setState({
-            data: initialData,
-            error: null,
-            isLoading: false,
-            isSuccess: false,
-            isError: false,
-            isIdle: true,
-        });
-    }, [initialData]);
+		setState({
+			data: initialData,
+			error: null,
+			isLoading: false,
+			isSuccess: false,
+			isError: false,
+			isIdle: true,
+		});
+	}, [initialData]);
 
-    const mutate = React.useCallback((newData: T | null) => {
-        setState(prev => ({
-            ...prev,
-            data: newData,
-        }))
-    }, []);
+	const mutate = React.useCallback((newData: T | null) => {
+		setState(prev => ({
+			...prev,
+			data: newData,
+		}));
+	}, []);
 
-    const retry = React.useCallback(async (): Promise<T | null> => {
-        if (!lastRequestRef.current) {
-            console.warn('No previous request to retry.');
-            return null;
-        }
-        const { url, config } = lastRequestRef.current;
-        return execute(url, config);
-    }, [execute]);
+	const retry = React.useCallback(async (): Promise<T | null> => {
+		if (!lastRequestRef.current) {
+			console.warn('No previous request to retry.');
+			return null;
+		}
+		const { url, config } = lastRequestRef.current;
+		return execute(url, config);
+	}, [execute]);
 
-    React.useEffect(() => {
-        return () => {
-            abortControllerRef.current?.abort();
-        }
-    }, []);
+	React.useEffect(() => {
+		return () => {
+			abortControllerRef.current?.abort();
+		};
+	}, []);
 
-    return {
-        ...state,
-        execute,
-        reset,
-        mutate,
-        retry,
-    }
+	return {
+		...state,
+		execute,
+		reset,
+		mutate,
+		retry,
+	};
 }
