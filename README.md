@@ -1,4 +1,4 @@
-<p align="center" style="height: 40px;">
+<p align="center" style="height: 20px;">
     <img src="./public/logo.png" alt="useful-react-hooks">
 </p>
 
