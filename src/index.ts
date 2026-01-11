@@ -27,7 +27,7 @@ export { useOnlyNetwork } from './useOnlyNetwork';
 export { usePageVisibility } from './usePageVisibility';
 export { usePermissions } from './usePermissions';
 export { usePopover } from './usePopover';
-export { usePreferredColorScheme } from './usePreferredColorScheme';
+export { usePreferredTheme } from './usePreferredTheme';
 export { usePreferredLanguage } from './usePreferredLanguage';
 export { usePreviousDistinct } from './usePreviousDistinct';
 export { useResettableState } from './useResettableState';
