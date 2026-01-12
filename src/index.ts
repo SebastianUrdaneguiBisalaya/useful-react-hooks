@@ -42,7 +42,7 @@ export { useTaskQueue } from './useTaskQueue';
 export { useTimeout } from './useTimeout';
 export { useThrottledCallback } from './useThrottledCallback';
 export { useTraceUpdates } from './useTraceUpdates';
-export { useTranslatorAndLanguageDetector } from './useTranslatorAndLanguageDetector';
+export { useTranslator } from './useTranslator';
 export { useToggle } from './useToggle';
 export { useVibration } from './useVibration';
 export { useWebsocket } from './useWebsocket';
