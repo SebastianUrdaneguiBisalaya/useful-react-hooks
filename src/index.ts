@@ -45,5 +45,4 @@ export { useTraceUpdates } from './useTraceUpdates';
 export { useTranslatorAndLanguageDetector } from './useTranslatorAndLanguageDetector';
 export { useToggle } from './useToggle';
 export { useVibration } from './useVibration';
-export { useVideo } from './useVideo';
 export { useWebsocket } from './useWebsocket';
