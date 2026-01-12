@@ -16,13 +16,13 @@ By default, these commands will install all the hooks in the package.
 Using `npm`:
 
 ```bash
-npm install @vibehooks
+npm install @vibehooks/react
 ```
 
 Using `pnpm`:
 
 ```bash
-pnpm add @vibehooks
+pnpm add @vibehooks/react
 ```
 
 But you can also install only the hooks you need with the following command:
@@ -30,20 +30,20 @@ But you can also install only the hooks you need with the following command:
 Using `npm`:
 
 ```bash
-npm install @vibehooks/useToggle
+npm install @vibehooks/use-toggle
 ```
 
 Using `pnpm`:
 
 ```bash
-pnpm add @vibehooks/useToggle
+pnpm add @vibehooks/use-toggle
 ```
 
 That package is fully typed with TypeScript and comes with all the types you need.
 You can use the types just by importing them from the package like this:
 
 ```ts
-import { useToggle, type UseToggleReturn } from '@vibehooks/useToggle';
+import { useToggle, type UseToggleReturn } from '@vibehooks/use-toggle';
 ```
 
 ## **Contributing**
