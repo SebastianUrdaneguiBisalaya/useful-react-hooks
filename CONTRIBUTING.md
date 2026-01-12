@@ -34,7 +34,3 @@ git push origin my-new-feature
 5. **Open a Pull Request to the main branch of this repository.**
 
 Please include a description of your changes and why they are useful.
-
-### License
-
-MIT
