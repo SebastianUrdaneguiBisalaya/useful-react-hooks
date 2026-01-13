@@ -1,68 +1,68 @@
 import * as React from 'react';
 
 export interface CountDownOptions {
-    /**
-     * The interval en miliseconds between each tick.
-     */
-    interval: number;
+	/**
+	 * The interval en miliseconds between each tick.
+	 */
+	interval: number;
 
-    /**
-     * A callback to be called when the countdown ends.
-     */
-    onComplete: () => void;
+	/**
+	 * A callback to be called when the countdown ends.
+	 */
+	onComplete: () => void;
 
-    /**
-     * A callback to be called on each tick.
-     */
-    onTick: (time: number) => void;
+	/**
+	 * A callback to be called on each tick.
+	 */
+	onTick: (time: number) => void;
 }
 
 export interface CountDown {
-    /**
-     * The end time of the countdown in milliseconds.
-     */
-    endTime: number;
+	/**
+	 * The end time of the countdown in milliseconds.
+	 */
+	endTime: number;
 
-    /**
-     * 
-     */
-    options: CountDownOptions;
+	/**
+	 *
+	 */
+	options: CountDownOptions;
 }
 
 export interface CountDownControlls {
-    /**
-     *  Pauses the countdown.
-     */
-    pause: () => void;
+	/**
+	 *  Pauses the countdown.
+	 */
+	pause: () => void;
 
-    /**
-     * Resumes the countdown.
-     */
-    resume: () => void;
+	/**
+	 * Resumes the countdown.
+	 */
+	resume: () => void;
 
-    /**
-     * Resets the countdown.
-     * If a new end time is provided, it will be used instead.
-     */
-    reset: (newEndTime?: number) => void;
+	/**
+	 * Resets the countdown.
+	 * If a new end time is provided, it will be used instead.
+	 */
+	reset: (newEndTime?: number) => void;
 }
 
 export interface CountDownReturn {
-    /**
-     * Remaining time in milliseconds.
-     * Will be `0` when the countdown has completed.
-     */
-    count: number;
+	/**
+	 * Remaining time in milliseconds.
+	 * Will be `0` when the countdown has completed.
+	 */
+	count: number;
 
-    /**
-     * Indicates whether the countdown is currently paused.
-     */
-    isPaused: boolean;
+	/**
+	 * Indicates whether the countdown is currently paused.
+	 */
+	isPaused: boolean;
 
-    /**
-     * Controls the countdown.
-     */
-    controls: CountDownControlls;
+	/**
+	 * Controls the countdown.
+	 */
+	controls: CountDownControlls;
 }
 
 /**
@@ -74,7 +74,7 @@ export interface CountDownReturn {
  * - Uses absolute time for accuracy
  * - Executes callbacks predictably
  * - Fully unopinionated and SSR-safe
- * 
+ *
  * @param {CountDown} params Countdown configuration
  *
  * @returns {CountDownReturn}
@@ -112,76 +112,76 @@ export interface CountDownReturn {
  *
  */
 export function useCountDown({ endTime, options }: CountDown): CountDownReturn {
-    const interval = options?.interval ?? 1000;
+	const interval = options?.interval ?? 1000;
 
-    const initialEndTimeRef = React.useRef(endTime);
-    const endTimeRef = React.useRef(endTime);
+	const initialEndTimeRef = React.useRef(endTime);
+	const endTimeRef = React.useRef(endTime);
 
-    const [count, setCount] = React.useState<number>(() => {
-        return Math.max(endTime - Date.now(), 0);
-    });
+	const [count, setCount] = React.useState<number>(() => {
+		return Math.max(endTime - Date.now(), 0);
+	});
 
-    const [isPaused, setIsPaused] = React.useState<boolean>(false);
+	const [isPaused, setIsPaused] = React.useState<boolean>(false);
 
-    const completedRef = React.useRef(false);
-    const intervalIdRef = React.useRef<number | null>(null);
+	const completedRef = React.useRef(false);
+	const intervalIdRef = React.useRef<number | null>(null);
 
-    const clearTimer = () => {
-        if (intervalIdRef.current !== null) {
-            clearInterval(intervalIdRef.current);
-            intervalIdRef.current = null;
-        }
-    }
+	const clearTimer = () => {
+		if (intervalIdRef.current !== null) {
+			clearInterval(intervalIdRef.current);
+			intervalIdRef.current = null;
+		}
+	};
 
-    const tick = React.useCallback(() => {
-        const remaining = Math.max(endTimeRef.current - Date.now(), 0);
-        options?.onTick?.(remaining);
-        setCount(remaining);
+	const tick = React.useCallback(() => {
+		const remaining = Math.max(endTimeRef.current - Date.now(), 0);
+		options?.onTick?.(remaining);
+		setCount(remaining);
 
-        if (remaining === 0 && !completedRef.current) {
-            completedRef.current = true;
-            clearTimer();
-            options?.onComplete?.();
-        }
-    }, [options]);
+		if (remaining === 0 && !completedRef.current) {
+			completedRef.current = true;
+			clearTimer();
+			options?.onComplete?.();
+		}
+	}, [options]);
 
-    React.useEffect(() => {
-        if (isPaused) return;
-        completedRef.current = false;
-        clearTimer();
-        tick();
-        intervalIdRef.current = window.setInterval(tick, interval);
-        return clearTimer;
-    }, [interval, isPaused, tick]);
+	React.useEffect(() => {
+		if (isPaused) return;
+		completedRef.current = false;
+		clearTimer();
+		tick();
+		intervalIdRef.current = window.setInterval(tick, interval);
+		return clearTimer;
+	}, [interval, isPaused, tick]);
 
-    const pause = React.useCallback(() => {
-        if (isPaused) return;
-        setIsPaused(true);
-        clearTimer();
-    }, []);
+	const pause = React.useCallback(() => {
+		if (isPaused) return;
+		setIsPaused(true);
+		clearTimer();
+	}, []);
 
-    const resume = React.useCallback(() => {
-        if (!isPaused) return;
-        endTimeRef.current = Date.now() + count;
-        setIsPaused(false);
-    }, [count, isPaused]);
+	const resume = React.useCallback(() => {
+		if (!isPaused) return;
+		endTimeRef.current = Date.now() + count;
+		setIsPaused(false);
+	}, [count, isPaused]);
 
-    const reset = React.useCallback((newEndTime?: number) => {
-        clearTimer();
-        completedRef.current = false;
-        const nextEndTime = newEndTime ?? initialEndTimeRef.current;
-        endTimeRef.current = nextEndTime;
-        setCount(Math.max(nextEndTime - Date.now(), 0));
-        setIsPaused(false);
-    }, []);
+	const reset = React.useCallback((newEndTime?: number) => {
+		clearTimer();
+		completedRef.current = false;
+		const nextEndTime = newEndTime ?? initialEndTimeRef.current;
+		endTimeRef.current = nextEndTime;
+		setCount(Math.max(nextEndTime - Date.now(), 0));
+		setIsPaused(false);
+	}, []);
 
-    return {
-        count,
-        isPaused,
-        controls: {
-            pause,
-            resume,
-            reset
-        }
-    }
+	return {
+		count,
+		isPaused,
+		controls: {
+			pause,
+			resume,
+			reset,
+		},
+	};
 }

@@ -5,83 +5,83 @@ type Listener = () => void;
 const listeners = new Set<Listener>();
 
 function emit() {
-    listeners.forEach(listener => listener());
+	listeners.forEach(listener => listener());
 }
 
 export const systemLanguageStore = {
-    suscribe(listener: Listener) {
-        listeners.add(listener);
+	suscribe(listener: Listener) {
+		listeners.add(listener);
 
-        if (typeof window !== 'undefined') {
-            window.addEventListener('languagechange', emit);
-            return () => {
-                listeners.delete(listener);
-                window.removeEventListener('languagechange', emit);
-            }
-        }
-        return () => listeners.delete(listener);
-    },
-    getSnapshot(): string {
-        if (typeof window === 'undefined') return 'en';
-        return navigator.language;
-    },
-    getServerSnapshot(): string {
-        return 'en';
-    }
-}
+		if (typeof window !== 'undefined') {
+			window.addEventListener('languagechange', emit);
+			return () => {
+				listeners.delete(listener);
+				window.removeEventListener('languagechange', emit);
+			};
+		}
+		return () => listeners.delete(listener);
+	},
+	getSnapshot(): string {
+		if (typeof window === 'undefined') return 'en';
+		return navigator.language;
+	},
+	getServerSnapshot(): string {
+		return 'en';
+	},
+};
 
 const storageKey = 'preferred-language';
 
 export const userLanguageStore = {
-    suscribe(listener: Listener) {
-        listeners.add(listener);
+	suscribe(listener: Listener) {
+		listeners.add(listener);
 
-        if (typeof window !== 'undefined') {
-            const onStorage = (event: StorageEvent) => {
-                if (event.key === storageKey) emit();
-            };
-            window.addEventListener('storage', onStorage);
-            return () => {
-                listeners.delete(listener);
-                window.removeEventListener('storage', onStorage);
-            }
-        }
-        return () => listeners.delete(listener);
-    },
-    getSnapshot(): string {
-        if (typeof window === 'undefined') return 'en';
-        return localStorage.getItem(storageKey) ?? 'en';
-    },
-    getSeverSnapshot(): string {
-        return '';
-    },
-    setLanguage(language: string) {
-        if (typeof window === 'undefined') return;
-        localStorage.setItem(storageKey, language);
-        emit();
-    }
-}
+		if (typeof window !== 'undefined') {
+			const onStorage = (event: StorageEvent) => {
+				if (event.key === storageKey) emit();
+			};
+			window.addEventListener('storage', onStorage);
+			return () => {
+				listeners.delete(listener);
+				window.removeEventListener('storage', onStorage);
+			};
+		}
+		return () => listeners.delete(listener);
+	},
+	getSnapshot(): string {
+		if (typeof window === 'undefined') return 'en';
+		return localStorage.getItem(storageKey) ?? 'en';
+	},
+	getSeverSnapshot(): string {
+		return '';
+	},
+	setLanguage(language: string) {
+		if (typeof window === 'undefined') return;
+		localStorage.setItem(storageKey, language);
+		emit();
+	},
+};
 
 export interface PreferredLanguageReturn {
-    /**
-     * Language effectively used by the application.
-     */
-    language: string;
+	/**
+	 * Language effectively used by the application.
+	 */
+	language: string;
 
-    /**
-     * User-selected language, if any.
-     */
-    userLanguage: string | null;
+	/**
+	 * User-selected language, if any.
+	 */
+	userLanguage: string | null;
 
-    /**
-     * System / browser language.
-     */
-    systemLanguage: string;
+	/**
+	 * System / browser language.
+	 */
+	systemLanguage: string;
 
-    /**
-     * Updates the user-selected language.
-     */
-    setUserLanguage: (lang: string) => void;
+	/**
+	 * Updates the user-selected language.
+	 */
+	setUserLanguage: (lang: string) => void;
 }
 
 /**
@@ -93,7 +93,7 @@ export interface PreferredLanguageReturn {
  * 3. Fallback ('en')
  *
  * This hook is SSR-safe and unopinionated.
- * 
+ *
  * @returns {PreferredLanguageReturn}
  *
  * @example
@@ -131,24 +131,24 @@ export interface PreferredLanguageReturn {
  *
  */
 export function usePreferredLanguage(): PreferredLanguageReturn {
-    const systemLanguage = React.useSyncExternalStore(
-        systemLanguageStore.suscribe,
-        systemLanguageStore.getSnapshot,
-        systemLanguageStore.getServerSnapshot
-    );
+	const systemLanguage = React.useSyncExternalStore(
+		systemLanguageStore.suscribe,
+		systemLanguageStore.getSnapshot,
+		systemLanguageStore.getServerSnapshot
+	);
 
-    const userLanguage = React.useSyncExternalStore(
-        userLanguageStore.suscribe,
-        userLanguageStore.getSnapshot,
-        userLanguageStore.getSeverSnapshot
-    );
+	const userLanguage = React.useSyncExternalStore(
+		userLanguageStore.suscribe,
+		userLanguageStore.getSnapshot,
+		userLanguageStore.getSeverSnapshot
+	);
 
-    const resolved = userLanguage || systemLanguage || 'en';
+	const resolved = userLanguage || systemLanguage || 'en';
 
-    return {
-        language: resolved,
-        userLanguage: userLanguage ?? null,
-        systemLanguage,
-        setUserLanguage: userLanguageStore.setLanguage,
-    }
+	return {
+		language: resolved,
+		userLanguage: userLanguage ?? null,
+		systemLanguage,
+		setUserLanguage: userLanguageStore.setLanguage,
+	};
 }

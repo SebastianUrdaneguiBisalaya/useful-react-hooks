@@ -1,20 +1,20 @@
 import * as React from 'react';
 
 declare global {
-    interface Window {
-        translator?: Translator;
-    }
+	interface Window {
+		translator?: Translator;
+	}
 
-    interface Translator {
-        translate(
-            text: string,
-            options: TranslatorTranslateOptions
-        ): Promise<string>;
-        isLanguagePairSupported(
-            sourceLanguage: BCP47LanguageTag | undefined,
-            targetLanguage: BCP47LanguageTag
-        ): Promise<boolean>;
-    }
+	interface Translator {
+		translate(
+			text: string,
+			options: TranslatorTranslateOptions
+		): Promise<string>;
+		isLanguagePairSupported(
+			sourceLanguage: BCP47LanguageTag | undefined,
+			targetLanguage: BCP47LanguageTag
+		): Promise<boolean>;
+	}
 }
 
 /**
@@ -24,79 +24,79 @@ declare global {
 export type BCP47LanguageTag = string;
 
 export interface TranslatorTranslateOptions {
-    /**
-   * Source language (BCP 47).
-   * If undefined, the browser may attempt auto-detection (if supported).
-   */
-  sourceLanguage?: BCP47LanguageTag | undefined;
+	/**
+	 * Source language (BCP 47).
+	 * If undefined, the browser may attempt auto-detection (if supported).
+	 */
+	sourceLanguage?: BCP47LanguageTag | undefined;
 
-  /**
-   * Target language (BCP 47).
-   */
-  targetLanguage: BCP47LanguageTag;
+	/**
+	 * Target language (BCP 47).
+	 */
+	targetLanguage: BCP47LanguageTag;
 
-  /**
-   * Optional callback triggered after checking
-   * whether the language pair is supported.
-   */
-  onLanguageSupportCheck?: (supported: boolean) => void;
+	/**
+	 * Optional callback triggered after checking
+	 * whether the language pair is supported.
+	 */
+	onLanguageSupportCheck?: (supported: boolean) => void;
 }
 
 export interface UseTranslatorReturn {
-    /**
-   * Whether the Translator API is available in the current browser.
-   */
-  isSupported: boolean;
+	/**
+	 * Whether the Translator API is available in the current browser.
+	 */
+	isSupported: boolean;
 
-  /**
-   * Whether the configured language pair is supported.
-   * Null until checked.
-   */
-  isLanguagePairSupported: boolean | null;
+	/**
+	 * Whether the configured language pair is supported.
+	 * Null until checked.
+	 */
+	isLanguagePairSupported: boolean | null;
 
-  /**
-   * Indicates whether a translation is in progress.
-   */
-  isTranslating: boolean;
+	/**
+	 * Indicates whether a translation is in progress.
+	 */
+	isTranslating: boolean;
 
-  /**
-   * Last translation result.
-   */
-  translation: string | null;
+	/**
+	 * Last translation result.
+	 */
+	translation: string | null;
 
-  /**
-   * Last error produced by the hook.
-   */
-  error: Error | null;
+	/**
+	 * Last error produced by the hook.
+	 */
+	error: Error | null;
 
-  /**
-   * Manually checks if the language pair is supported.
-   */
-  checkLanguageSupport: () => Promise<boolean>;
+	/**
+	 * Manually checks if the language pair is supported.
+	 */
+	checkLanguageSupport: () => Promise<boolean>;
 
-  /**
-   * Translates a given text using the configured languages.
-   */
-  translate: (text: string) => Promise<string>;
+	/**
+	 * Translates a given text using the configured languages.
+	 */
+	translate: (text: string) => Promise<string>;
 }
 
 type TranslatorAPI = {
-    translate: (
-        text: string,
-        options: {
-            sourceLanguage?: BCP47LanguageTag | undefined;
-            targetLanguage: BCP47LanguageTag;
-        }
-    ) => Promise<string>;
-    isLanguagePairSupported: (
-        sourceLanguage: BCP47LanguageTag | undefined,
-        targetLanguage: BCP47LanguageTag
-    ) => Promise<boolean>;
-}
+	translate: (
+		text: string,
+		options: {
+			sourceLanguage?: BCP47LanguageTag | undefined;
+			targetLanguage: BCP47LanguageTag;
+		}
+	) => Promise<string>;
+	isLanguagePairSupported: (
+		sourceLanguage: BCP47LanguageTag | undefined,
+		targetLanguage: BCP47LanguageTag
+	) => Promise<boolean>;
+};
 
 function getTranslator(): TranslatorAPI | null {
-    if (typeof window === 'undefined') return null;
-    return window.translator ?? null;
+	if (typeof window === 'undefined') return null;
+	return window.translator ?? null;
 }
 
 /**
@@ -135,86 +135,97 @@ function getTranslator(): TranslatorAPI | null {
  * @version 0.0.1
  *
  */
-export function useTranslator(options: TranslatorTranslateOptions): UseTranslatorReturn {
-    const { sourceLanguage, targetLanguage, onLanguageSupportCheck } = options;
-    
-    const translatorRef = React.useRef<TranslatorAPI | null>(null);
-    const [isSupported, setIsSupported] = React.useState<boolean>(true);
-    const [isLanguagePairSupported, setIsLanguagePairSupported] = React.useState<boolean | null>(null);
-    const [isTranslating, setIsTranslating] = React.useState<boolean>(false);
-    const [translation, setTranslation] = React.useState<string | null>(null);
-    const [error, setError] = React.useState<Error | null>(null);
+export function useTranslator(
+	options: TranslatorTranslateOptions
+): UseTranslatorReturn {
+	const { sourceLanguage, targetLanguage, onLanguageSupportCheck } = options;
 
-    React.useEffect(() => {
-        const translator = getTranslator();
-        if (!translator) {
-            setIsSupported(false);
-            setError(new Error('Translator API is not supported in this browser.'));
-            return;
-        }
-        translatorRef.current = translator;
-        setIsSupported(true);
-    }, []);
+	const translatorRef = React.useRef<TranslatorAPI | null>(null);
+	const [isSupported, setIsSupported] = React.useState<boolean>(true);
+	const [isLanguagePairSupported, setIsLanguagePairSupported] = React.useState<
+		boolean | null
+	>(null);
+	const [isTranslating, setIsTranslating] = React.useState<boolean>(false);
+	const [translation, setTranslation] = React.useState<string | null>(null);
+	const [error, setError] = React.useState<Error | null>(null);
 
-    const checkLanguageSupport = React.useCallback(
-        async (): Promise<boolean> => {
-            if (!translatorRef.current) {
-                const error = new Error('Translator API is not supported in this browser.');
-                setError(error);
-                throw error;
-            }
-            try {
-                const supported = await translatorRef.current.isLanguagePairSupported(
-                    sourceLanguage,
-                    targetLanguage
-                );
-                setIsLanguagePairSupported(supported);
-                onLanguageSupportCheck?.(supported);
-                return supported;
-            } catch (err: unknown) {
-                const error = err instanceof Error ? err : new Error("Failed to check language support.");
-                setError(error);
-                throw error;
-            }
-        }, [sourceLanguage, targetLanguage, onLanguageSupportCheck]
-    );
+	React.useEffect(() => {
+		const translator = getTranslator();
+		if (!translator) {
+			setIsSupported(false);
+			setError(new Error('Translator API is not supported in this browser.'));
+			return;
+		}
+		translatorRef.current = translator;
+		setIsSupported(true);
+	}, []);
 
-    const translate = React.useCallback(
-        async (text: string): Promise<string> => {
-            if (!translatorRef.current) {
-                const error = new Error('Translator API is not supported in this browser.');
-                setError(error);
-                throw error;
-            }
-            setIsTranslating(true);
-            setError(null);
-            try {
-                if (isLanguagePairSupported === false) {
-                    throw new Error("The selected language pair is not supported.")
-                }
-                const result = await translatorRef.current.translate(text, {
-                    sourceLanguage,
-                    targetLanguage
-                });
-                setTranslation(result);
-                return result;
-            } catch (err: unknown) {
-                const error = err instanceof Error ? err : new Error("Failed to translate text.");
-                setError(error);
-                throw error;
-            } finally {
-                setIsTranslating(false);
-            }
-        }, [sourceLanguage, targetLanguage, isLanguagePairSupported]
-    );
+	const checkLanguageSupport = React.useCallback(async (): Promise<boolean> => {
+		if (!translatorRef.current) {
+			const error = new Error(
+				'Translator API is not supported in this browser.'
+			);
+			setError(error);
+			throw error;
+		}
+		try {
+			const supported = await translatorRef.current.isLanguagePairSupported(
+				sourceLanguage,
+				targetLanguage
+			);
+			setIsLanguagePairSupported(supported);
+			onLanguageSupportCheck?.(supported);
+			return supported;
+		} catch (err: unknown) {
+			const error =
+				err instanceof Error
+					? err
+					: new Error('Failed to check language support.');
+			setError(error);
+			throw error;
+		}
+	}, [sourceLanguage, targetLanguage, onLanguageSupportCheck]);
 
-    return {
-        isSupported,
-        isLanguagePairSupported,
-        isTranslating,
-        translation,
-        error,
-        checkLanguageSupport,
-        translate
-    }
+	const translate = React.useCallback(
+		async (text: string): Promise<string> => {
+			if (!translatorRef.current) {
+				const error = new Error(
+					'Translator API is not supported in this browser.'
+				);
+				setError(error);
+				throw error;
+			}
+			setIsTranslating(true);
+			setError(null);
+			try {
+				if (isLanguagePairSupported === false) {
+					throw new Error('The selected language pair is not supported.');
+				}
+				const result = await translatorRef.current.translate(text, {
+					sourceLanguage,
+					targetLanguage,
+				});
+				setTranslation(result);
+				return result;
+			} catch (err: unknown) {
+				const error =
+					err instanceof Error ? err : new Error('Failed to translate text.');
+				setError(error);
+				throw error;
+			} finally {
+				setIsTranslating(false);
+			}
+		},
+		[sourceLanguage, targetLanguage, isLanguagePairSupported]
+	);
+
+	return {
+		isSupported,
+		isLanguagePairSupported,
+		isTranslating,
+		translation,
+		error,
+		checkLanguageSupport,
+		translate,
+	};
 }

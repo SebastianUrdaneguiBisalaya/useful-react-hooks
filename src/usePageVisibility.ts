@@ -1,15 +1,15 @@
 import * as React from 'react';
 
 export interface PageVisibilityReturn {
-    /**
-     * Whether the document is currently visible.
-     */
-    isVisible: boolean;
+	/**
+	 * Whether the document is currently visible.
+	 */
+	isVisible: boolean;
 
-    /**
-     * Current visibility state of the document.
-     */
-    visibilityState: DocumentVisibilityState;
+	/**
+	 * Current visibility state of the document.
+	 */
+	visibilityState: DocumentVisibilityState;
 }
 
 type Listener = () => void;
@@ -17,30 +17,30 @@ type Listener = () => void;
 const listeners = new Set<Listener>();
 
 function emit() {
-    listeners.forEach(listener => listener());
+	listeners.forEach(listener => listener());
 }
 
 const pageVisibilityStore = {
-    suscribe(listener: Listener) {
-        listeners.add(listener);
+	suscribe(listener: Listener) {
+		listeners.add(listener);
 
-        if (typeof document !== 'undefined') {
-            document.addEventListener('visibilitychange', emit);
-            return () => {
-                listeners.delete(listener);
-                document.removeEventListener('visibilitychange', emit);
-            }
-        }
+		if (typeof document !== 'undefined') {
+			document.addEventListener('visibilitychange', emit);
+			return () => {
+				listeners.delete(listener);
+				document.removeEventListener('visibilitychange', emit);
+			};
+		}
 
-        return () => listeners.delete(listener);
-    },
-    getSnapshot(): DocumentVisibilityState {
-        if (typeof document === 'undefined') return 'visible';
-        return document.visibilityState;
-    },
-    getServerSnapshot(): DocumentVisibilityState {
-        return 'visible';
-    }
+		return () => listeners.delete(listener);
+	},
+	getSnapshot(): DocumentVisibilityState {
+		if (typeof document === 'undefined') return 'visible';
+		return document.visibilityState;
+	},
+	getServerSnapshot(): DocumentVisibilityState {
+		return 'visible';
+	},
 };
 
 /**
@@ -76,13 +76,13 @@ const pageVisibilityStore = {
  *
  */
 export function usePageVisibility(): PageVisibilityReturn {
-    const visibilityState = React.useSyncExternalStore(
-        pageVisibilityStore.suscribe,
-        pageVisibilityStore.getSnapshot,
-        pageVisibilityStore.getServerSnapshot
-    );
-    return {
-        isVisible: visibilityState === 'visible',
-        visibilityState
-    }
+	const visibilityState = React.useSyncExternalStore(
+		pageVisibilityStore.suscribe,
+		pageVisibilityStore.getSnapshot,
+		pageVisibilityStore.getServerSnapshot
+	);
+	return {
+		isVisible: visibilityState === 'visible',
+		visibilityState,
+	};
 }

@@ -5,5 +5,5 @@ export default defineConfig({
 	entry: ['src/index.ts'],
 	dts: true,
 	clean: true,
-  unbundle: true,
+	unbundle: true,
 });

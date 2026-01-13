@@ -56,7 +56,6 @@ If you do not want create your custom hook, you can also contribute to the packa
 
 ## **API Docs**
 
-
 ## **License**
 
 [MIT](https://github.com/SebastianUrdaneguiBisalaya/vibehooks?tab=MIT-1-ov-file)
