@@ -47,5 +47,6 @@ export { useThrottledCallback } from './useThrottledCallback';
 export { useTraceUpdates } from './useTraceUpdates';
 export { useTranslator } from './useTranslator';
 export { useToggle } from './useToggle';
+export { useUserActivation } from './useUserActivation';
 export { useVibration } from './useVibration';
 export { useWebsocket } from './useWebsocket';
