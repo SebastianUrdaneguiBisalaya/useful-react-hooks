@@ -1,6 +1,7 @@
 export { useAudio } from './useAudio';
 export { useAsyncState } from './useAsyncState';
 export { useAutoScroll } from './useAutoScroll';
+export { useBarcode } from './useBarcode';
 export { useBatteryStatus } from './useBatteryStatus';
 export { useBodyScrollFreeze } from './useBodyScrollFreeze';
 export { useCookies } from './useCookies';
