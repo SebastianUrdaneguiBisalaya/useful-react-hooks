@@ -36,7 +36,7 @@ export { useSensor } from './useSensor';
 export { useScreenOrientation } from './useScreenOrientation';
 export { useScreenSize } from './useScreenSize';
 export { useScreenWakeLock } from './useScreenWakeLock';
-export { useServerSideEvent } from './useServerSideEvent';
+export { useServerSentEvent } from './useServerSentEvent';
 export { useShoppingCart } from './useShoppingCart';
 export { useSmartVideo } from './useSmartVideo';
 export { useSpeech } from './useSpeech';
