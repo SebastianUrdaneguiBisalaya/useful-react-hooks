@@ -89,7 +89,14 @@ export interface UseWebsocketReturn<TMessage = unknown> {
  *
  * @example
  * ```tsx
+ * const { socket, message, isConnected, send } = useWebsocket<{ text: string }>({
+ *   url: 'wss://example.com/socket',
+ *   onMessage: (msg) => console.log(msg),
+ * });
  *
+ * React.useEffect(() => {
+ *   if (isConnected) send(JSON.stringify({ hello: 'world' }));
+ * }, [isConnected]);
  * ```
  *
  * @author Sebastian Marat Urdanegui Bisalaya <https://sebastianurdanegui.com>
