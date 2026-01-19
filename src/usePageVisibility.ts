@@ -30,7 +30,7 @@ function visibilityStore() {
     }
     return () => {
       listeners.delete(listener);
-      if (listeners.size === 0 && listening) {
+      if (listeners.size === 0 && listening && typeof document !== 'undefined') {
         document.removeEventListener('visibilitychange', emit);
         listening = false;
       }
