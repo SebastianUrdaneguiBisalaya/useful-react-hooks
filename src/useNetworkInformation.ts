@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-export interface NetworkInformation {
+export interface NetworkInformation extends EventTarget {
 	readonly type?:
 		| 'bluetooth'
 		| 'cellular'
@@ -9,8 +9,9 @@ export interface NetworkInformation {
 		| 'wifi'
 		| 'wimax'
 		| 'other'
-		| 'unknown';
-	readonly effectiveType?: 'slow-2g' | '2g' | '3g' | '4g';
+		| 'unknown'
+    | undefined;
+	readonly effectiveType?: 'slow-2g' | '2g' | '3g' | '4g' | undefined;
 	/**
 	 * Estimated effective bandwidth of the user's connection, in megabits per second (Mb/s).
 	 *
@@ -33,7 +34,7 @@ export interface NetworkInformation {
 	 *
 	 * @see https://developer.mozilla.org/en-US/docs/Web/API/NetworkInformation/downlink
 	 */
-	readonly downlink?: number;
+	readonly downlink?: number | undefined;
 	/**
 	 * Maximum theoretical bandwidth of the underlying network link, in megabits per second (Mb/s).
 	 *
@@ -54,7 +55,7 @@ export interface NetworkInformation {
 	 *
 	 * @see https://developer.mozilla.org/en-US/docs/Web/API/NetworkInformation/downlinkMax
 	 */
-	readonly downlinkMax?: number;
+	readonly downlinkMax?: number | undefined;
 	/**
 	 * Estimated round-trip time (RTT), in milliseconds (ms).
 	 *
@@ -78,7 +79,7 @@ export interface NetworkInformation {
 	 *
 	 * @see https://developer.mozilla.org/en-US/docs/Web/API/NetworkInformation/rtt
 	 */
-	readonly rtt?: number;
+	readonly rtt?: number | undefined;
 	/**
 	 * Indicates whether the user has enabled a reduced data usage mode (Data Saver).
 	 *
@@ -100,10 +101,8 @@ export interface NetworkInformation {
 	 *
 	 * @see https://developer.mozilla.org/en-US/docs/Web/API/NetworkInformation/saveData
 	 */
-	readonly saveData?: boolean;
+	readonly saveData?: boolean | undefined;
 
-	addEventListener(type: 'change', listener: () => void): void;
-	removeEventListener(type: 'change', listener: () => void): void;
 }
 
 declare global {
@@ -112,6 +111,63 @@ declare global {
 		mozConnection: NetworkInformation;
 		webkitConnection: NetworkInformation;
 	}
+}
+
+export interface NetworkInformationSnapshot {
+  type?: NetworkInformation['type'];
+  effectiveType?: NetworkInformation['effectiveType'];
+  downlink?: NetworkInformation['downlink'];
+  downlinkMax?: NetworkInformation['downlinkMax'];
+  rtt?: NetworkInformation['rtt'];
+  saveData?: NetworkInformation['saveData'];
+}
+
+
+type Listener = () => void;
+
+const listeners = new Set<Listener>();
+let listening = false;
+
+function getConnection(): NetworkInformation | null {
+  if (typeof navigator === 'undefined') return null;
+  return navigator.connection ?? navigator.mozConnection ?? navigator.webkitConnection ?? null;
+}
+
+function getSnapshot(): NetworkInformationSnapshot | null {
+  const connection = getConnection();
+  if (!connection) return null;
+  return {
+    type: connection.type,
+    effectiveType: connection.effectiveType,
+    downlink: connection.downlink,
+    downlinkMax: connection.downlinkMax,
+    rtt: connection.rtt,
+    saveData: connection.saveData,
+  }
+}
+
+function emit() {
+  listeners.forEach(listener => listener());
+}
+
+function subscribe(listener: Listener) {
+  listeners.add(listener);
+  const connection = getConnection();
+  if (!listening && connection) {
+    connection.addEventListener('change', emit);
+    listening = true;
+  }
+  return () => {
+    listeners.delete(listener);
+    if (listeners.size === 0 && connection && listening) {
+      connection.removeEventListener('change', emit);
+      listening = false;
+    }
+  }
+}
+
+export interface UseNetworkInformationResult extends NetworkInformationSnapshot {
+  supported: boolean;
 }
 
 /**
@@ -144,53 +200,19 @@ declare global {
  * @version 0.0.1
  *
  */
-export function useNetworkInformation() {
-	const getConnection = React.useCallback((): NetworkInformation | null => {
-		if (typeof navigator === 'undefined') return null;
-		return (
-			navigator.connection ??
-			navigator.mozConnection ??
-			navigator.webkitConnection ??
-			null
-		);
-	}, []);
-
-	const suscribe = React.useCallback(
-		(onStoreChange: () => void) => {
-			const connection = getConnection();
-			if (!connection) return () => {};
-			connection.addEventListener('change', onStoreChange);
-			return () => {
-				connection.removeEventListener('change', onStoreChange);
-			};
-		},
-		[getConnection]
-	);
-
-	const getSnapshot = React.useCallback(() => getConnection(), [getConnection]);
-	const getServerSnapshot = React.useCallback(() => null, []);
-
-	const connection = React.useSyncExternalStore(
-		suscribe,
-		getSnapshot,
-		getServerSnapshot
-	);
-
-	if (!connection) {
-		return {
-			supported: false,
-			connection: null,
-		};
-	}
-
-	return {
-		supported: true,
-		connection,
-		type: connection.type,
-		effectiveType: connection.effectiveType,
-		downlink: connection.downlink,
-		downlinkMax: connection.downlinkMax,
-		rtt: connection.rtt,
-		saveData: connection.saveData,
-	};
+export function useNetworkInformation(): UseNetworkInformationResult {
+	const snapshot = React.useSyncExternalStore(
+    subscribe,
+    getSnapshot,
+    () => null
+  );
+  if (!snapshot) {
+    return {
+      supported: false,
+    };
+  }
+  return {
+    supported: true,
+    ...snapshot,
+  };
 }
