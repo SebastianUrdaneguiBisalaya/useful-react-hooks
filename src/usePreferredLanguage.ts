@@ -2,65 +2,99 @@ import * as React from 'react';
 
 type Listener = () => void;
 
-const listeners = new Set<Listener>();
+function createSystemLanguageStore() {
+  const listeners = new Set<Listener>();
+  let listening = false;
 
-function emit() {
-	listeners.forEach(listener => listener());
+  function emit() {
+    listeners.forEach(listener => listener());
+  }
+
+  function subscribe(listener: Listener) {
+    listeners.add(listener);
+    if (!listening && typeof window !== 'undefined') {
+      window.addEventListener('languagechange', emit);
+      listening = true;
+    }
+    return () => {
+      listeners.delete(listener);
+      if (listeners.size === 0 && listening) {
+        window.removeEventListener('languagechange', emit);
+        listening = false;
+      }
+    }
+  }
+
+  function getSnapshot(): string {
+    if (typeof window === 'undefined') return 'en';
+    return window.navigator.language;
+  }
+
+  function getServerSnapshot(): string {
+    return 'en';
+  }
+
+  return {
+    subscribe,
+    getSnapshot,
+    getServerSnapshot,
+  } as const;
 }
 
-export const systemLanguageStore = {
-	suscribe(listener: Listener) {
-		listeners.add(listener);
+export const systemLanguageStore = createSystemLanguageStore();
 
-		if (typeof window !== 'undefined') {
-			window.addEventListener('languagechange', emit);
-			return () => {
-				listeners.delete(listener);
-				window.removeEventListener('languagechange', emit);
-			};
-		}
-		return () => listeners.delete(listener);
-	},
-	getSnapshot(): string {
-		if (typeof window === 'undefined') return 'en';
-		return navigator.language;
-	},
-	getServerSnapshot(): string {
-		return 'en';
-	},
-};
+function createUserLanguageStore() {
+  const listeners = new Set<Listener>();
+  const storageKey = 'preferred-language';
+  let listening = false;
 
-const storageKey = 'preferred-language';
+  function emit() {
+    listeners.forEach(listener => listener());
+  }
 
-export const userLanguageStore = {
-	suscribe(listener: Listener) {
-		listeners.add(listener);
+  function subscribe(listener: Listener) {
+    listeners.add(listener);
+    if (!listening && typeof window !== 'undefined') {
+      const onStorage = (event: StorageEvent) => {
+        if (event.key === storageKey) emit();
+      };
+      window.addEventListener('storage', onStorage);
+      listening = true;
+      return () => {
+        listeners.delete(listener);
+        if (listeners.size === 0 && listening) {
+          window.removeEventListener('storage', onStorage);
+          listening = false;
+        }
+      }
+    }
+    return () => listeners.delete(listener);
+  }
 
-		if (typeof window !== 'undefined') {
-			const onStorage = (event: StorageEvent) => {
-				if (event.key === storageKey) emit();
-			};
-			window.addEventListener('storage', onStorage);
-			return () => {
-				listeners.delete(listener);
-				window.removeEventListener('storage', onStorage);
-			};
-		}
-		return () => listeners.delete(listener);
-	},
-	getSnapshot(): string {
-		if (typeof window === 'undefined') return 'en';
-		return localStorage.getItem(storageKey) ?? 'en';
-	},
-	getSeverSnapshot(): string {
-		return '';
-	},
-	setLanguage(language: string) {
-		if (typeof window === 'undefined') return;
-		localStorage.setItem(storageKey, language);
-		emit();
-	},
-};
+  function getSnapshot(): string {
+    if (typeof window === 'undefined') return 'en';
+    return localStorage.getItem(storageKey) ?? 'en';
+  }
+
+  function getServerSnapshot(): string {
+    return 'en';
+  }
+
+  function setLanguage(lang: string) {
+    if (typeof window === 'undefined') return;
+    localStorage.setItem(storageKey, lang);
+    emit();
+  }
+
+  return {
+    subscribe,
+    getSnapshot,
+    getServerSnapshot,
+    setLanguage,
+  } as const;
+}
+
+export const userLanguageStore = createUserLanguageStore();
 
 export interface PreferredLanguageReturn {
 	/**
@@ -132,15 +166,15 @@ export interface PreferredLanguageReturn {
  */
 export function usePreferredLanguage(): PreferredLanguageReturn {
 	const systemLanguage = React.useSyncExternalStore(
-		systemLanguageStore.suscribe,
+		systemLanguageStore.subscribe,
 		systemLanguageStore.getSnapshot,
 		systemLanguageStore.getServerSnapshot
 	);
 
 	const userLanguage = React.useSyncExternalStore(
-		userLanguageStore.suscribe,
+		userLanguageStore.subscribe,
 		userLanguageStore.getSnapshot,
-		userLanguageStore.getSeverSnapshot
+		userLanguageStore.getServerSnapshot
 	);
 
 	const resolved = userLanguage || systemLanguage || 'en';
