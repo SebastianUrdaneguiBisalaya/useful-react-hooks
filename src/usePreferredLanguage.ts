@@ -62,7 +62,7 @@ function createUserLanguageStore() {
       listening = true;
       return () => {
         listeners.delete(listener);
-        if (listeners.size === 0 && listening) {
+        if (listeners.size === 0) {
           window.removeEventListener('storage', onStorage);
           listening = false;
         }
