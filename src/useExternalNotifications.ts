@@ -1,0 +1,181 @@
+import * as React from 'react';
+
+export interface NotificationPayload extends NotificationOptions {
+  title: string;
+  createdAt: number;
+}
+
+type Listener = () => void;
+
+let notifications: NotificationPayload[] = [];
+const listeners = new Set<Listener>();
+
+let isListening = false;
+
+function emit() {
+  listeners.forEach(listener => listener());
+}
+
+function onStorageEvent(event: StorageEvent) {
+  if (event.key !== 'notifications') return;
+  try {
+    Notification = JSON.parse(event.newValue ?? '[]');
+    emit();
+  } catch {};
+}
+
+export const notificationStore = {
+  suscribe(listener: Listener) {
+    listeners.add(listener);
+    if (!isListening && typeof window !== 'undefined') {
+      window.addEventListener('storage', onStorageEvent);
+      isListening = true;
+    }
+    return () => {
+      listeners.delete(listener);
+      if (listeners.size === 0 && isListening) {
+        window.removeEventListener('storage', onStorageEvent);
+        isListening = false;
+      }
+    }
+  },
+  getSnapshot() {
+    return notifications;
+  },
+  push(notification: NotificationPayload) {
+    notifications = [...notifications, notification];
+    localStorage.setItem('notifications', JSON.stringify(notifications));
+    emit();
+  }
+}
+
+export interface UseExternalNotificationResult {
+  notifications: NotificationPayload[];
+  notify: (notification: Omit<NotificationPayload, 'createdAt'>) => void;
+  permission: NotificationPermission;
+  requestPermission: () => Promise<NotificationPermission>;
+  isSupported: boolean;
+}
+
+/**
+ * `useExternalNotifications` is React hook for consuming and emitting external notifications using a global store.
+ * It is thinking for events outside the normal cycle of React:
+ * - Websockets
+ * - Service Workers
+ * - APIs
+ * - BroadcastChannel
+ * - Multi-tab
+ *
+ * @returns
+ *
+ * @example
+ * ```tsx
+ * function NotificationCenter() {
+ *   const { notifications } = useExternalNotification();
+ *
+ *   return (
+ *     <ul>
+ *       {notifications.map(n => (
+ *         <li key={n.id}>{n.title}</li>
+ *       ))}
+ *     </ul>
+ *   );
+ * }
+ * ```
+ *
+ * @example
+ * ```tsx
+ * // Emit notifications from a WebSocket
+ * function useChatSocket() {
+ *   const { notify } = useExternalNotification();
+ *
+ *   React.useEffect(() => {
+ *     socket.onmessage = (event) => {
+ *       notify({
+ *         id: crypto.randomUUID(),
+ *         title: 'Nuevo mensaje',
+ *         body: event.data,
+ *       });
+ *     };
+ *   }, []);
+ * }
+ * ```
+ *
+ * @example
+ * ```tsx
+ * // Emit notifications from an API
+ * function useInvoiceStatus(id: string) {
+ *   const { notify } = useExternalNotification();
+ *
+ *   React.useEffect(() => {
+ *     fetch(`/api/invoices/${id}`)
+ *       .then(res => res.json())
+ *       .then(data => {
+ *         if (data.status === 'paid') {
+ *           notify({
+ *             id: id,
+ *             title: 'Factura pagada',
+ *             body: `La factura ${id} fue pagada`,
+ *           });
+ *         }
+ *       });
+ *   }, [id]);
+ * }
+ * ```
+ *
+ * @author Sebastian Marat Urdanegui Bisalaya <https://sebastianurdanegui.com>
+ *
+ * @since 0.0.1
+ * @version 0.0.1
+ *
+ */
+export function useExternalNotifications(): UseExternalNotificationResult {
+  const notifications = React.useSyncExternalStore(
+    notificationStore.suscribe.bind(notificationStore),
+    notificationStore.getSnapshot.bind(notificationStore),
+    () => []
+  );
+  const isSupported = typeof window !== 'undefined' && 'Notification' in window;
+
+  const permission = isSupported ? Notification.permission : 'denied';
+
+  const requestPermission = React.useCallback(async () => {
+    if (!isSupported) return 'denied';
+    return await Notification.requestPermission();
+  }, [isSupported]);
+
+  const notify = React.useCallback(
+    (notification: Omit<NotificationPayload, 'createdAt'>) => {
+      const payload: NotificationPayload = {
+        ...notification,
+        createdAt: Date.now(),
+      };
+
+      notificationStore.push(payload);
+
+      const options: NotificationOptions = {
+        ...(notification.badge !== undefined && { badge: notification.badge }),
+        ...(notification.body !== undefined && { body: notification.body }),
+        ...(notification.data !== undefined && { data: notification.data }),
+        ...(notification.dir !== undefined && { dir: notification.dir }),
+        ...(notification.icon !== undefined && { icon: notification.icon }),
+        ...(notification.lang !== undefined && { lang: notification.lang }),
+        ...(notification.requireInteraction !== undefined && {
+          requireInteraction: notification.requireInteraction,
+        }),
+      }
+
+      if (isSupported && permission === 'granted') {
+        new Notification(payload.title, options);
+      }
+    }, [isSupported, permission]
+  );
+
+  return {
+    notifications,
+    notify,
+    permission,
+    requestPermission,
+    isSupported,
+  };
+}
