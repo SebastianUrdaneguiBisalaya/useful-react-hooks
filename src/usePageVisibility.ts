@@ -14,34 +14,46 @@ export interface PageVisibilityReturn {
 
 type Listener = () => void;
 
-const listeners = new Set<Listener>();
+function visibilityStore() {
+  const listeners = new Set<Listener>();
+  let listening = false;
 
-function emit() {
-	listeners.forEach(listener => listener());
+  function emit() {
+    listeners.forEach(listener => listener());
+  }
+
+  function subscribe(listener: Listener) {
+    listeners.add(listener);
+    if (!listening && typeof document !== 'undefined') {
+      document.addEventListener('visibilitychange', emit);
+      listening = true;
+    }
+    return () => {
+      listeners.delete(listener);
+      if (listeners.size === 0 && listening) {
+        document.removeEventListener('visibilitychange', emit);
+        listening = false;
+      }
+    }
+  }
+
+  function getSnapshot(): DocumentVisibilityState {
+    if (typeof document === 'undefined') return 'visible';
+    return document.visibilityState;
+  }
+
+  function getServerSnapshot(): DocumentVisibilityState {
+    return 'visible';
+  }
+
+  return {
+    subscribe,
+    getSnapshot,
+    getServerSnapshot,
+  } as const;
 }
 
-const pageVisibilityStore = {
-	suscribe(listener: Listener) {
-		listeners.add(listener);
-
-		if (typeof document !== 'undefined') {
-			document.addEventListener('visibilitychange', emit);
-			return () => {
-				listeners.delete(listener);
-				document.removeEventListener('visibilitychange', emit);
-			};
-		}
-
-		return () => listeners.delete(listener);
-	},
-	getSnapshot(): DocumentVisibilityState {
-		if (typeof document === 'undefined') return 'visible';
-		return document.visibilityState;
-	},
-	getServerSnapshot(): DocumentVisibilityState {
-		return 'visible';
-	},
-};
+export const pageVisibilityStore = visibilityStore();
 
 /**
  * `usePageVisibility` is a React hook that exposes the current visibility
@@ -77,7 +89,7 @@ const pageVisibilityStore = {
  */
 export function usePageVisibility(): PageVisibilityReturn {
 	const visibilityState = React.useSyncExternalStore(
-		pageVisibilityStore.suscribe,
+		pageVisibilityStore.subscribe,
 		pageVisibilityStore.getSnapshot,
 		pageVisibilityStore.getServerSnapshot
 	);
