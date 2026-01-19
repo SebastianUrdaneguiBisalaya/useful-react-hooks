@@ -9,20 +9,30 @@ function emit() {
 	listeners.forEach(listener => listener());
 }
 
+let media: MediaQueryList | null = null;
+let mediaListenerAttached = false;
+
 export const systemThemeStore = {
 	suscribe(listener: Listener) {
 		listeners.add(listener);
 
 		if (typeof window !== 'undefined') {
-			const media = window.matchMedia('(prefers-color-scheme: dark)');
-			const onChange = () => emit();
-			media.addEventListener('change', onChange);
-			return () => {
-				listeners.delete(listener);
-			};
+			if (!media) {
+        media = window.matchMedia('(prefers-color-scheme: dark)');
+      }
+      if (!mediaListenerAttached) {
+        media.addEventListener('change', emit);
+        mediaListenerAttached = true;
+      }
+      return () => {
+        listeners.delete(listener);
+        if (listeners.size === 0 && media && mediaListenerAttached) {
+          media.removeEventListener('change', emit);
+          mediaListenerAttached = false;
+        }
+      }
 		}
-
-		return () => listeners.delete(listener);
+    return () => listeners.delete(listener);
 	},
 	getSnapshot(): Theme {
 		if (typeof window === 'undefined') return 'light';
@@ -34,7 +44,6 @@ export const systemThemeStore = {
 		return 'light';
 	},
 };
-
 const storageKey = 'preferred-theme';
 
 export const userThemeStore = {
