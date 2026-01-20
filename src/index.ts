@@ -33,7 +33,6 @@ export { usePreferredTheme } from './usePreferredTheme';
 export { usePreferredLanguage } from './usePreferredLanguage';
 export { usePreviousDistinct } from './usePreviousDistinct';
 export { useResettableState } from './useResettableState';
-export { useSensor } from './useSensor';
 export { useScreenOrientation } from './useScreenOrientation';
 export { useScreenSize } from './useScreenSize';
 export { useScreenWakeLock } from './useScreenWakeLock';
