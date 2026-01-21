@@ -2,7 +2,9 @@
 
 import Link from "next/link";
 import { CodeBlock } from "@/components/shared/Codeblock";
+import Slider from "@/components/landing/Slider";
 import { ArrowRight } from "lucide-react";
+import { cn } from '@/lib/cn';
 
 export default function Page() {
 	return (
@@ -27,16 +29,36 @@ export default function Page() {
           </div>
           <p className="font-sora text-sm max-w-xs text-center self-center text-white/70">Modern and unopinionated React hooks with a focus on developer experience.</p>
         </div>
-        <CodeBlock
+        <div className="flex flex-col items-center gap-3">
+          <CodeBlock
             code="npm install @vibehooks/react"
             language="bash"
-        />
+          />
+          <p className="text-white/50 font-sora text-[10px] self-center text-center">
+            All hooks are fully typed with TypeScript and commented with JSDocs.
+          </p>
+        </div>
+        <Slider />
         <Link
-          className="group flex flex-row items-center font-sora text-sm hover:scale-[1.05] text-white/80 hover:text-white cursor-pointer transition-all duration-500 ease-in-out border border-white/40 px-4 py-3 rounded-xl"
+          className="relative group flex flex-row items-center font-sora text-sm text-white/80 hover:text-black cursor-pointer transition-all duration-500 ease-in-out border border-white/40 px-4 py-3 rounded-xl"
           href="/docs/useDebouncedState"
         >
-          <span>Get Started</span>
-          <ArrowRight className="w-4 h-4 ml-2 text-white/80 group-hover:text-white transition-all duration-500 ease-in-out group-hover:translate-x-0.5" />
+          <span className="z-20">Get Started</span>
+          <ArrowRight className="z-20 w-4 h-4 ml-2 text-white/80 group-hover:text-black transition-all duration-500 ease-in-out group-hover:translate-x-0.5" />
+          <span className='pointer-events-none absolute inset-0 z-0 rounded-xl' />
+          <span
+            className={cn(
+              'pointer-events-none absolute inset-0 z-0 block h-full w-full bg-white rounded-xl',
+              'opacity-0 transition-opacity',
+              'group-focus-visible:opacity-100 group-active:opacity-100',
+              'origin-left lg:scale-x-0 lg:opacity-100 lg:transition-transform',
+              'lg:group-hover:origin-left lg:group-hover:scale-x-100',
+              'lg:group-focus-visible:origin-left lg:group-focus-visible:scale-x-100',
+              'lg:group-active:origin-left lg:group-active:scale-x-100',
+              'motion-safe:transition-transform motion-safe:ease-in-out',
+              'lg:motion-safe:duration-500 lg:motion-reduce:duration-0'
+            )}
+          />
         </Link>
       </div>
     </main>
