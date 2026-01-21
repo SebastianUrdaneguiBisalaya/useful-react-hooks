@@ -37,3 +37,7 @@ body {
 	scroll-behavior: smooth;
 	overflow-x: hidden;
 }
+
+pre code span span {
+  font-family: var(--font-jersey-15);
+}

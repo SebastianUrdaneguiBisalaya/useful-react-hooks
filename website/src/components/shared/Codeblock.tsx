@@ -40,7 +40,7 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
     code,
     filename,
     language = 'ts',
-    theme = 'material-theme-darker'
+    theme = 'github-dark-high-contrast'
 }) => {
     const [html, setHtml] = useState<string>('');
     const [copied, setCopied] = useState<boolean>(false);
@@ -86,15 +86,15 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
         <div
             className='overflow-hidden'
         >
-            <div className='flex items-center justify-between border border-white/20 p-3 rounded-t-md'>
-                <div className='flex flex-row items-center gap-2 text-white/60'>
+            <div className='flex items-center justify-between border border-white/20 px-3 py-2 rounded-t-md'>
+                <div className='flex flex-row items-center gap-1 text-white/60'>
                     <Icons language={language} />
                     <span className='truncate text-xs font-sora'>
                         {filename ?? language}
                     </span>
                 </div>
                 <button
-                    className='relative w-5.5 h-5.5 flex flex-col items-center justify-center text-xs text-white/60 font-sora hover:bg-white/15 rounded-md transition-all duration-500 ease-out'
+                    className='relative w-5.5 h-5.5 flex flex-col items-center justify-center text-xs text-white/60 font-sora hover:bg-white/15 rounded-md transition-all duration-500 ease-out cursor-pointer'
                     onClick={handleCopy}
                 >
                     <div
@@ -116,7 +116,7 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
                 </button>
             </div>
             <div
-                className='leading-relaxed border-x border-b border-white/20 rounded-b-md py-4 pl-4 bg-[rgba(0,0,0,1)] overflow-x-auto'
+                className='leading-relaxed border-x border-b border-white/20 rounded-b-md py-3 px-4 bg-[rgba(0,0,0,1)] overflow-x-auto text-xl'
                 dangerouslySetInnerHTML={{ __html: html }}
                 data-lenis-prevent
             />
