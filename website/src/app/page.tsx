@@ -1,4 +1,4 @@
-import Image from "next/image"
+import { ArrowRight } from "lucide-react"
 
 export default function Page() {
 	return (
@@ -11,12 +11,22 @@ export default function Page() {
           <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"><path fill="currentColor" d="M3 18v-2h18v2zm0-5v-2h18v2zm0-5V6h18v2z"/></svg>
         </button>
       </div>
-      <div className="flex flex-col items-center justify-center grow w-full h-full">
-        <div>
-          <span className="font-jersey-15 text-7xl md:text-8xl lg:text-9xl">vibe</span>
-          <span className="font-jersey-15 text-purple-500 text-7xl md:text-8xl lg:text-9xl">Hooks</span>
+      <div className="flex flex-col items-center justify-center grow w-full h-full gap-10">
+        <div className="flex flex-col items-center">
+          <div>
+            <span className="font-jersey-15 text-7xl md:text-8xl lg:text-9xl">vibe</span>
+            <span className="font-jersey-15 text-purple-500 text-7xl md:text-8xl lg:text-9xl">Hooks</span>
+          </div>
+          <p className="font-sora text-sm max-w-xs text-center self-center text-white/70">Modern and unopinionated React hooks with a focus on developer experience.</p>
         </div>
-        <p className="font-sora text-sm max-w-xs text-center self-center text-white/70">Modern and unopinionated React hooks with a focus on developer experience.</p>
+        <button
+          id="getting-started"
+          aria-label="Getting started"
+          className="group flex flex-row items-center font-sora text-sm hover:scale-[1.05] text-white/80 hover:text-white cursor-pointer transition-all duration-500 ease-in-out border border-white/40 px-4 py-3 rounded-xl"
+        >
+          <span>Get Started</span>
+          <ArrowRight className="w-4 h-4 ml-2 text-white/80 group-hover:text-white transition-all duration-500 ease-in-out group-hover:translate-x-0.5" />
+        </button>
       </div>
     </main>
   )
