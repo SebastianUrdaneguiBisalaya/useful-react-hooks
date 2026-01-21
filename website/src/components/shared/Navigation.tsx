@@ -22,7 +22,7 @@ export default function Navigation() {
     show: false,
   }));
   const [showList, setShowList] = useState<boolean>(false);
-  const [listMajorItemsState, setListMajorItemsState] = useState<Record<string, boolean>>(listMajorItems.reduce((acc, item) => ({ ...acc, [item.title]: true }), {}));
+  const [listMajorItemsState, setListMajorItemsState] = useState<Record<string, boolean>>(listMajorItems.reduce((acc, item) => ({ ...acc, [item.title]: false }), {}));
 
   const toggleList = () => {
     setShowList(prev => !prev);
@@ -34,7 +34,7 @@ export default function Navigation() {
 
   return (
     <div className={cn(
-      "hidden fixed bottom-6 md:flex flex-col items-start justify-center left-6 bg-[rgba(255,255,255,0.05)] border-t border-t-[rgba(255,255,255,0.4)] border-l border-l-[rgba(255,255,255,0.3)] shadow-[3px_3px_3px_rgba(0,0,0,0.089)] backdrop-blur-[10px] w-fit h-fit rounded-lg",
+      "hidden fixed bottom-6 md:flex flex-col items-start justify-center left-6 bg-[rgba(255,255,255,0.05)] border-t border-t-[rgba(255,255,255,0.4)] border-l border-l-[rgba(255,255,255,0.3)] shadow-[3px_3px_3px_rgba(0,0,0,0.089)] backdrop-blur-[10px] w-fit max-h-[90%] rounded-lg",
     )}>
       <div
         className={cn(
@@ -45,7 +45,7 @@ export default function Navigation() {
         )}
       >
         <div className="min-h-0 flex flex-col items-start">
-          <div className="flex flex-col items-start gap-5 px-6 py-4 overflow-y-auto">
+          <div className="flex flex-col items-start gap-5 px-6 py-4 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
             {
               hooksList.map(item => (
                 <div
@@ -58,7 +58,7 @@ export default function Navigation() {
                     className="w-full flex flex-row items-center justify-between gap-2 cursor-pointer group"
                     onClick={() => toggleMajorItem(item.title)}
                   >
-                    <span className="font-sora text-sm font-bold text-white/80 group-hover:text-white">{item.title}</span>
+                    <span className="font-sora text-sm font-bold text-white/95 group-hover:text-white">{item.title}</span>
                     <ChevronRight
                       className={cn(
                         "w-4.5 text-white/50 transition-all duration-500 ease-out group-hover:text-white",
