@@ -40,15 +40,15 @@ export default function Page() {
         </div>
         <Slider />
         <Link
-          className="relative group flex flex-row items-center font-sora text-sm text-white/80 hover:text-black cursor-pointer transition-all duration-500 ease-in-out border border-white/40 px-4 py-3 rounded-xl"
+          className="relative group flex flex-row items-center font-sora text-sm text-white/80 overflow-hidden hover:text-black cursor-pointer transition-all duration-500 ease-in-out border border-white/40 hover:border-white px-4 py-3 rounded-xl"
           href="/docs/useDebouncedState"
         >
           <span className="z-20">Get Started</span>
           <ArrowRight className="z-20 w-4 h-4 ml-2 text-white/80 group-hover:text-black transition-all duration-500 ease-in-out group-hover:translate-x-0.5" />
-          <span className='pointer-events-none absolute inset-0 z-0 rounded-xl' />
+          <span className='pointer-events-none absolute inset-0 z-0' />
           <span
             className={cn(
-              'pointer-events-none absolute inset-0 z-0 block h-full w-full bg-white rounded-xl',
+              'pointer-events-none absolute inset-0 z-0 block h-full w-full bg-white',
               'opacity-0 transition-opacity',
               'group-focus-visible:opacity-100 group-active:opacity-100',
               'origin-left lg:scale-x-0 lg:opacity-100 lg:transition-transform',
