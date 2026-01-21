@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Sora, Reddit_Sans } from 'next/font/google';
 import "./globals.css";
 
+import Navigation from "@/components/shared/Navigation";
 import Footer from "@/components/shared/Footer";
 
 const sora = Sora({
@@ -31,6 +32,7 @@ export default function RootLayout({
       >
         <div className="max-w-3xl w-full min-h-screen h-full flex flex-col">
           {children}
+          <Navigation />
           <Footer />
         </div>
       </body>
