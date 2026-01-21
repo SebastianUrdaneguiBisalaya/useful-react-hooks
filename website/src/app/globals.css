@@ -10,6 +10,7 @@
   --color-foreground: var(--foreground);
   --font-sora: var(--font-sora);
   --font-reddit-sans: var(--font-reddit-sans);
+  --font-jersey-15: var(--font-jersey-15);
 }
 
 @media (prefers-color-scheme: dark) {
