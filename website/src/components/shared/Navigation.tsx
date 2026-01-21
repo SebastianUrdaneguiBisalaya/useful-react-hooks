@@ -21,7 +21,7 @@ export default function Navigation() {
     title: item.title,
     show: false,
   }));
-  const [showList, setShowList] = useState<boolean>(false);
+  const [showList, setShowList] = useState<boolean>(true);
   const [listMajorItemsState, setListMajorItemsState] = useState<Record<string, boolean>>(listMajorItems.reduce((acc, item) => ({ ...acc, [item.title]: false }), {}));
 
   const toggleList = () => {
