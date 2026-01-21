@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function Navbar() {
   return (
-    <nav className="flex w-full items-center justify-between py-6">
+    <nav className="flex w-full items-center justify-between pt-6 pb-12">
       <Link className="flex" href="/">
         <span className="font-jersey-15 text-3xl md:text-4xl">vibe</span>
         <span className="font-jersey-15 text-purple-500 text-3xl md:text-4xl">Hooks</span>
