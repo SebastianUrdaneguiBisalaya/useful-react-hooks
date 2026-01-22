@@ -5,37 +5,37 @@ const hooksList: HooksListProps[] = [
     title: "State",
     hooks: [
       {
+        name: "useCountDown",
+        path: "/docs/useCountDown",
+      },
+      {
         name: "useDebouncedState",
         path: "/docs/useDebouncedState",
-      },
-      {
-        name: "useThrottledCallback",
-        path: "/docs/useThrottledCallback",
-      },
-      {
-        name: "useResettableState",
-        path: "/docs/useResettableState",
-      },
-      {
-        name: "useToggle",
-        path: "/docs/useToggle",
-      },
-      {
-        name: "usePreviousDistinct",
-        path: "/docs/usePreviousDistinct",
       },
       {
         name: "useList",
         path: "/docs/useList",
       },
       {
+        name: "usePreviousDistinct",
+        path: "/docs/usePreviousDistinct",
+      },
+      {
+        name: "useResettableState",
+        path: "/docs/useResettableState",
+      },
+      {
+        name: "useThrottledCallback",
+        path: "/docs/useThrottledCallback",
+      },
+      {
+        name: "useToggle",
+        path: "/docs/useToggle",
+      },
+      {
         name: "useObjectList",
         path: "/docs/useObjectList",
       },
-      {
-        name: "useCountDown",
-        path: "/docs/useCountDown",
-      }
     ]
   },
   {
