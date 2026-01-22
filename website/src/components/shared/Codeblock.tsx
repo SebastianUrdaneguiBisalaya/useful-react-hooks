@@ -19,6 +19,7 @@ export interface CodeBlockProps {
     language?: CodeLanguage;
     filename?: string;
     theme?: keyof typeof bundledThemes;
+    classNameCode?: string;
 }
 
 let highlighterPromise: Promise<Highlighter> | null = null;
@@ -40,7 +41,8 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
     code,
     filename,
     language = 'ts',
-    theme = 'github-dark-high-contrast'
+    theme = 'github-dark-high-contrast',
+    classNameCode,
 }) => {
     const [html, setHtml] = useState<string>('');
     const [copied, setCopied] = useState<boolean>(false);
@@ -116,7 +118,10 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
                 </button>
             </div>
             <div
-                className='leading-relaxed border-x border-b border-white/20 rounded-b-md py-3 px-4 bg-[rgba(0,0,0,1)] overflow-x-auto text-xl'
+                className={cn(
+                  'leading-relaxed border-x border-b border-white/20 rounded-b-md py-3 px-4 bg-[rgba(0,0,0,1)] overflow-x-auto text-xl',
+                  classNameCode
+                )}
                 dangerouslySetInnerHTML={{ __html: html }}
                 data-lenis-prevent
             />

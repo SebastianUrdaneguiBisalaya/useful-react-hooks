@@ -42,6 +42,10 @@ pre code span span {
   font-family: var(--font-jersey-15);
 }
 
+.reddit-sans pre code span span {
+  font-family: var(--font-reddit-sans);
+}
+
 .motion-slider-gradient {
   mask-image: linear-gradient(
     to right,

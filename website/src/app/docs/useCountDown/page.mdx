@@ -1,0 +1,110 @@
+import { CodeBlock } from "@/components/shared/Codeblock";
+import Navbar from "@/components/shared/Navbar";
+
+<Navbar />
+
+# **useCountDown**
+
+### Manage precise, drift-free countdown timers with absolute-time synchronization and stable playback controls.
+
+#### **Installation**
+
+<CodeBlock
+  code={`npm install @vibehooks/react/countdown`}
+  language="bash"
+/>
+
+#### **Description**
+
+The useCountDown is a high-precision, unopinionated React hook designed to manage countdown timers based on absolute timestamps. It recalculates time by comparing the current system clock against a target end time, ensuring inmunity to execution delays or background tab throttling.
+
+The hook provides granular control over the timer's lifecycle, allowing developers to pause, resume, and reset the countdown while maintaining sub-second accuracy and providing predictable lifecycle callbacks.
+Unlike traditional counters that rely solely on **setInterval** increments (which are notorious for drifting over time), **useCountDown** uses a **Reference Timestamp** approach. When the timer starts, it calculates the delta between the target **endTime** and **Date.now()**.
+
+#### **Parameters**
+
+{/* Name,Type,Description
+endTime,number,The absolute Unix timestamp (in milliseconds) when the countdown finishes.
+options.interval,number,Frequency of updates in milliseconds. Default: 1000.
+options.onTick,(time: number) => void,Callback triggered on every tick with the current remaining time.
+options.onComplete,() => void,Callback triggered once the remaining time reaches zero. */}
+
+#### **Return values**
+{/*
+Name,Type,Description
+count,number,The remaining time in milliseconds (clamped at 0).
+isPaused,boolean,Boolean flag indicating if the timer is currently paused.
+controls.pause,() => void,Stops the timer and captures the current remaining duration.
+controls.resume,() => void,Calculates a new endTime and restarts the interval.
+controls.reset,(newTime?: number) => void,Restarts the timer using the initial or a newly provided timestamp. */}
+
+#### **Playground**
+
+#### **Source code**
+
+<CodeBlock
+  code={`
+import React, { useState, useCallback } from 'react';
+import { useCountDown } from './useCountDown';
+
+const CountdownPro: React.FC = () => {
+  const [target, setTarget] = useState(Date.now() + 60_000);
+
+  const {
+    count,
+    isPaused,
+    controls: { pause, resume, reset }
+  } = useCountDown({
+    endTime: target,
+    options: {
+      interval: 100,
+      onTick: (remaining) => {
+        if (remaining < 10000) console.log("Final stretch!");
+      },
+      onComplete: () => {
+        console.log("Countdown finished!");
+      }
+    }
+  });
+
+  const formatTime = (ms: number) => (ms / 1000).toFixed(1);
+
+  return (
+      <div className="p-4 border rounded-lg shadow-sm">
+        <h2 className="text-2xl font-bold mb-4">
+          Time Remaining: {formatTime(count)}s
+        </h2>
+
+        <div className="flex gap-2">
+          <button
+            onClick={isPaused ? resume : pause}
+            className="px-4 py-2 bg-blue-500 text-white rounded"
+          >
+            {isPaused ? 'Resume' : 'Pause'}
+          </button>
+
+          <button
+            onClick={() => reset()}
+            className="px-4 py-2 bg-gray-200 rounded"
+          >
+            Reset to Initial
+          </button>
+
+          <button
+            onClick={() => reset(Date.now() + 10_000)}
+            className="px-4 py-2 bg-red-200 rounded"
+          >
+            Set to 10s
+          </button>
+        </div>
+
+        <p className="mt-2 text-sm text-gray-500">
+          Status: {isPaused ? 'Paused' : 'Running'}
+        </p>
+      </div>
+  );
+};
+`}
+  language="typescript"
+  classNameCode="reddit-sans text-sm"
+/>
