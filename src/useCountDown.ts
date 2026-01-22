@@ -2,19 +2,19 @@ import * as React from 'react';
 
 export interface CountDownOptions {
 	/**
-	 * The interval en miliseconds between each tick.
+	 * The interval en milliseconds between each tick.
 	 */
-	interval: number;
+	interval?: number;
 
 	/**
 	 * A callback to be called when the countdown ends.
 	 */
-	onComplete: () => void;
+	onComplete?: () => void;
 
 	/**
 	 * A callback to be called on each tick.
 	 */
-	onTick: (time: number) => void;
+	onTick?: (time: number) => void;
 }
 
 export interface CountDown {
@@ -26,7 +26,7 @@ export interface CountDown {
 	/**
 	 *
 	 */
-	options: CountDownOptions;
+	options?: CountDownOptions;
 }
 
 export interface CountDownControlls {
@@ -42,7 +42,7 @@ export interface CountDownControlls {
 
 	/**
 	 * Resets the countdown.
-	 * If a new end time is provided, it will be used instead.
+	 * If a new end time is provided, it will be used; otherwise resets to initial endTime.
 	 */
 	reset: (newEndTime?: number) => void;
 }
@@ -60,50 +60,14 @@ export interface CountDownReturn {
 	isPaused: boolean;
 
 	/**
-	 * Controls the countdown.
+	 * Stable references to control functions.
 	 */
 	controls: CountDownControlls;
 }
 
 /**
  * `useCountDown` is a controllable countdown hook based on an absolute end timestamp.
- *
- * Features:
- * - Pause / resume support without time drift
- * - Reset to initial or custom endTime
- * - Uses absolute time for accuracy
- * - Executes callbacks predictably
- * - Fully unopinionated and SSR-safe
- *
- * @param {CountDown} params Countdown configuration
- *
- * @returns {CountDownReturn}
- *
- * @example
- * ```tsx
- * function QuizTimer() {
- *   const {
- *     count,
- *     isPaused,
- *     controls
- *   } = useCountDown({
- *     endTime: Date.now() + 30_000,
- *     options: {
- *       interval: 1000,
- *       onComplete: () => alert('Time up!')
- *     }
- *   });
- *
- *   return (
- *     <>
- *       <p>{Math.ceil(count / 1000)}s</p>
- *       <button onClick={controls.pause}>Pause</button>
- *       <button onClick={controls.resume}>Resume</button>
- *       <button onClick={() => controls.reset()}>Reset</button>
- *     </>
- *   );
- * }
- * ```
+ * It uses a reference timestamp approach to prevent time drift commonly association with simple `setInterval` forcing.
  *
  * @author Sebastian Marat Urdanegui Bisalaya <https://sebastianurdanegui.com>
  *
@@ -112,10 +76,19 @@ export interface CountDownReturn {
  *
  */
 export function useCountDown({ endTime, options }: CountDown): CountDownReturn {
-	const interval = options?.interval ?? 1000;
+	const intervalValue = options?.interval ?? 1000;
 
 	const initialEndTimeRef = React.useRef(endTime);
 	const endTimeRef = React.useRef(endTime);
+  const completedRef = React.useRef<boolean>(false);
+  const remainingAtPauseRef = React.useRef<number>(0);
+	const intervalIdRef = React.useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const optionsRef = React.useRef(options);
+
+  React.useEffect(() => {
+    optionsRef.current = options;
+  });
 
 	const [count, setCount] = React.useState<number>(() => {
 		return Math.max(endTime - Date.now(), 0);
@@ -123,65 +96,75 @@ export function useCountDown({ endTime, options }: CountDown): CountDownReturn {
 
 	const [isPaused, setIsPaused] = React.useState<boolean>(false);
 
-	const completedRef = React.useRef(false);
-	const intervalIdRef = React.useRef<number | null>(null);
 
-	const clearTimer = () => {
-		if (intervalIdRef.current !== null) {
+	const clearTimer = React.useCallback(() => {
+    if (intervalIdRef.current !== null) {
 			clearInterval(intervalIdRef.current);
 			intervalIdRef.current = null;
 		}
-	};
+  }, []);
 
 	const tick = React.useCallback(() => {
 		const remaining = Math.max(endTimeRef.current - Date.now(), 0);
-		options?.onTick?.(remaining);
+		optionsRef.current?.onTick?.(remaining);
 		setCount(remaining);
 
-		if (remaining === 0 && !completedRef.current) {
+		if (remaining <= 0 && !completedRef.current) {
 			completedRef.current = true;
 			clearTimer();
-			options?.onComplete?.();
+      setCount(0);
+			optionsRef.current?.onComplete?.();
 		}
-	}, [options]);
+	}, [clearTimer]);
 
 	React.useEffect(() => {
 		if (isPaused) return;
-		completedRef.current = false;
-		clearTimer();
-		tick();
-		intervalIdRef.current = window.setInterval(tick, interval);
-		return clearTimer;
-	}, [interval, isPaused, tick]);
+    if (endTimeRef.current <= Date.now() && !completedRef.current) {
+      tick();
+      return;
+    }
+    completedRef.current = false;
+    clearTimer();
+    tick();
+    intervalIdRef.current = setInterval(tick, intervalValue);
+    return clearTimer;
+	}, [isPaused, intervalValue, tick, clearTimer]);
 
 	const pause = React.useCallback(() => {
-		if (isPaused) return;
-		setIsPaused(true);
-		clearTimer();
-	}, []);
+		if (isPaused || completedRef.current) return;
+    const currentRemaining = Math.max(endTimeRef.current - Date.now(), 0);
+    remainingAtPauseRef.current = currentRemaining;
+    setIsPaused(true);
+    clearTimer();
+    setCount(currentRemaining);
+	}, [isPaused, clearTimer]);
 
 	const resume = React.useCallback(() => {
-		if (!isPaused) return;
-		endTimeRef.current = Date.now() + count;
-		setIsPaused(false);
-	}, [count, isPaused]);
+		if (!isPaused || completedRef.current) return;
+    endTimeRef.current = Date.now() + remainingAtPauseRef.current;
+    setIsPaused(false);
+	}, [isPaused]);
 
 	const reset = React.useCallback((newEndTime?: number) => {
 		clearTimer();
 		completedRef.current = false;
 		const nextEndTime = newEndTime ?? initialEndTimeRef.current;
 		endTimeRef.current = nextEndTime;
-		setCount(Math.max(nextEndTime - Date.now(), 0));
-		setIsPaused(false);
-	}, []);
+		const newRemaining = Math.max(nextEndTime - Date.now(), 0);
+    remainingAtPauseRef.current = newRemaining;
+    setCount(newRemaining);
+    setIsPaused(false);
+	}, [clearTimer]);
+
+  const controls = React.useMemo<CountDownControlls>(() => ({
+    pause,
+    resume,
+    reset,
+  }), [pause, resume, reset]);
 
 	return {
 		count,
 		isPaused,
-		controls: {
-			pause,
-			resume,
-			reset,
-		},
+		controls
 	};
 }
