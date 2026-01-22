@@ -7,7 +7,7 @@ import Table from "@/app/docs/useCountDown/Table";
 
 # **useCountDown**
 
-### Manage precise, drift-free countdown timers with absolute-time synchronization and stable playback controls.
+### High-precision React hook for managing synchronized countdown timers with manual lifecycle controls and drift-correction.
 
 #### **Installation**
 
@@ -18,10 +18,9 @@ import Table from "@/app/docs/useCountDown/Table";
 
 #### **Description**
 
-The useCountDown is a high-precision, unopinionated React hook designed to manage countdown timers based on absolute timestamps. It recalculates time by comparing the current system clock against a target end time, ensuring inmunity to execution delays or background tab throttling.
+The **useCountDown** manages time remaining by comparing the current system clock against a target absolute timestamp. This approach eliminates cumulative time drift caused by **setInterval** execution delays, ensuring sub-second accuracy even during heavy main-thread activity or browser tab throttling.
 
-The hook provides granular control over the timer's lifecycle, allowing developers to pause, resume, and reset the countdown while maintaining sub-second accuracy and providing predictable lifecycle callbacks.
-Unlike traditional counters that rely solely on **setInterval** increments (which are notorious for drifting over time), **useCountDown** uses a **Reference Timestamp** approach. When the timer starts, it calculates the delta between the target **endTime** and **Date.now()**.
+The hook provides explicit lifecycle management via a **status** state and memoized control functions. It supports manual starting, pausing, resetting, and dynamic time increments, making it suitable for complex timing logic like game loops, persistent timers, or transaction expirations.
 
 #### **Parameters**
 
@@ -41,18 +40,18 @@ Unlike traditional counters that rely solely on **setInterval** increments (whic
 'use client';
 
 import React, { useState } from 'react';
-import { useCountDown } from '@vibehooks/react/useCountDown';
+import { useCountDown } from '../../../../../src/index';
 
-const CountdownPro: React.FC = () => {
-  const [endTime] = useState(() => Date.now() + 20_000);
+const CountDown: React.FC = () => {
+  const [endTime] = useState(() => Date.now() + 10_000);
 
   const {
     count,
-    isPaused,
-    controls: { pause, resume, reset },
+    controls: { start, pause, resume, reset, increment },
     status
   } = useCountDown({
     endTime: endTime,
+    startOnMount: false,
     options: {
       interval: 100,
       onTick: (remaining) => {
@@ -64,7 +63,7 @@ const CountdownPro: React.FC = () => {
     }
   });
 
-  const formatTime = (ms: number) => (ms / 1000).toFixed(1);
+  const formatTime = (ms: number) => (ms / 1000).toFixed(0);
 
   return (
       <div className="flex flex-col items-center gap-4 w-full p-4 border border-white/20 rounded-lg shadow-sm">
@@ -73,23 +72,29 @@ const CountdownPro: React.FC = () => {
             Time Remaining
           </h2>
           <h3 className="text-2xl font-bold font-reddit-sans">
-            {formatTime(count)}s
+            {formatTime(count ?? 0)}s
           </h3>
         </div>
 
-        <div className="flex gap-2">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
           <button
-            onClick={isPaused ? resume : pause}
+            onClick={() => start()}
+            className='px-4 py-2 bg-sky-400 hover:bg-sky-500 transition-colors duration-500 ease-in-out text-white rounded-md cursor-pointer font-reddit-sans'
+          >
+            Start
+          </button>
+          <button
+            onClick={status === 'paused' ? resume : pause}
             className="px-4 py-2 bg-orange-400 hover:bg-orange-500 transition-colors duration-300 ease-in-out text-white rounded-md cursor-pointer font-reddit-sans"
           >
-            {isPaused ? 'Resume' : 'Pause'}
+            {status === 'paused' ? 'Resume' : 'Pause'}
           </button>
 
           <button
-            onClick={() => reset(count + 10_000)}
+            onClick={() => increment(10_000)}
             className="px-4 py-2 bg-purple-400 hover:bg-purple-500 transition-colors duration-500 ease-in-out rounded-md cursor-pointer font-reddit-sans"
           >
-            Add 10s +
+            10s +
           </button>
 
           <button
@@ -107,5 +112,5 @@ const CountdownPro: React.FC = () => {
   );
 };
 
-export default CountdownPro;
+export default CountDown;
 ```

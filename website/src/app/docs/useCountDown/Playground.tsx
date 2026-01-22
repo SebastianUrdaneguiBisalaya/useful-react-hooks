@@ -8,7 +8,6 @@ const CountDown: React.FC = () => {
 
   const {
     count,
-    isPaused,
     controls: { start, pause, resume, reset, increment },
     status
   } = useCountDown({
@@ -34,7 +33,7 @@ const CountDown: React.FC = () => {
             Time Remaining
           </h2>
           <h3 className="text-2xl font-bold font-reddit-sans">
-            {formatTime(count)}s
+            {formatTime(count ?? 0)}s
           </h3>
         </div>
 
@@ -46,10 +45,10 @@ const CountDown: React.FC = () => {
             Start
           </button>
           <button
-            onClick={isPaused ? resume : pause}
+            onClick={status === 'paused' ? resume : pause}
             className="px-4 py-2 bg-orange-400 hover:bg-orange-500 transition-colors duration-300 ease-in-out text-white rounded-md cursor-pointer font-reddit-sans"
           >
-            {isPaused ? 'Resume' : 'Pause'}
+            {status === 'paused' ? 'Resume' : 'Pause'}
           </button>
 
           <button
@@ -67,14 +66,9 @@ const CountDown: React.FC = () => {
           </button>
         </div>
 
-        <div className='flex flex-col sm:flex-row items-center gap-4'>
-          <p className="text-sm text-white/60 font-reddit-sans">
-            Status: {status.charAt(0).toUpperCase() + status.slice(1)}
-          </p>
-          <p className="text-sm text-white/60 font-reddit-sans">
-            Paused: {isPaused ? 'Yes' : 'No'}
-          </p>
-        </div>
+        <p className="text-sm text-white/60 font-reddit-sans">
+          Status: {status.charAt(0).toUpperCase() + status.slice(1)}
+        </p>
       </div>
   );
 };

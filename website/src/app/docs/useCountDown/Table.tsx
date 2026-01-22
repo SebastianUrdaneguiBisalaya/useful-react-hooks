@@ -21,17 +21,17 @@ const dataParameters: TableItemProps[] = [
   {
     name: 'endTime',
     type: 'number',
-    description: 'The absolute Unix timestamp (in milliseconds) when the countdown finishes.',
+    description: 'The target Unix timestamp (ms) to count down to.',
   },
   {
     name: 'startOnMount',
     type: 'boolean',
-    description: 'Whether to start the countdown on mount. Default: false.',
+    description: 'Whether the timer starts automatically on component mount. Default: false.',
   },
   {
     name: 'options.interval',
     type: 'number',
-    description: 'Frequency of updates in milliseconds. Default: 1000.',
+    description: 'Frequency of UI updates in milliseconds. Default: 1000.',
   },
   {
     name: 'options.onTick',
@@ -49,12 +49,7 @@ const dataReturnValues: TableItemProps[] = [
   {
     name: 'count',
     type: 'number',
-    description: 'The remaining time in milliseconds (clamped at 0).',
-  },
-  {
-    name: 'isPaused',
-    type: 'boolean',
-    description: 'Boolean flag indicating if the timer is currently paused.',
+    description: 'The current remaining time in milliseconds.',
   },
   {
     name: 'status',
@@ -62,20 +57,30 @@ const dataReturnValues: TableItemProps[] = [
     description: 'The current status of the timer. Status types are "start", "running", "paused", and "completed".',
   },
   {
+    name: 'controls.start',
+    type: '() => void',
+    description: 'Initiates the countdown if status is "start".',
+  },
+  {
     name: 'controls.pause',
     type: '() => void',
-    description: 'Stops the timer and captures the current remaining duration.',
+    description: 'Pauses the timer and stores the remaining duration.',
   },
   {
     name: 'controls.resume',
     type: '() => void',
-    description: 'Calculates a new endTime and restarts the interval.',
+    description: 'Resumes a paused timer by calculating a new end timestamp.',
   },
   {
     name: 'controls.reset',
-    type: '(newTime?: number) => void',
-    description: 'Restarts the timer using the initial or a newly provided timestamp.',
+    type: '() => void',
+    description: 'Clears the timer and reverts to the initial duration.',
   },
+  {
+    name: 'controls.increment',
+    type: '(ms?: number) => void',
+    description: 'Adds the specified milliseconds to the current countdown.'
+  }
 ]
 
 function BaseTable({ data }: BaseTableProps) {
