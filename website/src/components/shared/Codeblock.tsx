@@ -1,6 +1,5 @@
 'use client';
 
-import dedent from "dedent";
 import { useState, useEffect } from 'react';
 import {
     createHighlighter,
@@ -55,7 +54,7 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
             if (!highlighter.getLoadedLanguages().includes(language)) {
                 await highlighter.loadLanguage(language);
             }
-            const result = highlighter.codeToHtml(dedent(code), {
+            const result = highlighter.codeToHtml(code, {
                 lang: language,
                 theme,
                 transformers: [
