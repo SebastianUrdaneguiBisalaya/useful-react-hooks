@@ -11,7 +11,7 @@ type AsyncState<T> = {
 
 type FetchConfig = RequestInit & {
 	onError?: (error: Error) => void;
-	onSuccess?: (data: any) => void;
+	onSuccess?: (data: unknown) => void;
 	params?: Record<string, string | number | boolean>;
 	retries?: number;
 	retryDelay?: number;

@@ -75,7 +75,9 @@ export function usePermissions<T extends readonly PermissionName[]>(
 				cleanups.push(() => {
 					status.removeEventListener('change', handleChange);
 				});
-			} catch {}
+			} catch {
+        // TODO: handle error
+      }
 		};
 
 		for (const name of permissionNames) {

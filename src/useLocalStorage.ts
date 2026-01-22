@@ -76,7 +76,7 @@ export function useLocalStorage<T>(
 			const raw = window.localStorage.getItem(key);
 			if (raw === null) return fallback;
 			return JSON.parse(raw) as T;
-		} catch (error: unknown) {
+		} catch {
 			return fallback;
 		}
 	}, [key, fallback, isSupported]);

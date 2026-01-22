@@ -126,7 +126,7 @@ async function safePlay(video: HTMLVideoElement): Promise<boolean> {
 	try {
 		await video.play();
 		return true;
-	} catch (error: unknown) {
+	} catch {
 		return false;
 	}
 }

@@ -61,7 +61,9 @@ export function useScreenWakeLock(): UseScreenWakeLockResult {
 				lockRef.current = null;
 				setIsActive(false);
 			});
-		} catch {}
+		} catch {
+      // TODO: handle error
+    }
 	}, [isSupported]);
 
 	const release = React.useCallback(async () => {

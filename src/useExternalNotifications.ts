@@ -21,7 +21,9 @@ function onStorageEvent(event: StorageEvent) {
 	try {
 		Notification = JSON.parse(event.newValue ?? '[]');
 		emit();
-	} catch {}
+	} catch {
+    // TODO: handle error
+  }
 }
 
 export const notificationStore = {

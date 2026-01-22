@@ -21,10 +21,18 @@ export default defineConfig([
 			perfectionist,
 		},
 		rules: {
+			'perfectionist/sort-array-includes': [
+        'error',
+        { order: 'asc', type: 'natural' },
+    ],
 			'perfectionist/sort-classes': [
 				'error',
 				{ order: 'asc', type: 'natural' },
 			],
+			'perfectionist/sort-heritage-clauses': [
+        'error',
+        { order: 'asc', type: 'natural' },
+      ],
 			'perfectionist/sort-imports': [
 				'error',
 				{
@@ -44,15 +52,23 @@ export default defineConfig([
 				'error',
 				{ order: 'asc', type: 'natural' },
 			],
-			'perfectionist/sort-object-types': [
+			'perfectionist/sort-maps': [
+        'error',
+        { order: 'asc', type: 'natural' },
+      ],
+      'perfectionist/sort-named-exports': [
+        'error',
+        { order: 'asc', type: 'natural' },
+      ],
+      'perfectionist/sort-object-types': [
 				'error',
 				{ order: 'asc', type: 'natural' },
 			],
-			'perfectionist/sort-objects': [
+      'perfectionist/sort-objects': [
 				'error',
 				{ order: 'asc', type: 'natural' },
 			],
-			'perfectionist/sort-variable-declarations': [
+      'perfectionist/sort-variable-declarations': [
 				'error',
 				{ order: 'asc', type: 'natural' },
 			],
