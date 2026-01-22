@@ -26,21 +26,21 @@ export interface CountDown {
 	endTime: number;
 
 	/**
-	 * Whether to start the countdown on mount. Default: false.
-	 */
-	startOnMount?: boolean;
-
-	/**
 	 *
 	 */
 	options?: CountDownOptions;
+
+	/**
+	 * Whether to start the countdown on mount. Default: false.
+	 */
+	startOnMount?: boolean;
 }
 
 export interface CountDownControlls {
 	/**
-	 * Starts the countdown.
+	 * Increments the countdown by a given amount of time in milliseconds.
 	 */
-	start: () => void;
+	increment: (increment?: number) => void;
 
 	/**
 	 *  Pauses the countdown.
@@ -48,23 +48,28 @@ export interface CountDownControlls {
 	pause: () => void;
 
 	/**
+	 * Resets the countdown.
+	 * If a new end time is provided, it will be used; otherwise resets to initial endTime.
+	 */
+	reset: (newEndTime?: number) => void;
+
+	/**
 	 * Resumes the countdown
 	 */
 	resume: () => void;
 
 	/**
-	 * Increments the countdown by a given amount of time in milliseconds.
+	 * Starts the countdown.
 	 */
-	increment: (increment?: number) => void;
-
-	/**
-	 * Resets the countdown.
-	 * If a new end time is provided, it will be used; otherwise resets to initial endTime.
-	 */
-	reset: (newEndTime?: number) => void;
+	start: () => void;
 }
 
 export interface CountDownReturn {
+	/**
+	 * Stable references to control functions.
+	 */
+	controls: CountDownControlls;
+
 	/**
 	 * Remaining time in milliseconds.
 	 * Will be `0` when the countdown has completed.
@@ -80,11 +85,6 @@ export interface CountDownReturn {
 	 * Indicates the status of the countdown.
 	 */
 	status: CountDownStatus;
-
-	/**
-	 * Stable references to control functions.
-	 */
-	controls: CountDownControlls;
 }
 
 /**
@@ -99,8 +99,8 @@ export interface CountDownReturn {
  */
 export function useCountDown({
 	endTime,
-	startOnMount = false,
 	options,
+	startOnMount = false,
 }: CountDown): CountDownReturn {
 	const intervalValue = options?.interval ?? 1000;
 
@@ -222,19 +222,19 @@ export function useCountDown({
 
 	const controls = React.useMemo<CountDownControlls>(
 		() => ({
-			start,
-			pause,
-			resume,
-			reset,
 			increment,
+			pause,
+			reset,
+			resume,
+			start,
 		}),
 		[start, pause, resume, reset, increment]
 	);
 
 	return {
+		controls,
 		count,
 		isPaused,
-		controls,
 		status,
 	};
 }

@@ -12,14 +12,14 @@ export interface UseUserActivationResult {
 	isActive: boolean;
 
 	/**
-	 * Forces a re-read of the current activation state.
-	 */
-	refresh: () => void;
-
-	/**
 	 * Indicates whether the UserActivation API is supported.
 	 */
 	isSupported: boolean;
+
+	/**
+	 * Forces a re-read of the current activation state.
+	 */
+	refresh: () => void;
 }
 
 /**
@@ -56,8 +56,8 @@ export function useUserActivation(): UseUserActivationResult {
 	const readState = React.useCallback(() => {
 		if (!isSupported) {
 			return {
-				isActive: false,
 				hasBeenActive: false,
+				isActive: false,
 			};
 		}
 		return {
@@ -97,7 +97,7 @@ export function useUserActivation(): UseUserActivationResult {
 	return {
 		hasBeenActive: state.hasBeenActive,
 		isActive: state.isActive,
-		refresh,
 		isSupported,
+		refresh,
 	};
 }

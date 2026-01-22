@@ -1,17 +1,6 @@
 import * as React from 'react';
 
 export interface NetworkInformation extends EventTarget {
-	readonly type?:
-		| 'bluetooth'
-		| 'cellular'
-		| 'ethernet'
-		| 'node'
-		| 'wifi'
-		| 'wimax'
-		| 'other'
-		| 'unknown'
-		| undefined;
-	readonly effectiveType?: 'slow-2g' | '2g' | '3g' | '4g' | undefined;
 	/**
 	 * Estimated effective bandwidth of the user's connection, in megabits per second (Mb/s).
 	 *
@@ -56,6 +45,7 @@ export interface NetworkInformation extends EventTarget {
 	 * @see https://developer.mozilla.org/en-US/docs/Web/API/NetworkInformation/downlinkMax
 	 */
 	readonly downlinkMax?: number | undefined;
+	readonly effectiveType?: 'slow-2g' | '2g' | '3g' | '4g' | undefined;
 	/**
 	 * Estimated round-trip time (RTT), in milliseconds (ms).
 	 *
@@ -102,6 +92,16 @@ export interface NetworkInformation extends EventTarget {
 	 * @see https://developer.mozilla.org/en-US/docs/Web/API/NetworkInformation/saveData
 	 */
 	readonly saveData?: boolean | undefined;
+	readonly type?:
+		| 'bluetooth'
+		| 'cellular'
+		| 'ethernet'
+		| 'node'
+		| 'wifi'
+		| 'wimax'
+		| 'other'
+		| 'unknown'
+		| undefined;
 }
 
 declare global {
@@ -113,12 +113,12 @@ declare global {
 }
 
 export interface NetworkInformationSnapshot {
-	type?: NetworkInformation['type'];
-	effectiveType?: NetworkInformation['effectiveType'];
 	downlink?: NetworkInformation['downlink'];
 	downlinkMax?: NetworkInformation['downlinkMax'];
+	effectiveType?: NetworkInformation['effectiveType'];
 	rtt?: NetworkInformation['rtt'];
 	saveData?: NetworkInformation['saveData'];
+	type?: NetworkInformation['type'];
 }
 
 type Listener = () => void;
@@ -140,12 +140,12 @@ function getSnapshot(): NetworkInformationSnapshot | null {
 	const connection = getConnection();
 	if (!connection) return null;
 	return {
-		type: connection.type,
-		effectiveType: connection.effectiveType,
 		downlink: connection.downlink,
 		downlinkMax: connection.downlinkMax,
+		effectiveType: connection.effectiveType,
 		rtt: connection.rtt,
 		saveData: connection.saveData,
+		type: connection.type,
 	};
 }
 

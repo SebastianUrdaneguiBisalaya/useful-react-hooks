@@ -5,8 +5,8 @@ export interface List<T> {
 }
 
 export interface ListReturn<T> {
-	items: T[];
 	insert: (idx: number, item: T) => void;
+	items: T[];
 	push: (item: T) => void;
 	remove: (idx: number) => void;
 	update: (idx: number, item: T) => void;
@@ -63,8 +63,8 @@ export function useList<T>({ defaultValue }: List<T>): ListReturn<T> {
 	}, []);
 
 	return {
-		items,
 		insert,
+		items,
 		push,
 		remove,
 		update,

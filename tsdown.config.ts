@@ -1,9 +1,9 @@
 import { defineConfig } from 'tsdown';
 
 export default defineConfig({
-	platform: 'browser',
-	entry: ['src/index.ts'],
-	dts: true,
 	clean: true,
+	dts: true,
+	entry: ['src/index.ts'],
+	platform: 'browser',
 	unbundle: true,
 });

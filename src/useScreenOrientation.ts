@@ -27,14 +27,14 @@ type OrientationType =
 
 export interface UseScreenOrientationResult {
 	/**
-	 * Current orientation type (e.g. portrait-primary).
-	 */
-	type: OrientationType | null;
-
-	/**
 	 * Current orientation angle in degrees.
 	 */
 	angle: number | null;
+
+	/**
+	 * Whether the Screen Orientation API is supported.
+	 */
+	isSupported: boolean;
 
 	/**
 	 * Locks the screen orientation.
@@ -42,14 +42,14 @@ export interface UseScreenOrientationResult {
 	lock: (orientation: ScreenOrientationLock) => Promise<void>;
 
 	/**
+	 * Current orientation type (e.g. portrait-primary).
+	 */
+	type: OrientationType | null;
+
+	/**
 	 * Unlocks the screen orientation.
 	 */
 	unlock: () => void;
-
-	/**
-	 * Whether the Screen Orientation API is supported.
-	 */
-	isSupported: boolean;
 }
 
 /**
@@ -110,10 +110,10 @@ export function useScreenOrientation(): UseScreenOrientationResult {
 	}, [isSupported]);
 
 	return {
-		isSupported,
-		type,
 		angle,
+		isSupported,
 		lock,
+		type,
 		unlock,
 	};
 }

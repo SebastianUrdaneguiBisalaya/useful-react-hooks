@@ -13,6 +13,15 @@ let media: MediaQueryList | null = null;
 let mediaListenerAttached = false;
 
 export const systemThemeStore = {
+	getServerSnapshot(): Theme {
+		return 'light';
+	},
+	getSnapshot(): Theme {
+		if (typeof window === 'undefined') return 'light';
+		return window.matchMedia('(prefers-color-scheme: dark)').matches
+			? 'dark'
+			: 'light';
+	},
 	suscribe(listener: Listener) {
 		listeners.add(listener);
 
@@ -34,19 +43,26 @@ export const systemThemeStore = {
 		}
 		return () => listeners.delete(listener);
 	},
-	getSnapshot(): Theme {
-		if (typeof window === 'undefined') return 'light';
-		return window.matchMedia('(prefers-color-scheme: dark)').matches
-			? 'dark'
-			: 'light';
-	},
-	getServerSnapshot(): Theme {
-		return 'light';
-	},
 };
 const storageKey = 'preferred-theme';
 
 export const userThemeStore = {
+	getSeverSnapshot(): Theme | null {
+		return null;
+	},
+	getSnapshot(): Theme | null {
+		if (typeof window === 'undefined') return null;
+		return localStorage.getItem(storageKey) ?? null;
+	},
+	setTheme(theme: Theme | null) {
+		if (typeof window === 'undefined') return;
+		if (theme === null) {
+			localStorage.removeItem(storageKey);
+		} else {
+			localStorage.setItem(storageKey, theme);
+		}
+		emit();
+	},
 	suscribe(listener: Listener) {
 		listeners.add(listener);
 
@@ -62,34 +78,13 @@ export const userThemeStore = {
 		}
 		return () => listeners.delete(listener);
 	},
-	getSnapshot(): Theme | null {
-		if (typeof window === 'undefined') return null;
-		return localStorage.getItem(storageKey) ?? null;
-	},
-	getSeverSnapshot(): Theme | null {
-		return null;
-	},
-	setTheme(theme: Theme | null) {
-		if (typeof window === 'undefined') return;
-		if (theme === null) {
-			localStorage.removeItem(storageKey);
-		} else {
-			localStorage.setItem(storageKey, theme);
-		}
-		emit();
-	},
 };
 
 export interface PreferredThemeReturn {
 	/**
-	 * Theme effectively used by the application.
+	 * Sets a user-selected theme.
 	 */
-	theme: Theme;
-
-	/**
-	 * User-selected theme, if any.
-	 */
-	userTheme: Theme | null;
+	setUserTheme: (theme: Theme | null) => void;
 
 	/**
 	 * System / OS preferred theme.
@@ -97,15 +92,20 @@ export interface PreferredThemeReturn {
 	systemTheme: Theme;
 
 	/**
-	 * Sets a user-selected theme.
+	 * Theme effectively used by the application.
 	 */
-	setUserTheme: (theme: Theme | null) => void;
+	theme: Theme;
 
 	/**
 	 * Toggles between two themes.
 	 * Defaults to 'light' and 'dark'.
 	 */
-	toggleTheme: (options?: { light?: Theme; dark?: Theme }) => void;
+	toggleTheme: (options?: { dark?: Theme; light?: Theme }) => void;
+
+	/**
+	 * User-selected theme, if any.
+	 */
+	userTheme: Theme | null;
 }
 
 /**
@@ -172,7 +172,7 @@ export function usePreferredTheme(): PreferredThemeReturn {
 	const resolved = userTheme ?? systemTheme ?? 'light';
 
 	const toggleTheme = React.useCallback(
-		(options?: { light?: Theme; dark?: Theme }) => {
+		(options?: { dark?: Theme; light?: Theme }) => {
 			const light = options?.light ?? 'light';
 			const dark = options?.dark ?? 'dark';
 
@@ -183,10 +183,10 @@ export function usePreferredTheme(): PreferredThemeReturn {
 	);
 
 	return {
-		theme: resolved,
-		userTheme: userTheme ?? null,
-		systemTheme,
 		setUserTheme: userThemeStore.setTheme,
+		systemTheme,
+		theme: resolved,
 		toggleTheme,
+		userTheme: userTheme ?? null,
 	};
 }

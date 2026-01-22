@@ -47,9 +47,9 @@ export function useBodyScrollFreeze(): BodyScrollFreezeReturn {
 		overflowX: string;
 		overflowY: string;
 		position: string;
+		scrollY: number;
 		top: string;
 		width: string;
-		scrollY: number;
 	} | null>(null);
 
 	const freeze = React.useCallback((options?: BodyScrollFreezeOptions) => {
@@ -63,9 +63,9 @@ export function useBodyScrollFreeze(): BodyScrollFreezeReturn {
 				overflowX: body.style.overflowX,
 				overflowY: body.style.overflowY,
 				position: body.style.position,
+				scrollY: window.scrollY,
 				top: body.style.top,
 				width: body.style.width,
-				scrollY: window.scrollY,
 			};
 		}
 		body.style.position = 'fixed';
@@ -85,7 +85,7 @@ export function useBodyScrollFreeze(): BodyScrollFreezeReturn {
 			if (typeof window === 'undefined') return;
 			if (!originalStyles.current) return;
 			const body = document.body;
-			const { overflowX, overflowY, position, top, width, scrollY } =
+			const { overflowX, overflowY, position, scrollY, top, width } =
 				originalStyles.current;
 
 			body.style.position = position;

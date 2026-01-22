@@ -12,17 +12,17 @@ export type SummarizerFormat = 'plain-text' | 'markdown';
 export type SummarizerLength = 'short' | 'medium' | 'long';
 
 export interface SummarizerCreateOptions {
-	type?: SummarizerType;
 	format?: SummarizerFormat;
-	length?: SummarizerLength;
 	inputLanguage?: string;
+	length?: SummarizerLength;
 	outputLanguage?: string;
 	signal?: AbortSignal;
+	type?: SummarizerType;
 }
 
 export interface BrowserSummarizer {
-	summarize(text: string, options?: { signal?: AbortSignal }): Promise<string>;
 	destroy(): void;
+	summarize(text: string, options?: { signal?: AbortSignal }): Promise<string>;
 }
 
 export interface SummarizerStatic {
@@ -40,9 +40,9 @@ declare global {
 
 export interface UseSummarizerReturn {
 	/**
-	 * Indicates whether the Summarizer API exists in the current environment.
+	 * Cancels any pending create or summarize operation.
 	 */
-	isSupported: boolean;
+	cancel(): void;
 
 	/**
 	 * Checks whether the browser AI model can satisfy the given options.
@@ -58,19 +58,19 @@ export interface UseSummarizerReturn {
 	create(options?: SummarizerCreateOptions): Promise<void>;
 
 	/**
-	 * Runs a sumamrization request using the active Summarizer instance.
-	 */
-	summarize(text: string, options?: { signal?: AbortSignal }): Promise<string>;
-
-	/**
-	 * Cancels any pending create or summarize operation.
-	 */
-	cancel(): void;
-
-	/**
 	 * Destroys the active Summarizer instance.
 	 */
 	destroy(): void;
+
+	/**
+	 * Indicates whether the Summarizer API exists in the current environment.
+	 */
+	isSupported: boolean;
+
+	/**
+	 * Runs a sumamrization request using the active Summarizer instance.
+	 */
+	summarize(text: string, options?: { signal?: AbortSignal }): Promise<string>;
 }
 
 /**
@@ -162,11 +162,11 @@ export function useSummarizer(): UseSummarizerReturn {
 	}, [cancel]);
 
 	return {
-		isSupported,
+		cancel,
 		checkAvailability,
 		create,
-		summarize,
-		cancel,
 		destroy,
+		isSupported,
+		summarize,
 	};
 }

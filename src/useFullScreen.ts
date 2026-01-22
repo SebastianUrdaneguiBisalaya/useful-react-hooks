@@ -1,9 +1,9 @@
 import * as React from 'react';
 
 export interface FullScreen {
-	isFullscreen: boolean;
 	enter: () => Promise<void>;
 	exit: () => Promise<void>;
+	isFullscreen: boolean;
 	toggle: () => Promise<void>;
 }
 
@@ -59,9 +59,9 @@ export function useFullscreen<T extends HTMLElement>(
 	}, []);
 
 	return {
-		isFullscreen,
 		enter,
 		exit,
+		isFullscreen,
 		toggle,
 	};
 }

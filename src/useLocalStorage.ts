@@ -9,14 +9,14 @@ export interface UseLocalStorageOptions<T> {
 
 export interface UseLocalStorageReturn<T> {
 	/**
+	 * Clears all localStorage entries.
+	 */
+	clear(): void;
+
+	/**
 	 * Reads and parses a value from localStorage.
 	 */
 	get(): T | null;
-
-	/**
-	 * Serializes and stores a value in localStorage.
-	 */
-	set(value: T): void;
 
 	/**
 	 * Removes the key from localStorage.
@@ -24,9 +24,9 @@ export interface UseLocalStorageReturn<T> {
 	remove(): void;
 
 	/**
-	 * Clears all localStorage entries.
+	 * Serializes and stores a value in localStorage.
 	 */
-	clear(): void;
+	set(value: T): void;
 
 	/**
 	 * Updates the stored value using a functional updater.
@@ -109,10 +109,10 @@ export function useLocalStorage<T>(
 	);
 
 	return {
-		get,
-		set,
-		remove,
 		clear,
+		get,
+		remove,
+		set,
 		update,
 	};
 }

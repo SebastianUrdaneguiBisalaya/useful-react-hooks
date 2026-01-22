@@ -2,9 +2,9 @@ import * as React from 'react';
 
 export interface UseLocalNotificationResult {
 	isSupported: boolean;
+	notify: (options: UseNotificationOptions) => void;
 	permission: NotificationPermission;
 	requestPermission: () => Promise<NotificationPermission>;
-	notify: (options: UseNotificationOptions) => void;
 }
 
 export interface UseNotificationOptions extends NotificationOptions {
@@ -50,7 +50,6 @@ export function useLocalNotifications(): UseLocalNotificationResult {
 
 	const notify = React.useCallback(
 		({
-			title,
 			badge,
 			body,
 			data,
@@ -60,6 +59,7 @@ export function useLocalNotifications(): UseLocalNotificationResult {
 			requireInteraction,
 			silent,
 			tag,
+			title,
 		}: UseNotificationOptions) => {
 			if (!isSupported) return;
 			if (permission !== 'granted') {
@@ -84,8 +84,8 @@ export function useLocalNotifications(): UseLocalNotificationResult {
 
 	return {
 		isSupported,
+		notify,
 		permission,
 		requestPermission,
-		notify,
 	};
 }

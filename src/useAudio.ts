@@ -9,17 +9,17 @@ type AudioStatus =
 	| 'error';
 
 export interface UseAudioOptions {
-	src?: string;
 	loop?: boolean;
+	src?: string;
 	volume?: number;
 }
 
 export interface UseAudioResult {
-	status: AudioStatus;
-	error: Error | null;
-	play: () => Promise<void>;
-	pause: () => void;
 	audio: HTMLAudioElement | null;
+	error: Error | null;
+	pause: () => void;
+	play: () => Promise<void>;
+	status: AudioStatus;
 }
 
 /**
@@ -84,10 +84,10 @@ export function useAudio(options: UseAudioOptions = {}): UseAudioResult {
 	}, [options.src, options.loop, options.volume]);
 
 	return {
-		status,
-		error,
-		play,
-		pause,
 		audio: audioRef.current,
+		error,
+		pause,
+		play,
+		status,
 	};
 }

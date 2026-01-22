@@ -7,11 +7,6 @@ export interface UseIndexedDBOptions {
 	name: string;
 
 	/**
-	 * Database version
-	 */
-	version: number;
-
-	/**
 	 * Option upgrade callback
 	 */
 	onUpgrade?: (
@@ -19,6 +14,11 @@ export interface UseIndexedDBOptions {
 		oldVersion: number,
 		newVersion: number | null
 	) => void;
+
+	/**
+	 * Database version
+	 */
+	version: number;
 }
 
 export interface UseIndexedDBTransactionOptions {
@@ -26,6 +26,16 @@ export interface UseIndexedDBTransactionOptions {
 }
 
 export interface UseIndexedDBTransactionResult {
+	/**
+	 * Closes the database connection
+	 */
+	close: () => void;
+
+	/**
+	 * Deletes the database
+	 */
+	deleteDatabase: () => Promise<void>;
+
 	/**
 	 * Opens the database connection
 	 */
@@ -39,16 +49,6 @@ export interface UseIndexedDBTransactionResult {
 		fn: (store: IDBObjectStore) => Promise<T>,
 		options?: UseIndexedDBTransactionOptions
 	) => Promise<T>;
-
-	/**
-	 * Closes the database connection
-	 */
-	close: () => void;
-
-	/**
-	 * Deletes the database
-	 */
-	deleteDatabase: () => Promise<void>;
 }
 
 /**
@@ -145,9 +145,9 @@ export function useIndexedDB(
 	}, [close, options.name]);
 
 	return {
-		open,
-		withStore,
 		close,
 		deleteDatabase,
+		open,
+		withStore,
 	};
 }

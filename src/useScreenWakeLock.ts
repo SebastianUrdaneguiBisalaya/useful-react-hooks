@@ -7,9 +7,9 @@ export interface UseScreenWakeLockResult {
 	isActive: boolean;
 
 	/**
-	 * Requests a screen wake lock.
+	 * Whether the Wake Lock API is supported.
 	 */
-	request: () => Promise<void>;
+	isSupported: boolean;
 
 	/**
 	 * Releases the wake lock.
@@ -17,9 +17,9 @@ export interface UseScreenWakeLockResult {
 	release: () => Promise<void>;
 
 	/**
-	 * Whether the Wake Lock API is supported.
+	 * Requests a screen wake lock.
 	 */
-	isSupported: boolean;
+	request: () => Promise<void>;
 }
 
 /**
@@ -72,9 +72,9 @@ export function useScreenWakeLock(): UseScreenWakeLockResult {
 	}, []);
 
 	return {
-		isSupported,
 		isActive,
-		request,
+		isSupported,
 		release,
+		request,
 	};
 }

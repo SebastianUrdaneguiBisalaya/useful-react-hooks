@@ -2,11 +2,6 @@ import * as React from 'react';
 
 export interface UseFileOptions {
 	/**
-	 * Allow selecting multiple files
-	 */
-	multiple?: boolean;
-
-	/**
 	 * Accepted file types (input accept attribute)
 	 * Example: 'image/*', '.pdf'
 	 */
@@ -16,6 +11,11 @@ export interface UseFileOptions {
 	 * Whether the file input should be disabled
 	 */
 	disabled?: boolean;
+
+	/**
+	 * Allow selecting multiple files
+	 */
+	multiple?: boolean;
 }
 
 export interface UseFileResult {
@@ -23,6 +23,16 @@ export interface UseFileResult {
 	 * Currently selected files.
 	 */
 	files: File[];
+
+	/**
+	 * Whether at least one file is selected.
+	 */
+	hasFiles: boolean;
+
+	/**
+	 * Props to spread into an <input type="file" /> element.
+	 */
+	inputProps: React.InputHTMLAttributes<HTMLInputElement>;
 
 	/**
 	 * Clears the selected files.
@@ -33,16 +43,6 @@ export interface UseFileResult {
 	 * Manually sets files (useful for drag & drop).
 	 */
 	setFiles: (files: File[] | FileList) => void;
-
-	/**
-	 * Props to spread into an <input type="file" /> element.
-	 */
-	inputProps: React.InputHTMLAttributes<HTMLInputElement>;
-
-	/**
-	 * Whether at least one file is selected.
-	 */
-	hasFiles: boolean;
 }
 
 /**
@@ -85,7 +85,7 @@ export interface UseFileResult {
  *
  */
 export function useFile(options: UseFileOptions = {}): UseFileResult {
-	const { multiple = false, accept, disabled } = options;
+	const { accept, disabled, multiple = false } = options;
 	const [files, setInternalFiles] = React.useState<File[]>([]);
 
 	const setFiles = React.useCallback(
@@ -112,20 +112,20 @@ export function useFile(options: UseFileOptions = {}): UseFileResult {
 
 	const inputProps: React.InputHTMLAttributes<HTMLInputElement> = React.useMemo(
 		() => ({
-			type: 'file',
 			accept,
-			multiple,
 			disabled,
+			multiple,
 			onChange,
+			type: 'file',
 		}),
 		[accept, multiple, disabled, onChange]
 	);
 
 	return {
 		files,
+		hasFiles: files.length > 0,
+		inputProps,
 		reset,
 		setFiles,
-		inputProps,
-		hasFiles: files.length > 0,
 	};
 }

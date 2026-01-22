@@ -51,9 +51,9 @@ function visibilityStore() {
 	}
 
 	return {
-		subscribe,
-		getSnapshot,
 		getServerSnapshot,
+		getSnapshot,
+		subscribe,
 	} as const;
 }
 

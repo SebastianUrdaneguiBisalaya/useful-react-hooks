@@ -1,12 +1,12 @@
 import * as React from 'react';
 
 export interface UseCookieOptions {
-	path?: string;
 	domain?: string;
-	maxAge?: number;
 	expires?: Date;
-	secure?: boolean;
+	maxAge?: number;
+	path?: string;
 	sameSite?: 'strict' | 'lax' | 'none';
+	secure?: boolean;
 }
 
 export interface UseCookieReturn {
@@ -16,9 +16,9 @@ export interface UseCookieReturn {
 	get: (name: string) => string | null;
 
 	/**
-	 * Sets a cookie value.
+	 * Reads all cookies as a key-value map.
 	 */
-	set: (name: string, value: string, options?: UseCookieOptions) => void;
+	getAll: () => Record<string, string>;
 
 	/**
 	 * Removes a cookie.
@@ -26,9 +26,9 @@ export interface UseCookieReturn {
 	remove: (name: string, options?: UseCookieOptions) => void;
 
 	/**
-	 * Reads all cookies as a key-value map.
+	 * Sets a cookie value.
 	 */
-	getAll: () => Record<string, string>;
+	set: (name: string, value: string, options?: UseCookieOptions) => void;
 }
 
 /**
@@ -112,8 +112,8 @@ export function useCookies(): UseCookieReturn {
 
 	return {
 		get,
-		set,
-		remove,
 		getAll,
+		remove,
+		set,
 	};
 }

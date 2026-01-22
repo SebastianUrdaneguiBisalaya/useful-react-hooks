@@ -1,8 +1,8 @@
 import * as React from 'react';
 
 export interface NotificationPayload extends NotificationOptions {
-	title: string;
 	createdAt: number;
+	title: string;
 }
 
 type Listener = () => void;
@@ -25,6 +25,14 @@ function onStorageEvent(event: StorageEvent) {
 }
 
 export const notificationStore = {
+	getSnapshot() {
+		return notifications;
+	},
+	push(notification: NotificationPayload) {
+		notifications = [...notifications, notification];
+		localStorage.setItem('notifications', JSON.stringify(notifications));
+		emit();
+	},
 	suscribe(listener: Listener) {
 		listeners.add(listener);
 		if (!isListening && typeof window !== 'undefined') {
@@ -39,22 +47,14 @@ export const notificationStore = {
 			}
 		};
 	},
-	getSnapshot() {
-		return notifications;
-	},
-	push(notification: NotificationPayload) {
-		notifications = [...notifications, notification];
-		localStorage.setItem('notifications', JSON.stringify(notifications));
-		emit();
-	},
 };
 
 export interface UseExternalNotificationResult {
+	isSupported: boolean;
 	notifications: NotificationPayload[];
 	notify: (notification: Omit<NotificationPayload, 'createdAt'>) => void;
 	permission: NotificationPermission;
 	requestPermission: () => Promise<NotificationPermission>;
-	isSupported: boolean;
 }
 
 /**
@@ -173,10 +173,10 @@ export function useExternalNotifications(): UseExternalNotificationResult {
 	);
 
 	return {
+		isSupported,
 		notifications,
 		notify,
 		permission,
 		requestPermission,
-		isSupported,
 	};
 }

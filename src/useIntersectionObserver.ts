@@ -14,11 +14,6 @@ export type IntersectionObserverOptions = IntersectionObserverInit & {
 
 export interface IntersectionObserverReturn<T extends Element> {
 	/**
-	 * Ref will be assigned to the element that is being observed.
-	 */
-	ref: React.RefObject<T | null>;
-
-	/**
 	 * Last IntersectionObserverEntry.
 	 */
 	entry: IntersectionObserverEntry | null;
@@ -27,6 +22,11 @@ export interface IntersectionObserverReturn<T extends Element> {
 	 * Indicates if the element is visible in the viewport.
 	 */
 	isVisible: boolean;
+
+	/**
+	 * Ref will be assigned to the element that is being observed.
+	 */
+	ref: React.RefObject<T | null>;
 }
 
 /**
@@ -105,8 +105,8 @@ export function useIntersectionObserver<T extends Element = HTMLElement>(
 		return () => observer.disconnect();
 	}, [observerOptions, ref, once]);
 	return {
-		ref,
 		entry,
 		isVisible,
+		ref,
 	};
 }

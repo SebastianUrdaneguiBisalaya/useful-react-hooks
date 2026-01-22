@@ -1,8 +1,8 @@
 import * as React from 'react';
 
 export interface ScreenSize {
-	width: number;
 	height: number;
+	width: number;
 }
 
 /**

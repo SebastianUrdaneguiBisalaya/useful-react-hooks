@@ -6,14 +6,14 @@ declare global {
 	}
 
 	interface Translator {
-		translate(
-			text: string,
-			options: TranslatorTranslateOptions
-		): Promise<string>;
 		isLanguagePairSupported(
 			sourceLanguage: BCP47LanguageTag | undefined,
 			targetLanguage: BCP47LanguageTag
 		): Promise<boolean>;
+		translate(
+			text: string,
+			options: TranslatorTranslateOptions
+		): Promise<string>;
 	}
 }
 
@@ -25,6 +25,12 @@ export type BCP47LanguageTag = string;
 
 export interface TranslatorTranslateOptions {
 	/**
+	 * Optional callback triggered after checking
+	 * whether the language pair is supported.
+	 */
+	onLanguageSupportCheck?: (supported: boolean) => void;
+
+	/**
 	 * Source language (BCP 47).
 	 * If undefined, the browser may attempt auto-detection (if supported).
 	 */
@@ -34,19 +40,18 @@ export interface TranslatorTranslateOptions {
 	 * Target language (BCP 47).
 	 */
 	targetLanguage: BCP47LanguageTag;
-
-	/**
-	 * Optional callback triggered after checking
-	 * whether the language pair is supported.
-	 */
-	onLanguageSupportCheck?: (supported: boolean) => void;
 }
 
 export interface UseTranslatorReturn {
 	/**
-	 * Whether the Translator API is available in the current browser.
+	 * Manually checks if the language pair is supported.
 	 */
-	isSupported: boolean;
+	checkLanguageSupport: () => Promise<boolean>;
+
+	/**
+	 * Last error produced by the hook.
+	 */
+	error: Error | null;
 
 	/**
 	 * Whether the configured language pair is supported.
@@ -55,32 +60,31 @@ export interface UseTranslatorReturn {
 	isLanguagePairSupported: boolean | null;
 
 	/**
+	 * Whether the Translator API is available in the current browser.
+	 */
+	isSupported: boolean;
+
+	/**
 	 * Indicates whether a translation is in progress.
 	 */
 	isTranslating: boolean;
 
 	/**
-	 * Last translation result.
-	 */
-	translation: string | null;
-
-	/**
-	 * Last error produced by the hook.
-	 */
-	error: Error | null;
-
-	/**
-	 * Manually checks if the language pair is supported.
-	 */
-	checkLanguageSupport: () => Promise<boolean>;
-
-	/**
 	 * Translates a given text using the configured languages.
 	 */
 	translate: (text: string) => Promise<string>;
+
+	/**
+	 * Last translation result.
+	 */
+	translation: string | null;
 }
 
 type TranslatorAPI = {
+	isLanguagePairSupported: (
+		sourceLanguage: BCP47LanguageTag | undefined,
+		targetLanguage: BCP47LanguageTag
+	) => Promise<boolean>;
 	translate: (
 		text: string,
 		options: {
@@ -88,10 +92,6 @@ type TranslatorAPI = {
 			targetLanguage: BCP47LanguageTag;
 		}
 	) => Promise<string>;
-	isLanguagePairSupported: (
-		sourceLanguage: BCP47LanguageTag | undefined,
-		targetLanguage: BCP47LanguageTag
-	) => Promise<boolean>;
 };
 
 function getTranslator(): TranslatorAPI | null {
@@ -138,7 +138,7 @@ function getTranslator(): TranslatorAPI | null {
 export function useTranslator(
 	options: TranslatorTranslateOptions
 ): UseTranslatorReturn {
-	const { sourceLanguage, targetLanguage, onLanguageSupportCheck } = options;
+	const { onLanguageSupportCheck, sourceLanguage, targetLanguage } = options;
 
 	const translatorRef = React.useRef<TranslatorAPI | null>(null);
 	const [isSupported, setIsSupported] = React.useState<boolean>(true);
@@ -220,12 +220,12 @@ export function useTranslator(
 	);
 
 	return {
-		isSupported,
-		isLanguagePairSupported,
-		isTranslating,
-		translation,
-		error,
 		checkLanguageSupport,
+		error,
+		isLanguagePairSupported,
+		isSupported,
+		isTranslating,
 		translate,
+		translation,
 	};
 }

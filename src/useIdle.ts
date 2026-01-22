@@ -2,12 +2,6 @@ import * as React from 'react';
 
 export interface UseIdleOptions {
 	/**
-	 * Time in milliseconds before the user is considered idle.
-	 * @default 60000
-	 */
-	timeout?: number;
-
-	/**
 	 * Events that reset the idle timer.
 	 * @default ['mousemove', 'keydown', 'mousedown', 'touchstart', 'scroll']
 	 */
@@ -19,6 +13,12 @@ export interface UseIdleOptions {
 	 * @default false
 	 */
 	initialState?: boolean;
+
+	/**
+	 * Time in milliseconds before the user is considered idle.
+	 * @default 60000
+	 */
+	timeout?: number;
 }
 
 export interface UseIdleResult {
@@ -58,9 +58,9 @@ export interface UseIdleResult {
  */
 export function useIdle(options: UseIdleOptions = {}): UseIdleResult {
 	const {
-		timeout = 60_000,
 		events = ['mousemove', 'keydown', 'mousedown', 'touchstart', 'scroll'],
 		initialState = false,
+		timeout = 60_000,
 	} = options;
 
 	const isBrowser = typeof window !== 'undefined';

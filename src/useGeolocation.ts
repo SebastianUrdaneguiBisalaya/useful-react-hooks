@@ -4,6 +4,21 @@ export type GeolocationPermissionState = PermissionState | 'unsupported';
 
 export interface UseGeolocationResult {
 	/**
+	 * Clears a watcher.
+	 */
+	clearWatch: (watcherId: number) => void;
+
+	/**
+	 * Latest geolocation error.
+	 */
+	error: GeolocationPositionError | null;
+
+	/**
+	 * Requests the current position once.
+	 */
+	getCurrentPosition: (options?: PositionOptions) => void;
+
+	/**
 	 * Indicates whether the Geolocation API is supported.
 	 */
 	isSupported: boolean;
@@ -23,24 +38,9 @@ export interface UseGeolocationResult {
 	position: GeolocationPosition | null;
 
 	/**
-	 * Latest geolocation error.
-	 */
-	error: GeolocationPositionError | null;
-
-	/**
-	 * Requests the current position once.
-	 */
-	getCurrentPosition: (options?: PositionOptions) => void;
-
-	/**
 	 * Starts watching position changes.
 	 */
 	watchPosition: (options?: PositionOptions) => number | null;
-
-	/**
-	 * Clears a watcher.
-	 */
-	clearWatch: (watcherId: number) => void;
 }
 
 /**
@@ -143,12 +143,12 @@ export function useGeolocation(): UseGeolocationResult {
 	);
 
 	return {
+		clearWatch,
+		error,
+		getCurrentPosition,
 		isSupported,
 		permissionState,
 		position,
-		error,
-		getCurrentPosition,
 		watchPosition,
-		clearWatch,
 	};
 }

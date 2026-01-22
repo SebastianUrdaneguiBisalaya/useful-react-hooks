@@ -14,18 +14,18 @@ export interface UseHoverIntentOptions {
 
 export interface UseHoverIntentResult {
 	/**
-	 * Whether the hover is considered intentional.
-	 */
-	isIntent: boolean;
-
-	/**
 	 * Event handlers to spread on the target element.
 	 */
 	handlers: {
 		onMouseEnter?: React.MouseEventHandler;
-		onMouseMove?: React.MouseEventHandler;
 		onMouseLeave?: React.MouseEventHandler;
+		onMouseMove?: React.MouseEventHandler;
 	};
+
+	/**
+	 * Whether the hover is considered intentional.
+	 */
+	isIntent: boolean;
 }
 
 /**
@@ -114,11 +114,11 @@ export function useHoverIntent(
 	}, [clear]);
 
 	return {
-		isIntent,
 		handlers: {
 			onMouseEnter,
-			onMouseMove,
 			onMouseLeave,
+			onMouseMove,
 		},
+		isIntent,
 	};
 }

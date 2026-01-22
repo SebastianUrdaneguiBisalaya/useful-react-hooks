@@ -9,11 +9,6 @@ export interface UseDebouncedStateOptions {
 
 export interface UseDebouncedStateReturn<T> {
 	/**
-	 * The inmediate (non-debounced) value.
-	 */
-	value: T;
-
-	/**
 	 * The debounced value, updated after the specified delay.
 	 */
 	debouncedValue: T;
@@ -22,6 +17,11 @@ export interface UseDebouncedStateReturn<T> {
 	 * State setter for the inmediate value.
 	 */
 	setValue: React.Dispatch<React.SetStateAction<T>>;
+
+	/**
+	 * The inmediate (non-debounced) value.
+	 */
+	value: T;
 }
 
 /**
@@ -81,8 +81,8 @@ export function useDebouncedState<T>(
 	}, [value, delay]);
 
 	return {
-		value,
 		debouncedValue,
 		setValue,
+		value,
 	};
 }

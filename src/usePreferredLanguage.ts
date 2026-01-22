@@ -35,9 +35,9 @@ function createSystemLanguageStore() {
 	}
 
 	return {
-		subscribe,
-		getSnapshot,
 		getServerSnapshot,
+		getSnapshot,
+		subscribe,
 	} as const;
 }
 
@@ -87,10 +87,10 @@ function createUserLanguageStore() {
 	}
 
 	return {
-		subscribe,
-		getSnapshot,
 		getServerSnapshot,
+		getSnapshot,
 		setLanguage,
+		subscribe,
 	} as const;
 }
 
@@ -103,9 +103,9 @@ export interface PreferredLanguageReturn {
 	language: string;
 
 	/**
-	 * User-selected language, if any.
+	 * Updates the user-selected language.
 	 */
-	userLanguage: string | null;
+	setUserLanguage: (lang: string) => void;
 
 	/**
 	 * System / browser language.
@@ -113,9 +113,9 @@ export interface PreferredLanguageReturn {
 	systemLanguage: string;
 
 	/**
-	 * Updates the user-selected language.
+	 * User-selected language, if any.
 	 */
-	setUserLanguage: (lang: string) => void;
+	userLanguage: string | null;
 }
 
 /**
@@ -181,8 +181,8 @@ export function usePreferredLanguage(): PreferredLanguageReturn {
 
 	return {
 		language: resolved,
-		userLanguage: userLanguage ?? null,
-		systemLanguage,
 		setUserLanguage: userLanguageStore.setLanguage,
+		systemLanguage,
+		userLanguage: userLanguage ?? null,
 	};
 }

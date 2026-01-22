@@ -1,36 +1,36 @@
 import * as React from 'react';
 
 export interface UseShoppingCartOptions<T extends Record<string, unknown>> {
+	getItemDiscount?: (item: T) => number;
 	getItemKey: (item: T) => string | number;
 	getItemPrice: (item: T) => number;
 	getItemQuantity: (item: T) => number;
 	getItemTax?: (item: T) => number;
-	getItemDiscount?: (item: T) => number;
 }
 
 export interface ShoppingCartItemDetail {
+	discount: number;
 	key: string | number;
 	quantity: number;
-	unitPrice: number;
 	subtotal: number;
 	tax: number;
-	discount: number;
 	total: number;
+	unitPrice: number;
 }
 
 export interface UseShoppingCartReturn<T extends Record<string, unknown>> {
-	items: T[];
 	addItem: (item: T) => void;
+	clear: () => void;
+	getDetails: () => ShoppingCartItemDetail[];
+	getItemCount: () => number;
+	getSubtotal: () => number;
+	getTotal: () => number;
+	getTotalDiscount: () => number;
+	getTotalQuantity: () => number;
+	getTotalTax: () => number;
+	items: T[];
 	removeItem: (id: number | string) => void;
 	updateItem: (id: number | string, patch: Partial<T>) => void;
-	clear: () => void;
-	getItemCount: () => number;
-	getTotalQuantity: () => number;
-	getSubtotal: () => number;
-	getTotalTax: () => number;
-	getTotalDiscount: () => number;
-	getTotal: () => number;
-	getDetails: () => ShoppingCartItemDetail[];
 }
 
 /**
@@ -67,11 +67,11 @@ export function useShoppingCart<T extends Record<string, unknown>>(
 	options: UseShoppingCartOptions<T>
 ): UseShoppingCartReturn<T> {
 	const {
+		getItemDiscount,
 		getItemKey,
 		getItemPrice,
 		getItemQuantity,
 		getItemTax,
-		getItemDiscount,
 	} = options;
 
 	const [items, setItems] = React.useState<T[]>([]);
@@ -162,13 +162,13 @@ export function useShoppingCart<T extends Record<string, unknown>>(
 				const discountTotal = discount * quantity;
 
 				map.set(key, {
+					discount: discountTotal,
 					key,
 					quantity,
-					unitPrice,
 					subtotal,
 					tax: taxTotal,
-					discount: discountTotal,
 					total: subtotal + taxTotal - discountTotal,
+					unitPrice,
 				});
 			} else {
 				existing.quantity += quantity;
@@ -193,17 +193,17 @@ export function useShoppingCart<T extends Record<string, unknown>>(
 	]);
 
 	return {
-		items,
 		addItem,
+		clear,
+		getDetails,
+		getItemCount,
+		getSubtotal,
+		getTotal,
+		getTotalDiscount,
+		getTotalQuantity,
+		getTotalTax,
+		items,
 		removeItem,
 		updateItem,
-		clear,
-		getItemCount,
-		getTotalQuantity,
-		getSubtotal,
-		getTotalTax,
-		getTotalDiscount,
-		getTotal,
-		getDetails,
 	};
 }

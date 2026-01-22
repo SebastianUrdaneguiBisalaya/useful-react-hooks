@@ -6,17 +6,17 @@ declare global {
 	}
 
 	interface DetectorBarcode {
-		rawValue: string;
-		format: string;
 		boundingBox?: DOMRectReadOnly;
+		format: string;
+		rawValue: string;
 	}
 
 	class BarcodeDetector {
 		constructor(options?: BarcodeDetectorOptions);
+		static getSupportedFormats(): string[];
 		detect(
 			image: HTMLVideoElement | HTMLImageElement | HTMLCanvasElement
 		): Promise<DetectorBarcode[]>;
-		static getSupportedFormats(): string[];
 	}
 }
 

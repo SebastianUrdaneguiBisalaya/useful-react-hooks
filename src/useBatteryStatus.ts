@@ -4,33 +4,28 @@ export interface BatteryStatus {
 	/** Indicates whether the device is currently charging. */
 	charging: boolean | null;
 
-	/** Battery level represented as a value between 0.0 and 1.0 */
-	level: number | null;
-
 	/** Time in seconds until the battery is fully charged. `Infinity` means the battery is already full or charging is not applicable. */
 	chargingTime: number | null;
 
 	/** Time in seconds until the battery is completely discharged. `Infinity` means the system cannot determine the remaining time. */
 	dischargingTime: number | null;
+
+	/** Battery level represented as a value between 0.0 and 1.0 */
+	level: number | null;
 }
 
 export interface UseBatteryStatusReturn {
-	/** Indicates whether the Battery Status API is supported in the current runtime environment. */
-	isSupported: boolean;
-
 	/** Raw battery information. Values are `null` until the Battery Manager is resolved. */
 	battery: BatteryStatus;
+
+	/** Indicates whether the Battery Status API is supported in the current runtime environment. */
+	isSupported: boolean;
 }
 
 export {};
 
 declare global {
 	interface BatteryManager extends EventTarget {
-		readonly charging: boolean;
-		readonly level: number;
-		readonly chargingTime: number;
-		readonly dischargingTime: number;
-
 		addEventListener(
 			type:
 				| 'chargingchange'
@@ -40,6 +35,11 @@ declare global {
 			listener: EventListenerOrEventListenerObject,
 			options?: boolean | AddEventListenerOptions
 		): void;
+		readonly charging: boolean;
+		readonly chargingTime: number;
+		readonly dischargingTime: number;
+
+		readonly level: number;
 
 		removeEventListener(
 			type:
@@ -93,9 +93,9 @@ export function useBatteryStatus(): UseBatteryStatusReturn {
 
 	const [battery, setBattery] = React.useState<BatteryStatus>({
 		charging: null,
-		level: null,
 		chargingTime: null,
 		dischargingTime: null,
+		level: null,
 	});
 
 	React.useEffect(() => {
@@ -108,9 +108,9 @@ export function useBatteryStatus(): UseBatteryStatusReturn {
 
 			setBattery({
 				charging: batteryManager.charging,
-				level: batteryManager.level,
 				chargingTime: batteryManager.chargingTime,
 				dischargingTime: batteryManager.dischargingTime,
+				level: batteryManager.level,
 			});
 		};
 
@@ -139,7 +139,7 @@ export function useBatteryStatus(): UseBatteryStatusReturn {
 	}, [isSupported]);
 
 	return {
-		isSupported,
 		battery,
+		isSupported,
 	};
 }

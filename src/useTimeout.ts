@@ -15,21 +15,21 @@ export interface UseTimeoutOptions {
 
 export interface UseTimeoutReturn {
 	/**
-	 * Start or restart the timeout.
-	 */
-	start: () => void;
-	/**
 	 * Cancel the pending timeout.
 	 */
 	cancel: () => void;
+	/**
+	 * Whether the timeout is currently active.
+	 */
+	isActive: boolean;
 	/**
 	 * Reset the timeout (cancel and start again).
 	 */
 	reset: () => void;
 	/**
-	 * Whether the timeout is currently active.
+	 * Start or restart the timeout.
 	 */
-	isActive: boolean;
+	start: () => void;
 }
 
 /**
@@ -111,9 +111,9 @@ export function useTimeout(
 	}, [startOnMount, start, cancel]);
 
 	return {
-		start,
 		cancel,
-		reset,
 		isActive,
+		reset,
+		start,
 	};
 }

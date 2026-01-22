@@ -1,9 +1,9 @@
 import * as React from 'react';
 
 export interface UseAutoScrollOptions {
-	threshold?: number;
 	behavior?: 'auto' | 'smooth';
 	enabled?: boolean;
+	threshold?: number;
 }
 
 /**
@@ -78,9 +78,9 @@ export interface UseAutoScrollOptions {
  */
 export function useAutoScroll(options?: UseAutoScrollOptions) {
 	const {
-		threshold = 100,
 		behavior = 'auto',
 		enabled: initialEnabled = true,
+		threshold = 100,
 	} = options || {};
 
 	const containerRef = React.useRef<HTMLDivElement>(null);
@@ -92,7 +92,7 @@ export function useAutoScroll(options?: UseAutoScrollOptions) {
 	const checkIfABottom = React.useCallback(() => {
 		const container = containerRef.current;
 		if (!container) return false;
-		const { scrollTop, scrollHeight, clientHeight } = container;
+		const { clientHeight, scrollHeight, scrollTop } = container;
 		const distanceFromBottom = scrollHeight - scrollTop - clientHeight;
 		return distanceFromBottom <= threshold;
 	}, [threshold]);
@@ -103,13 +103,13 @@ export function useAutoScroll(options?: UseAutoScrollOptions) {
 			if (!container) return;
 			isScrollingProgrammatically.current = true;
 			container.scrollTo({
-				top: container.scrollHeight,
 				behavior:
 					forceSmooth !== undefined
 						? forceSmooth
 							? 'smooth'
 							: 'auto'
 						: behavior,
+				top: container.scrollHeight,
 			});
 			setTimeout(() => {
 				isScrollingProgrammatically.current = false;
@@ -148,9 +148,9 @@ export function useAutoScroll(options?: UseAutoScrollOptions) {
 			}
 		});
 		observer.observe(container, {
+			characterData: true,
 			childList: true,
 			subtree: true,
-			characterData: true,
 		});
 		return () => observer.disconnect();
 	}, [autoScrollEnabled, isAtBottom, scrollToBottom]);
@@ -186,11 +186,11 @@ export function useAutoScroll(options?: UseAutoScrollOptions) {
 	}, [checkIfABottom]);
 
 	return {
-		ref: containerRef,
-		isAtBottom,
-		scrollToBottom,
-		enableAutoScroll,
-		disableAutoScroll,
 		autoScrollEnabled,
+		disableAutoScroll,
+		enableAutoScroll,
+		isAtBottom,
+		ref: containerRef,
+		scrollToBottom,
 	};
 }

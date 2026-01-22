@@ -9,14 +9,14 @@ export interface ToggleOptions {
 
 export interface ToggleReturn {
 	/**
-	 * Current status of the toggle.
-	 */
-	status: boolean;
-
-	/**
 	 * Handles the toggle.
 	 */
 	handleToggle: () => void;
+
+	/**
+	 * Current status of the toggle.
+	 */
+	status: boolean;
 }
 
 /**
@@ -47,7 +47,7 @@ export function useToggle({
 	}, []);
 
 	return {
-		status,
 		handleToggle,
+		status,
 	};
 }

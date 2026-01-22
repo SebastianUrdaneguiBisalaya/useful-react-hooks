@@ -1,8 +1,8 @@
 import * as React from 'react';
 
 export interface CopyToClipboardReturn {
-	textCopied: string | null;
 	copyToClipboard: (text: string) => Promise<void>;
+	textCopied: string | null;
 }
 
 /**
@@ -38,7 +38,7 @@ export function useCopyToClipboard(): CopyToClipboardReturn {
 	}, []);
 
 	return {
-		textCopied,
 		copyToClipboard,
+		textCopied,
 	};
 }

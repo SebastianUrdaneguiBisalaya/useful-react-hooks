@@ -7,8 +7,8 @@ export interface Task<T = unknown> {
 
 export interface UseTaskQueueResult<T = unknown> {
 	enqueue: (task: Task<T>) => void;
-	running: boolean;
 	queue: Task<T>[];
+	running: boolean;
 }
 
 /**
@@ -64,7 +64,7 @@ export function useTaskQueue<T = unknown>(): UseTaskQueueResult<T> {
 
 	return {
 		enqueue,
-		running,
 		queue,
+		running,
 	};
 }

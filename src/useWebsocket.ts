@@ -2,14 +2,14 @@ import * as React from 'react';
 
 export interface UseWebsocketOptions<TMessage = unknown> {
 	/**
-	 * Websocket url
+	 * Should the socket auto-connect inmediately (default: true)
 	 */
-	url: string;
+	autoConnect?: boolean;
 
 	/**
-	 * Called when a message is received
+	 * Max number of reconnection attempts (default: Infinity)
 	 */
-	onMessage?: (message: TMessage) => void;
+	maxRetries?: number;
 
 	/**
 	 * Called when the socket closes unexpectedly
@@ -22,26 +22,36 @@ export interface UseWebsocketOptions<TMessage = unknown> {
 	onError?: (event: Event) => void;
 
 	/**
+	 * Called when a message is received
+	 */
+	onMessage?: (message: TMessage) => void;
+
+	/**
 	 * Reconnection interval in milliseconds (default: 3000)
 	 */
 	reconnectionInterval?: number;
 
 	/**
-	 * Max number of reconnection attempts (default: Infinity)
+	 * Websocket url
 	 */
-	maxRetries?: number;
-
-	/**
-	 * Should the socket auto-connect inmediately (default: true)
-	 */
-	autoConnect?: boolean;
+	url: string;
 }
 
 export interface UseWebsocketReturn<TMessage = unknown> {
 	/**
-	 * Current Websocket instance, or null if not connected
+	 * Manually disconnect the Websocket
 	 */
-	socket: WebSocket | null;
+	disconnect: () => void;
+
+	/**
+	 * Show any errors
+	 */
+	error: string;
+
+	/**
+	 * Connection status
+	 */
+	isConnected: boolean;
 
 	/**
 	 * Latest received message
@@ -54,9 +64,9 @@ export interface UseWebsocketReturn<TMessage = unknown> {
 	messages: TMessage[];
 
 	/**
-	 * Connection status
+	 * Manually reconnect the Websocket
 	 */
-	isConnected: boolean;
+	reconnect: () => void;
 
 	/**
 	 * Send a message via Websocket
@@ -64,19 +74,9 @@ export interface UseWebsocketReturn<TMessage = unknown> {
 	send: (data: string | ArrayBuffer | Blob | ArrayBufferView) => void;
 
 	/**
-	 * Manually disconnect the Websocket
+	 * Current Websocket instance, or null if not connected
 	 */
-	disconnect: () => void;
-
-	/**
-	 * Manually reconnect the Websocket
-	 */
-	reconnect: () => void;
-
-	/**
-	 * Show any errors
-	 */
-	error: string;
+	socket: WebSocket | null;
 }
 
 /**
@@ -110,13 +110,13 @@ export function useWebsocket<TMessage = unknown>(
 	options: UseWebsocketOptions<TMessage>
 ): UseWebsocketReturn<TMessage> {
 	const {
-		url,
-		onMessage,
+		autoConnect = true,
+		maxRetries = Infinity,
 		onClose,
 		onError,
+		onMessage,
 		reconnectionInterval = 3000,
-		maxRetries = Infinity,
-		autoConnect = true,
+		url,
 	} = options;
 
 	const [socket, setSocket] = React.useState<WebSocket | null>(null);
@@ -202,13 +202,13 @@ export function useWebsocket<TMessage = unknown>(
 	);
 
 	return {
-		socket,
+		disconnect,
+		error,
+		isConnected,
 		message,
 		messages,
-		isConnected,
-		send,
-		disconnect,
 		reconnect,
-		error,
+		send,
+		socket,
 	};
 }

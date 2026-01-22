@@ -2,6 +2,16 @@ import * as React from 'react';
 
 export interface UsePopoverResult {
 	/**
+	 * Ref for the anchor (trigger) element.
+	 */
+	anchorRef: React.RefObject<HTMLElement | null>;
+
+	/**
+	 * Closes the popover.
+	 */
+	close: () => void;
+
+	/**
 	 * Whether the popover is open.
 	 */
 	isOpen: boolean;
@@ -12,24 +22,14 @@ export interface UsePopoverResult {
 	open: () => void;
 
 	/**
-	 * Closes the popover.
+	 * Ref for the popover element.
 	 */
-	close: () => void;
+	popoverRef: React.RefObject<HTMLElement | null>;
 
 	/**
 	 * Toggles the popover.
 	 */
 	toggle: () => void;
-
-	/**
-	 * Ref for the anchor (trigger) element.
-	 */
-	anchorRef: React.RefObject<HTMLElement | null>;
-
-	/**
-	 * Ref for the popover element.
-	 */
-	popoverRef: React.RefObject<HTMLElement | null>;
 }
 
 /**
@@ -106,11 +106,11 @@ export function usePopover(): UsePopoverResult {
 	}, [isOpen, close]);
 
 	return {
+		anchorRef,
+		close,
 		isOpen,
 		open,
-		close,
-		toggle,
-		anchorRef,
 		popoverRef,
+		toggle,
 	};
 }

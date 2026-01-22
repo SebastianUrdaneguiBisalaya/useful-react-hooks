@@ -4,16 +4,9 @@ import { useIntersectionObserver } from './useIntersectionObserver';
 
 export interface SmartVideoOptions {
 	/**
-	 * Percentage of visibility required to start playing.
-	 * (0.0 - 1.0)
-	 * Default: 0.5
+	 * Auto-play when video becomes visible.
 	 */
-	threshold?: number;
-
-	/**
-	 * Reset video to time 0 when it leaves the viewport.
-	 */
-	resetOnExit?: boolean;
+	autoPlay?: boolean;
 
 	/**
 	 * Pause video when it leaves the viewport.
@@ -21,25 +14,32 @@ export interface SmartVideoOptions {
 	pauseOnExit?: boolean;
 
 	/**
-	 * Auto-play when video becomes visible.
+	 * Reset video to time 0 when it leaves the viewport.
 	 */
-	autoPlay?: boolean;
+	resetOnExit?: boolean;
+
+	/**
+	 * Percentage of visibility required to start playing.
+	 * (0.0 - 1.0)
+	 * Default: 0.5
+	 */
+	threshold?: number;
 }
 
 export interface SmartVideoReturn {
-	videoRef: React.RefObject<HTMLVideoElement | null>;
 	isPlaying: boolean;
 	isVisible: boolean;
-	play: () => Promise<void>;
 	pause: () => void;
-	stop: () => void;
+	play: () => Promise<void>;
 	reset: () => void;
+	stop: () => void;
+	videoRef: React.RefObject<HTMLVideoElement | null>;
 }
 
 export function useSmartVideo(
 	options: SmartVideoOptions = {}
 ): SmartVideoReturn {
-	const { threshold, resetOnExit, pauseOnExit, autoPlay } = options;
+	const { autoPlay, pauseOnExit, resetOnExit, threshold } = options;
 
 	const videoRef = React.useRef<HTMLVideoElement | null>(null);
 
@@ -112,13 +112,13 @@ export function useSmartVideo(
 	}, []);
 
 	return {
-		videoRef,
 		isPlaying,
 		isVisible,
-		play,
 		pause,
-		stop,
+		play,
 		reset,
+		stop,
+		videoRef,
 	};
 }
 

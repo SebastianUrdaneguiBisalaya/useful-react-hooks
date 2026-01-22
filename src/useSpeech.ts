@@ -1,23 +1,21 @@
 import * as React from 'react';
 
-/* eslint-disable @typescript-eslint/no-empty-interface */
-
 interface SpeechRecognition extends EventTarget {
-	lang: string;
+	abort(): void;
 	continuous: boolean;
 	interimResults: boolean;
 
-	start(): void;
-	stop(): void;
-	abort(): void;
+	lang: string;
+	onend: ((this: SpeechRecognition, ev: Event) => unknown) | null;
+	onerror:
+		| ((this: SpeechRecognition, ev: SpeechRecognitionErrorEvent) => unknown)
+		| null;
 
 	onresult:
 		| ((this: SpeechRecognition, ev: SpeechRecognitionEvent) => unknown)
 		| null;
-	onerror:
-		| ((this: SpeechRecognition, ev: SpeechRecognitionErrorEvent) => unknown)
-		| null;
-	onend: ((this: SpeechRecognition, ev: Event) => unknown) | null;
+	start(): void;
+	stop(): void;
 }
 
 interface SpeechRecognitionEvent extends Event {
@@ -25,20 +23,20 @@ interface SpeechRecognitionEvent extends Event {
 }
 
 interface SpeechRecognitionResultList {
-	readonly length: number;
-	item(index: number): SpeechRecognitionResult;
 	[index: number]: SpeechRecognitionResult;
+	item(index: number): SpeechRecognitionResult;
+	readonly length: number;
 }
 
 interface SpeechRecognitionResult {
-	readonly length: number;
-	item(index: number): SpeechRecognitionAlternative;
 	[index: number]: SpeechRecognitionAlternative;
+	item(index: number): SpeechRecognitionAlternative;
+	readonly length: number;
 }
 
 interface SpeechRecognitionAlternative {
-	readonly transcript: string;
 	readonly confidence: number;
+	readonly transcript: string;
 }
 
 interface SpeechRecognitionErrorEvent extends Event {
@@ -60,17 +58,17 @@ declare global {
 type SpeechStatus = 'idle' | 'listening' | 'stopped' | 'unsupported' | 'error';
 
 export interface UseSpeechOptions {
-	lang?: string;
-	interimResults?: boolean;
 	continuous?: boolean;
+	interimResults?: boolean;
+	lang?: string;
 }
 
 export interface UseSpeechResult {
-	status: SpeechStatus;
 	error: Error | null;
-	transcript: string;
 	start: () => void;
+	status: SpeechStatus;
 	stop: () => void;
+	transcript: string;
 }
 
 /**
@@ -153,10 +151,10 @@ export function useSpeech(options: UseSpeechOptions): UseSpeechResult {
 	}, []);
 
 	return {
-		status,
 		error,
-		transcript: transcriptRef.current,
 		start,
+		status,
 		stop,
+		transcript: transcriptRef.current,
 	};
 }

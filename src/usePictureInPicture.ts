@@ -2,16 +2,6 @@ import * as React from 'react';
 
 export interface UsePictureInPictureResult {
 	/**
-	 * Whether Picture-in-Picture is supported by the browser.
-	 */
-	isSupported: boolean;
-
-	/**
-	 * Whether the video is currently in Picture-in-Picture mode.
-	 */
-	isActive: boolean;
-
-	/**
 	 * Requests Picture-in-Picture for the attached video element.
 	 */
 	enter: () => Promise<void>;
@@ -20,6 +10,16 @@ export interface UsePictureInPictureResult {
 	 * Exits Picture-in-Picture mode if active.
 	 */
 	exit: () => Promise<void>;
+
+	/**
+	 * Whether the video is currently in Picture-in-Picture mode.
+	 */
+	isActive: boolean;
+
+	/**
+	 * Whether Picture-in-Picture is supported by the browser.
+	 */
+	isSupported: boolean;
 
 	/**
 	 * Ref to the HTMLVideoElement.
@@ -90,10 +90,10 @@ export function usePictureInPicture(): UsePictureInPictureResult {
 	}, [isSupported]);
 
 	return {
-		isSupported,
-		isActive,
 		enter,
 		exit,
+		isActive,
+		isSupported,
 		videoRef,
 	};
 }

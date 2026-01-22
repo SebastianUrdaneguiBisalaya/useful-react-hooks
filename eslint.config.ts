@@ -1,21 +1,29 @@
 import js from '@eslint/js';
-import globals from 'globals';
-import tseslint from 'typescript-eslint';
-import pluginReact from 'eslint-plugin-react';
-import { defineConfig } from 'eslint/config';
 import perfectionist from 'eslint-plugin-perfectionist';
+import react from 'eslint-plugin-react';
+import { defineConfig, globalIgnores } from 'eslint/config';
+import tseslint from 'typescript-eslint';
 
 export default defineConfig([
+	js.configs.recommended,
+	...tseslint.configs.recommended,
+	react.configs.flat.recommended,
+	globalIgnores([
+		'node_modules',
+		'dist',
+		'website',
+		'public',
+		'pnpm-lock.yaml',
+	]),
 	{
 		files: ['**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
-		plugins: { js, perfectionist },
+		plugins: {
+			perfectionist,
+		},
 		rules: {
 			'perfectionist/sort-classes': [
 				'error',
-				{
-					order: 'asc',
-					type: 'natural',
-				},
+				{ order: 'asc', type: 'natural' },
 			],
 			'perfectionist/sort-imports': [
 				'error',
@@ -28,38 +36,31 @@ export default defineConfig([
 					type: 'natural',
 				},
 			],
+			'perfectionist/sort-interfaces': [
+				'error',
+				{ order: 'asc', type: 'natural' },
+			],
 			'perfectionist/sort-jsx-props': [
 				'error',
-				{
-					order: 'asc',
-					type: 'natural',
-				},
+				{ order: 'asc', type: 'natural' },
 			],
 			'perfectionist/sort-object-types': [
 				'error',
-				{
-					order: 'asc',
-					type: 'natural',
-				},
+				{ order: 'asc', type: 'natural' },
 			],
 			'perfectionist/sort-objects': [
 				'error',
-				{
-					order: 'asc',
-					type: 'natural',
-				},
+				{ order: 'asc', type: 'natural' },
 			],
 			'perfectionist/sort-variable-declarations': [
 				'error',
-				{
-					order: 'asc',
-					type: 'natural',
-				},
+				{ order: 'asc', type: 'natural' },
 			],
 		},
-		extends: ['js/recommended'],
-		languageOptions: { globals: globals.browser },
+		settings: {
+			react: {
+				version: '^19.2.0',
+			},
+		},
 	},
-	tseslint.configs.recommended,
-	pluginReact.configs.flat.recommended,
 ]);

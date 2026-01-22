@@ -34,7 +34,7 @@ export type PermissionsSnapshot = Partial<
  */
 export function usePermissions<T extends readonly PermissionName[]>(
 	permissionNames: T
-): { permissions: PermissionsSnapshot; isSupported: boolean } {
+): { isSupported: boolean; permissions: PermissionsSnapshot } {
 	const isBrowser =
 		typeof window !== 'undefined' && typeof navigator !== 'undefined';
 	const isSupported = isBrowser && 'permissions' in navigator;
@@ -89,7 +89,7 @@ export function usePermissions<T extends readonly PermissionName[]>(
 	}, [isSupported, permissionNames]);
 
 	return {
-		permissions,
 		isSupported,
+		permissions,
 	};
 }

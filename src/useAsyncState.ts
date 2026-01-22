@@ -3,25 +3,25 @@ import * as React from 'react';
 type AsyncState<T> = {
 	data: T | null;
 	error: Error | null;
-	isLoading: boolean;
-	isSuccess: boolean;
 	isError: boolean;
 	isIdle: boolean;
+	isLoading: boolean;
+	isSuccess: boolean;
 };
 
 type FetchConfig = RequestInit & {
+	onError?: (error: Error) => void;
+	onSuccess?: (data: any) => void;
 	params?: Record<string, string | number | boolean>;
-	timeout?: number;
 	retries?: number;
 	retryDelay?: number;
-	onSuccess?: (data: any) => void;
-	onError?: (error: Error) => void;
+	timeout?: number;
 };
 
 type UseAsyncStateReturn<T> = AsyncState<T> & {
 	execute: (url: string, config?: FetchConfig) => Promise<T | null>;
-	reset: () => void;
 	mutate: (data: T) => void;
+	reset: () => void;
 	retry: () => Promise<T | null>;
 };
 
@@ -39,8 +39,8 @@ class FetchError extends Error {
 
 export interface UseAsyncStateOptions<T> {
 	initialData?: T | null;
-	onSuccess?: (data: T) => void;
 	onError?: (error: Error) => void;
+	onSuccess?: (data: T) => void;
 }
 
 /**
@@ -262,20 +262,20 @@ export interface UseAsyncStateOptions<T> {
 export function useAsyncState<T>(
 	options?: UseAsyncStateOptions<T>
 ): UseAsyncStateReturn<T> {
-	const { initialData = null, onSuccess, onError } = options || {};
+	const { initialData = null, onError, onSuccess } = options || {};
 
 	const [state, setState] = React.useState<AsyncState<T>>({
 		data: initialData,
 		error: null,
-		isLoading: false,
-		isSuccess: false,
 		isError: false,
 		isIdle: true,
+		isLoading: false,
+		isSuccess: false,
 	});
 
 	const lastRequestRef = React.useRef<{
-		url: string;
 		config: FetchConfig | undefined;
+		url: string;
 	} | null>(null);
 	const abortControllerRef = React.useRef<AbortController | null>(null);
 
@@ -299,12 +299,12 @@ export function useAsyncState<T>(
 			attemptNumber: number = 1
 		): Promise<T> => {
 			const {
+				onError: configOnError,
+				onSuccess: configOnSuccess,
 				params,
-				timeout = 30000,
 				retries = 0,
 				retryDelay = 1000,
-				onSuccess: configOnSuccess,
-				onError: configOnError,
+				timeout = 30000,
 				...fetchConfig
 			} = config || {};
 
@@ -369,15 +369,15 @@ export function useAsyncState<T>(
 	const execute = React.useCallback(
 		async (url: string, config?: FetchConfig): Promise<T | null> => {
 			abortControllerRef.current?.abort();
-			lastRequestRef.current = { url, config };
+			lastRequestRef.current = { config, url };
 
 			setState(prev => ({
 				...prev,
-				isLoading: true,
-				isSuccess: false,
+				error: null,
 				isError: false,
 				isIdle: false,
-				error: null,
+				isLoading: true,
+				isSuccess: false,
 			}));
 
 			try {
@@ -385,10 +385,10 @@ export function useAsyncState<T>(
 				setState({
 					data,
 					error: null,
-					isLoading: false,
-					isSuccess: true,
 					isError: false,
 					isIdle: false,
+					isLoading: false,
+					isSuccess: true,
 				});
 				return data;
 			} catch (err: unknown) {
@@ -399,9 +399,9 @@ export function useAsyncState<T>(
 				setState(prev => ({
 					...prev,
 					error,
+					isError: true,
 					isLoading: false,
 					isSuccess: false,
-					isError: true,
 				}));
 				return null;
 			}
@@ -416,10 +416,10 @@ export function useAsyncState<T>(
 		setState({
 			data: initialData,
 			error: null,
-			isLoading: false,
-			isSuccess: false,
 			isError: false,
 			isIdle: true,
+			isLoading: false,
+			isSuccess: false,
 		});
 	}, [initialData]);
 
@@ -435,7 +435,7 @@ export function useAsyncState<T>(
 			console.warn('No previous request to retry.');
 			return null;
 		}
-		const { url, config } = lastRequestRef.current;
+		const { config, url } = lastRequestRef.current;
 		return execute(url, config);
 	}, [execute]);
 
@@ -448,8 +448,8 @@ export function useAsyncState<T>(
 	return {
 		...state,
 		execute,
-		reset,
 		mutate,
+		reset,
 		retry,
 	};
 }

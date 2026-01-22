@@ -7,11 +7,6 @@ export interface UseIntervalOptions {
 	 */
 	delay: number | null;
 	/**
-	 * Whether the interval should start immediately on mount.
-	 * @default true
-	 */
-	startOnMount?: boolean;
-	/**
 	 * Whether to execute the callback immediately before starting the interval.
 	 * @default false
 	 */
@@ -21,29 +16,34 @@ export interface UseIntervalOptions {
 	 * If undefined, runs indefinitely until cancelled.
 	 */
 	maxExecutions?: number;
+	/**
+	 * Whether the interval should start immediately on mount.
+	 * @default true
+	 */
+	startOnMount?: boolean;
 }
 
 export interface UseIntervalReturn {
-	/**
-	 * Start or restart the interval.
-	 */
-	start: () => void;
 	/**
 	 * Cancel the running interval.
 	 */
 	cancel: () => void;
 	/**
-	 * Reset the interval (cancel and start again, resetting execution count).
+	 * Number of times the callback has been executed.
 	 */
-	reset: () => void;
+	executionCount: number;
 	/**
 	 * Whether the interval is currently active.
 	 */
 	isActive: boolean;
 	/**
-	 * Number of times the callback has been executed.
+	 * Reset the interval (cancel and start again, resetting execution count).
 	 */
-	executionCount: number;
+	reset: () => void;
+	/**
+	 * Start or restart the interval.
+	 */
+	start: () => void;
 }
 
 /**
@@ -89,9 +89,9 @@ export function useIntervalSafe(
 	callback: () => void,
 	{
 		delay,
-		startOnMount = true,
 		executeImmediately = false,
 		maxExecutions,
+		startOnMount = true,
 	}: UseIntervalOptions
 ): UseIntervalReturn {
 	const intervalRef = React.useRef<ReturnType<typeof setInterval> | null>(null);
@@ -149,10 +149,10 @@ export function useIntervalSafe(
 	}, [startOnMount, start, cancel]);
 
 	return {
-		start,
 		cancel,
-		reset,
-		isActive,
 		executionCount: executions,
+		isActive,
+		reset,
+		start,
 	};
 }

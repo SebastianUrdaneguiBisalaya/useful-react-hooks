@@ -5,18 +5,18 @@ export interface ObjectList<T extends Record<string, unknown>> {
 }
 
 export interface ObjectListReturn<T extends Record<string, unknown>> {
-	items: T[];
-	insert: (idx: number, item: T) => void;
-	push: (item: T) => void;
-	remove: (idx: number) => void;
-	update: (idx: number, item: T) => void;
-	updatePartial: (idx: number, partial: Partial<T>) => void;
+	every: (predicate: (item: T, idx: number) => boolean) => boolean;
+	filter: (predicate: (item: T, idx: number) => boolean) => T[];
 	find: (predicate: (item: T, idx: number) => boolean) => T | undefined;
 	findIndex: (predicate: (item: T, idx: number) => boolean) => number;
-	filter: (predicate: (item: T, idx: number) => boolean) => T[];
-	some: (predicate: (item: T, idx: number) => boolean) => boolean;
-	every: (predicate: (item: T, idx: number) => boolean) => boolean;
+	insert: (idx: number, item: T) => void;
+	items: T[];
 	map: <U>(mapper: (item: T, idx: number) => U) => U[];
+	push: (item: T) => void;
+	remove: (idx: number) => void;
+	some: (predicate: (item: T, idx: number) => boolean) => boolean;
+	update: (idx: number, item: T) => void;
+	updatePartial: (idx: number, partial: Partial<T>) => void;
 }
 
 /**
@@ -141,17 +141,17 @@ export function useObjectList<T extends Record<string, unknown>>({
 	};
 
 	return {
-		items,
-		insert,
-		push,
-		remove,
-		update,
-		updatePartial,
+		every,
+		filter,
 		find,
 		findIndex,
-		filter,
-		some,
-		every,
+		insert,
+		items,
 		map,
+		push,
+		remove,
+		some,
+		update,
+		updatePartial,
 	};
 }

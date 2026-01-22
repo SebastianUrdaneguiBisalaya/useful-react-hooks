@@ -8,6 +8,12 @@ export type VibrationPattern = number | number[];
 
 export interface UseVibrationResult {
 	/**
+	 * Cancels any ongoing vibration.
+	 * During SSR or when unsupported, does nothing.
+	 */
+	cancel: () => void;
+
+	/**
 	 * Indicates whether the Vibration API is supported in the current execution environment.
 	 */
 	isSupported: boolean;
@@ -18,12 +24,6 @@ export interface UseVibrationResult {
 	 * Durring SSR or when unsupported, returns `false`.
 	 */
 	vibrate: (pattern: VibrationPattern) => boolean;
-
-	/**
-	 * Cancels any ongoing vibration.
-	 * During SSR or when unsupported, does nothing.
-	 */
-	cancel: () => void;
 }
 
 /**
@@ -82,8 +82,8 @@ export function useVibration(): UseVibrationResult {
 	}, [isSupported]);
 
 	return {
+		cancel,
 		isSupported,
 		vibrate,
-		cancel,
 	};
 }

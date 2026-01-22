@@ -8,14 +8,9 @@ export interface UseServerSentEventOptions {
 	enabled?: boolean;
 
 	/**
-	 * Whether credentials (cookies) should be sent.
+	 * Called when an error occurs.
 	 */
-	withCredentials?: boolean;
-
-	/**
-	 * Called then the connection is opened.
-	 */
-	onOpen?: (event: Event) => void;
+	onError?: (event: Event) => void;
 
 	/**
 	 * Called on every incoming message event.
@@ -23,21 +18,26 @@ export interface UseServerSentEventOptions {
 	onMessage?: (event: MessageEvent<string>) => void;
 
 	/**
-	 * Called when an error occurs.
+	 * Called then the connection is opened.
 	 */
-	onError?: (event: Event) => void;
+	onOpen?: (event: Event) => void;
+
+	/**
+	 * Whether credentials (cookies) should be sent.
+	 */
+	withCredentials?: boolean;
 }
 
 export interface UseServerSentEventResult {
 	/**
-	 * Current connection state.
-	 */
-	readyState: number | null;
-
-	/**
 	 * Manually closes the connection.
 	 */
 	close: () => void;
+
+	/**
+	 * Current connection state.
+	 */
+	readyState: number | null;
 }
 
 /**
@@ -71,10 +71,10 @@ export function useServerSentEvent(
 ): UseServerSentEventResult {
 	const {
 		enabled = true,
-		withCredentials = false,
-		onOpen,
-		onMessage,
 		onError,
+		onMessage,
+		onOpen,
+		withCredentials = false,
 	} = options;
 
 	const sourceRef = React.useRef<EventSource | null>(null);
@@ -116,7 +116,7 @@ export function useServerSentEvent(
 	}, [url, enabled, withCredentials, onOpen, onMessage, onError, isSupported]);
 
 	return {
-		readyState,
 		close,
+		readyState,
 	};
 }
