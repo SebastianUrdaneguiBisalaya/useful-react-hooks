@@ -1,14 +1,14 @@
 import * as React from 'react';
 
 export interface UseLocalNotificationResult {
-  isSupported: boolean;
-  permission: NotificationPermission;
-  requestPermission: () => Promise<NotificationPermission>;
-  notify: (options: UseNotificationOptions) => void;
+	isSupported: boolean;
+	permission: NotificationPermission;
+	requestPermission: () => Promise<NotificationPermission>;
+	notify: (options: UseNotificationOptions) => void;
 }
 
 export interface UseNotificationOptions extends NotificationOptions {
-  title: string;
+	title: string;
 }
 
 /**
@@ -34,53 +34,58 @@ export interface UseNotificationOptions extends NotificationOptions {
  *
  */
 export function useLocalNotifications(): UseLocalNotificationResult {
-  const [permission, setPermission] = React.useState<NotificationPermission>(typeof window !== 'undefined' && 'Notification' in window ? Notification.permission : 'default');
-  const isSupported = typeof window !== 'undefined' && 'Notification' in window;
+	const [permission, setPermission] = React.useState<NotificationPermission>(
+		typeof window !== 'undefined' && 'Notification' in window
+			? Notification.permission
+			: 'default'
+	);
+	const isSupported = typeof window !== 'undefined' && 'Notification' in window;
 
-  const requestPermission = React.useCallback(async () => {
-    if (!isSupported) return 'denied';
-    const result = await Notification.requestPermission();
-    setPermission(result);
-    return result;
-  }, [isSupported]);
+	const requestPermission = React.useCallback(async () => {
+		if (!isSupported) return 'denied';
+		const result = await Notification.requestPermission();
+		setPermission(result);
+		return result;
+	}, [isSupported]);
 
-  const notify = React.useCallback(
-    ({
-      title,
-      badge,
-      body,
-      data,
-      dir,
-      icon,
-      lang,
-      requireInteraction,
-      silent,
-      tag,
-    }: UseNotificationOptions) => {
-      if (!isSupported) return;
-      if (permission !== 'granted') {
-        console.warn('Notifications are not allowed.');
-        return;
-      }
-      const options: NotificationOptions = {
-        ...(badge !== undefined && { badge }),
-        ...(body !== undefined && { body }),
-        ...(data !== undefined && { data }),
-        ...(dir !== undefined && { dir }),
-        ...(icon !== undefined && { icon }),
-        ...(lang !== undefined && { lang }),
-        ...(requireInteraction !== undefined && { requireInteraction }),
-        ...(silent !== undefined && { silent }),
-        ...(tag !== undefined && { tag }),
-      }
-      new Notification(title, options);
-    }, [permission, isSupported]
-  );
+	const notify = React.useCallback(
+		({
+			title,
+			badge,
+			body,
+			data,
+			dir,
+			icon,
+			lang,
+			requireInteraction,
+			silent,
+			tag,
+		}: UseNotificationOptions) => {
+			if (!isSupported) return;
+			if (permission !== 'granted') {
+				console.warn('Notifications are not allowed.');
+				return;
+			}
+			const options: NotificationOptions = {
+				...(badge !== undefined && { badge }),
+				...(body !== undefined && { body }),
+				...(data !== undefined && { data }),
+				...(dir !== undefined && { dir }),
+				...(icon !== undefined && { icon }),
+				...(lang !== undefined && { lang }),
+				...(requireInteraction !== undefined && { requireInteraction }),
+				...(silent !== undefined && { silent }),
+				...(tag !== undefined && { tag }),
+			};
+			new Notification(title, options);
+		},
+		[permission, isSupported]
+	);
 
-  return {
-    isSupported,
-    permission,
-    requestPermission,
-    notify,
-  };
+	return {
+		isSupported,
+		permission,
+		requestPermission,
+		notify,
+	};
 }

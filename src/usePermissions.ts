@@ -2,7 +2,9 @@ import * as React from 'react';
 
 export type PermissionState = 'granted' | 'denied' | 'prompt';
 
-export type PermissionsSnapshot = Partial<Record<PermissionName, PermissionState>>;
+export type PermissionsSnapshot = Partial<
+	Record<PermissionName, PermissionState>
+>;
 
 /**
  * `usePermissions` is a React hook unopinionated to observe in real-time the permission status of browser using the Permissions API.
@@ -31,63 +33,63 @@ export type PermissionsSnapshot = Partial<Record<PermissionName, PermissionState
  *
  */
 export function usePermissions<T extends readonly PermissionName[]>(
-  permissionNames: T
-): { permissions: PermissionsSnapshot; isSupported: boolean} {
-  const isBrowser = typeof window !== 'undefined' && typeof navigator !== 'undefined';
-  const isSupported = isBrowser && 'permissions' in navigator;
+	permissionNames: T
+): { permissions: PermissionsSnapshot; isSupported: boolean } {
+	const isBrowser =
+		typeof window !== 'undefined' && typeof navigator !== 'undefined';
+	const isSupported = isBrowser && 'permissions' in navigator;
 
-  const [permissions, setPermissions] = React.useState<PermissionsSnapshot>({});
+	const [permissions, setPermissions] = React.useState<PermissionsSnapshot>({});
 
-  const statusRef = React.useRef<Partial<Record<PermissionName, PermissionStatus>>>({});
+	const statusRef = React.useRef<
+		Partial<Record<PermissionName, PermissionStatus>>
+	>({});
 
-  React.useEffect(() => {
-    if (!isSupported) return;
-    let cancelled = false;
-    const cleanups: Array<() => void> = [];
+	React.useEffect(() => {
+		if (!isSupported) return;
+		let cancelled = false;
+		const cleanups: Array<() => void> = [];
 
-    const setupPermission = async (name: PermissionName) => {
-      try {
-        const status = await navigator.permissions.query({
-          name: name as PermissionName,
-        });
-        if (cancelled) return;
+		const setupPermission = async (name: PermissionName) => {
+			try {
+				const status = await navigator.permissions.query({
+					name: name as PermissionName,
+				});
+				if (cancelled) return;
 
-        statusRef.current[name] = status;
-        setPermissions(prev => {
-          if (prev[name] === status.state) return prev;
-          return { ...prev, [name]: status.state };
-        });
+				statusRef.current[name] = status;
+				setPermissions(prev => {
+					if (prev[name] === status.state) return prev;
+					return { ...prev, [name]: status.state };
+				});
 
-        const handleChange = () => {
-          setPermissions(prev => {
-            if (prev[name] === status.state) return prev;
-            return { ...prev, [name]: status.state };
-          })
-        }
+				const handleChange = () => {
+					setPermissions(prev => {
+						if (prev[name] === status.state) return prev;
+						return { ...prev, [name]: status.state };
+					});
+				};
 
-        status.addEventListener('change', handleChange);
+				status.addEventListener('change', handleChange);
 
-        cleanups.push(() => {
-          status.removeEventListener('change', handleChange);
-        })
+				cleanups.push(() => {
+					status.removeEventListener('change', handleChange);
+				});
+			} catch {}
+		};
 
-      } catch {
+		for (const name of permissionNames) {
+			void setupPermission(name);
+		}
 
-      }
-    }
+		return () => {
+			cancelled = true;
+			cleanups.forEach(fn => fn());
+		};
+	}, [isSupported, permissionNames]);
 
-    for (const name of permissionNames) {
-      void setupPermission(name);
-    }
-
-    return () => {
-      cancelled = true;
-      cleanups.forEach(fn => fn());
-    }
-  }, [isSupported, permissionNames]);
-
-  return {
-    permissions,
-    isSupported,
-  };
+	return {
+		permissions,
+		isSupported,
+	};
 }

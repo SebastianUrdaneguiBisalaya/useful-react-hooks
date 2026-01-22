@@ -1,19 +1,25 @@
 import * as React from 'react';
 
-type AudioStatus = 'idle' | 'loading' | 'playing' | 'paused' | 'ended' | 'error';
+type AudioStatus =
+	| 'idle'
+	| 'loading'
+	| 'playing'
+	| 'paused'
+	| 'ended'
+	| 'error';
 
 export interface UseAudioOptions {
-  src?: string;
-  loop?: boolean;
-  volume?: number;
+	src?: string;
+	loop?: boolean;
+	volume?: number;
 }
 
 export interface UseAudioResult {
-  status: AudioStatus;
-  error: Error | null;
-  play: () => Promise<void>;
-  pause: () => void;
-  audio: HTMLAudioElement | null;
+	status: AudioStatus;
+	error: Error | null;
+	play: () => Promise<void>;
+	pause: () => void;
+	audio: HTMLAudioElement | null;
 }
 
 /**
@@ -34,54 +40,54 @@ export interface UseAudioResult {
  *
  */
 export function useAudio(options: UseAudioOptions = {}): UseAudioResult {
-  const audioRef = React.useRef<HTMLAudioElement | null>(null);
-  const mountedRef = React.useRef<boolean>(false);
+	const audioRef = React.useRef<HTMLAudioElement | null>(null);
+	const mountedRef = React.useRef<boolean>(false);
 
-  const [status, setStatus] = React.useState<AudioStatus>('idle');
-  const [error, setError] = React.useState<Error | null>(null);
+	const [status, setStatus] = React.useState<AudioStatus>('idle');
+	const [error, setError] = React.useState<Error | null>(null);
 
-  const play = React.useCallback(async () => {
-    if (!audioRef.current) return;
-    try {
-      await audioRef.current.play();
-      setStatus('playing');
-    } catch (error: unknown) {
-      setError(error as Error);
-      setStatus('error');
-    }
-  }, []);
+	const play = React.useCallback(async () => {
+		if (!audioRef.current) return;
+		try {
+			await audioRef.current.play();
+			setStatus('playing');
+		} catch (error: unknown) {
+			setError(error as Error);
+			setStatus('error');
+		}
+	}, []);
 
-  const pause = React.useCallback(() => {
-    audioRef.current?.pause();
-    setStatus('paused');
-  }, []);
+	const pause = React.useCallback(() => {
+		audioRef.current?.pause();
+		setStatus('paused');
+	}, []);
 
-  React.useEffect(() => {
-    mountedRef.current = true;
-    const audio = new Audio(options.src ?? '');
-    audio.loop = options.loop ?? false;
-    audio.volume = options.volume ?? 1;
+	React.useEffect(() => {
+		mountedRef.current = true;
+		const audio = new Audio(options.src ?? '');
+		audio.loop = options.loop ?? false;
+		audio.volume = options.volume ?? 1;
 
-    audio.onended = () => mountedRef.current && setStatus('ended');
-    audio.onerror = () => {
-      if (!mountedRef.current) return;
-      setError(new Error('Audio error'));
-      setStatus('error');
-    }
-    audioRef.current = audio;
+		audio.onended = () => mountedRef.current && setStatus('ended');
+		audio.onerror = () => {
+			if (!mountedRef.current) return;
+			setError(new Error('Audio error'));
+			setStatus('error');
+		};
+		audioRef.current = audio;
 
-    return () => {
-      mountedRef.current = false;
-      audio.pause();
-      audioRef.current = null;
-    }
-  }, [options.src, options.loop, options.volume]);
+		return () => {
+			mountedRef.current = false;
+			audio.pause();
+			audioRef.current = null;
+		};
+	}, [options.src, options.loop, options.volume]);
 
-  return {
-    status,
-    error,
-    play,
-    pause,
-    audio: audioRef.current,
-  }
+	return {
+		status,
+		error,
+		play,
+		pause,
+		audio: audioRef.current,
+	};
 }

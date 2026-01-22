@@ -25,10 +25,10 @@ export interface CountDown {
 	 */
 	endTime: number;
 
-  /**
-   * Whether to start the countdown on mount. Default: false.
-   */
-  startOnMount?: boolean;
+	/**
+	 * Whether to start the countdown on mount. Default: false.
+	 */
+	startOnMount?: boolean;
 
 	/**
 	 *
@@ -37,10 +37,10 @@ export interface CountDown {
 }
 
 export interface CountDownControlls {
-  /**
-   * Starts the countdown.
-   */
-  start: () => void;
+	/**
+	 * Starts the countdown.
+	 */
+	start: () => void;
 
 	/**
 	 *  Pauses the countdown.
@@ -52,10 +52,10 @@ export interface CountDownControlls {
 	 */
 	resume: () => void;
 
-  /**
-   * Increments the countdown by a given amount of time in milliseconds.
-   */
-  increment: (increment?: number) => void;
+	/**
+	 * Increments the countdown by a given amount of time in milliseconds.
+	 */
+	increment: (increment?: number) => void;
 
 	/**
 	 * Resets the countdown.
@@ -76,10 +76,10 @@ export interface CountDownReturn {
 	 */
 	isPaused: boolean;
 
-  /**
-   * Indicates the status of the countdown.
-   */
-  status: CountDownStatus;
+	/**
+	 * Indicates the status of the countdown.
+	 */
+	status: CountDownStatus;
 
 	/**
 	 * Stable references to control functions.
@@ -97,19 +97,25 @@ export interface CountDownReturn {
  * @version 0.0.1
  *
  */
-export function useCountDown({ endTime, startOnMount = false, options }: CountDown): CountDownReturn {
+export function useCountDown({
+	endTime,
+	startOnMount = false,
+	options,
+}: CountDown): CountDownReturn {
 	const intervalValue = options?.interval ?? 1000;
 
-  const initialDurationRef = React.useRef(endTime - Date.now());
+	const initialDurationRef = React.useRef(endTime - Date.now());
 	const endTimeRef = React.useRef(endTime);
-  const completedRef = React.useRef<boolean>(false);
-  const remainingAtPauseRef = React.useRef<number>(0);
-	const intervalIdRef = React.useRef<ReturnType<typeof setInterval> | null>(null);
-  const optionsRef = React.useRef(options);
+	const completedRef = React.useRef<boolean>(false);
+	const remainingAtPauseRef = React.useRef<number>(0);
+	const intervalIdRef = React.useRef<ReturnType<typeof setInterval> | null>(
+		null
+	);
+	const optionsRef = React.useRef(options);
 
-  React.useEffect(() => {
-    optionsRef.current = options;
-  });
+	React.useEffect(() => {
+		optionsRef.current = options;
+	});
 
 	const [count, setCount] = React.useState<number>(() => {
 		return Math.max(endTime - Date.now(), 0);
@@ -117,110 +123,118 @@ export function useCountDown({ endTime, startOnMount = false, options }: CountDo
 
 	const [isPaused, setIsPaused] = React.useState<boolean>(false);
 
-  const [status, setStatus] = React.useState<CountDownStatus>('start');
-
+	const [status, setStatus] = React.useState<CountDownStatus>('start');
 
 	const clearTimer = React.useCallback(() => {
-    if (intervalIdRef.current !== null) {
+		if (intervalIdRef.current !== null) {
 			clearInterval(intervalIdRef.current);
 			intervalIdRef.current = null;
 		}
-  }, []);
+	}, []);
 
 	const tick = React.useCallback(() => {
 		const remaining = Math.max(endTimeRef.current - Date.now(), 0);
 		optionsRef.current?.onTick?.(remaining);
 		setCount(remaining);
-    setStatus('running');
+		setStatus('running');
 
 		if (remaining <= 0 && !completedRef.current) {
 			completedRef.current = true;
 			clearTimer();
-      setCount(0);
-      setStatus('completed');
+			setCount(0);
+			setStatus('completed');
 			optionsRef.current?.onComplete?.();
 		}
 	}, [clearTimer]);
 
 	const pause = React.useCallback(() => {
 		if (status !== 'running') return;
-    const currentRemaining = Math.max(endTimeRef.current - Date.now(), 0);
-    remainingAtPauseRef.current = currentRemaining;
-    setIsPaused(true);
-    setStatus('paused');
+		const currentRemaining = Math.max(endTimeRef.current - Date.now(), 0);
+		remainingAtPauseRef.current = currentRemaining;
+		setIsPaused(true);
+		setStatus('paused');
 	}, [status]);
 
 	const resume = React.useCallback(() => {
 		if (status !== 'paused') return;
-    endTimeRef.current = Date.now() + remainingAtPauseRef.current;
-    setIsPaused(false);
-    setStatus('running')
+		endTimeRef.current = Date.now() + remainingAtPauseRef.current;
+		setIsPaused(false);
+		setStatus('running');
 	}, [status]);
 
-	const reset = React.useCallback((newEndTime?: number) => {
-		clearTimer();
-		completedRef.current = false;
-    let nextEndTime: number;
-    if (newEndTime !== undefined) {
-      nextEndTime = newEndTime;
-    } else {
-      nextEndTime = Date.now() + initialDurationRef.current;
-    }
-		endTimeRef.current = nextEndTime;
-		const newRemaining = Math.max(nextEndTime - Date.now(), 0);
-    remainingAtPauseRef.current = newRemaining;
-    setCount(newRemaining);
-    setIsPaused(false);
-    if (startOnMount) {
-      setStatus('running');
-    } else {
-      setStatus('start');
-    }
-	}, [clearTimer, startOnMount]);
+	const reset = React.useCallback(
+		(newEndTime?: number) => {
+			clearTimer();
+			completedRef.current = false;
+			let nextEndTime: number;
+			if (newEndTime !== undefined) {
+				nextEndTime = newEndTime;
+			} else {
+				nextEndTime = Date.now() + initialDurationRef.current;
+			}
+			endTimeRef.current = nextEndTime;
+			const newRemaining = Math.max(nextEndTime - Date.now(), 0);
+			remainingAtPauseRef.current = newRemaining;
+			setCount(newRemaining);
+			setIsPaused(false);
+			if (startOnMount) {
+				setStatus('running');
+			} else {
+				setStatus('start');
+			}
+		},
+		[clearTimer, startOnMount]
+	);
 
-  const increment = React.useCallback((increment?: number) => {
-    if (!increment || increment <= 0 || completedRef.current) return;
-    endTimeRef.current += increment;
-    if (status === 'paused') {
-      remainingAtPauseRef.current += increment;
-      setCount(remainingAtPauseRef.current);
-    }
-  }, [status]);
+	const increment = React.useCallback(
+		(increment?: number) => {
+			if (!increment || increment <= 0 || completedRef.current) return;
+			endTimeRef.current += increment;
+			if (status === 'paused') {
+				remainingAtPauseRef.current += increment;
+				setCount(remainingAtPauseRef.current);
+			}
+		},
+		[status]
+	);
 
-  const start = React.useCallback(() => {
-    if (status !== 'start') return;
-    setStatus('running');
-  }, [status]);
+	const start = React.useCallback(() => {
+		if (status !== 'start') return;
+		setStatus('running');
+	}, [status]);
 
-  React.useEffect(() => {
+	React.useEffect(() => {
 		if (status !== 'running') {
-      clearTimer();
-      return;
-    }
-    completedRef.current = false;
-    tick();
-    intervalIdRef.current = setInterval(tick, intervalValue);
-    return clearTimer;
+			clearTimer();
+			return;
+		}
+		completedRef.current = false;
+		tick();
+		intervalIdRef.current = setInterval(tick, intervalValue);
+		return clearTimer;
 	}, [status, intervalValue, tick, clearTimer]);
 
-  React.useEffect(() => {
-    if (startOnMount) {
-      setStatus('running');
-    }
-  }, []);
+	React.useEffect(() => {
+		if (startOnMount) {
+			setStatus('running');
+		}
+	}, []);
 
-  const controls = React.useMemo<CountDownControlls>(() => ({
-    start,
-    pause,
-    resume,
-    reset,
-    increment,
-  }), [start, pause, resume, reset, increment]);
+	const controls = React.useMemo<CountDownControlls>(
+		() => ({
+			start,
+			pause,
+			resume,
+			reset,
+			increment,
+		}),
+		[start, pause, resume, reset, increment]
+	);
 
 	return {
 		count,
 		isPaused,
 		controls,
-    status,
+		status,
 	};
 }

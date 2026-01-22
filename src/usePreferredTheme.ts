@@ -18,21 +18,21 @@ export const systemThemeStore = {
 
 		if (typeof window !== 'undefined') {
 			if (!media) {
-        media = window.matchMedia('(prefers-color-scheme: dark)');
-      }
-      if (!mediaListenerAttached) {
-        media.addEventListener('change', emit);
-        mediaListenerAttached = true;
-      }
-      return () => {
-        listeners.delete(listener);
-        if (listeners.size === 0 && media && mediaListenerAttached) {
-          media.removeEventListener('change', emit);
-          mediaListenerAttached = false;
-        }
-      }
+				media = window.matchMedia('(prefers-color-scheme: dark)');
+			}
+			if (!mediaListenerAttached) {
+				media.addEventListener('change', emit);
+				mediaListenerAttached = true;
+			}
+			return () => {
+				listeners.delete(listener);
+				if (listeners.size === 0 && media && mediaListenerAttached) {
+					media.removeEventListener('change', emit);
+					mediaListenerAttached = false;
+				}
+			};
 		}
-    return () => listeners.delete(listener);
+		return () => listeners.delete(listener);
 	},
 	getSnapshot(): Theme {
 		if (typeof window === 'undefined') return 'light';

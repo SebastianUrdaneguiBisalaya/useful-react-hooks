@@ -17,12 +17,12 @@ import * as React from 'react';
  *
  */
 export function usePreviousDistinct<T>(value: T): T | undefined {
-  const prevRef = React.useRef<T | undefined>(undefined);
-  const currentRef = React.useRef<T | undefined>(undefined);
+	const prevRef = React.useRef<T | undefined>(undefined);
+	const currentRef = React.useRef<T | undefined>(undefined);
 
-  if (!Object.is(value, currentRef.current)) {
-    prevRef.current = currentRef.current;
-    currentRef.current = value;
-  }
-  return prevRef.current;
+	if (!Object.is(value, currentRef.current)) {
+		prevRef.current = currentRef.current;
+		currentRef.current = value;
+	}
+	return prevRef.current;
 }

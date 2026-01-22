@@ -15,42 +15,46 @@ export interface PageVisibilityReturn {
 type Listener = () => void;
 
 function visibilityStore() {
-  const listeners = new Set<Listener>();
-  let listening = false;
+	const listeners = new Set<Listener>();
+	let listening = false;
 
-  function emit() {
-    listeners.forEach(listener => listener());
-  }
+	function emit() {
+		listeners.forEach(listener => listener());
+	}
 
-  function subscribe(listener: Listener) {
-    listeners.add(listener);
-    if (!listening && typeof document !== 'undefined') {
-      document.addEventListener('visibilitychange', emit);
-      listening = true;
-    }
-    return () => {
-      listeners.delete(listener);
-      if (listeners.size === 0 && listening && typeof document !== 'undefined') {
-        document.removeEventListener('visibilitychange', emit);
-        listening = false;
-      }
-    }
-  }
+	function subscribe(listener: Listener) {
+		listeners.add(listener);
+		if (!listening && typeof document !== 'undefined') {
+			document.addEventListener('visibilitychange', emit);
+			listening = true;
+		}
+		return () => {
+			listeners.delete(listener);
+			if (
+				listeners.size === 0 &&
+				listening &&
+				typeof document !== 'undefined'
+			) {
+				document.removeEventListener('visibilitychange', emit);
+				listening = false;
+			}
+		};
+	}
 
-  function getSnapshot(): DocumentVisibilityState {
-    if (typeof document === 'undefined') return 'visible';
-    return document.visibilityState;
-  }
+	function getSnapshot(): DocumentVisibilityState {
+		if (typeof document === 'undefined') return 'visible';
+		return document.visibilityState;
+	}
 
-  function getServerSnapshot(): DocumentVisibilityState {
-    return 'visible';
-  }
+	function getServerSnapshot(): DocumentVisibilityState {
+		return 'visible';
+	}
 
-  return {
-    subscribe,
-    getSnapshot,
-    getServerSnapshot,
-  } as const;
+	return {
+		subscribe,
+		getSnapshot,
+		getServerSnapshot,
+	} as const;
 }
 
 export const pageVisibilityStore = visibilityStore();

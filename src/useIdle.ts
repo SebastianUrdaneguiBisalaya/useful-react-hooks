@@ -1,36 +1,36 @@
 import * as React from 'react';
 
 export interface UseIdleOptions {
-  /**
-   * Time in milliseconds before the user is considered idle.
-   * @default 60000
-   */
-  timeout?: number;
+	/**
+	 * Time in milliseconds before the user is considered idle.
+	 * @default 60000
+	 */
+	timeout?: number;
 
-  /**
-   * Events that reset the idle timer.
-   * @default ['mousemove', 'keydown', 'mousedown', 'touchstart', 'scroll']
-   */
-  events?: readonly (keyof WindowEventMap)[];
+	/**
+	 * Events that reset the idle timer.
+	 * @default ['mousemove', 'keydown', 'mousedown', 'touchstart', 'scroll']
+	 */
+	events?: readonly (keyof WindowEventMap)[];
 
-  /**
-   * Initial idle state.
-   * Useful for SSR or background tabs.
-   * @default false
-   */
-  initialState?: boolean;
+	/**
+	 * Initial idle state.
+	 * Useful for SSR or background tabs.
+	 * @default false
+	 */
+	initialState?: boolean;
 }
 
 export interface UseIdleResult {
-  /**
-   * Whether the user is currently idle.
-   */
-  isIdle: boolean;
+	/**
+	 * Whether the user is currently idle.
+	 */
+	isIdle: boolean;
 
-  /**
-   * Timestamp (ms) of the last detected user activity.
-   */
-  lastActiveAt: number;
+	/**
+	 * Timestamp (ms) of the last detected user activity.
+	 */
+	lastActiveAt: number;
 }
 
 /**
@@ -56,53 +56,51 @@ export interface UseIdleResult {
  * @version 0.0.1
  *
  */
-export function useIdle(
-  options: UseIdleOptions = {}
-): UseIdleResult {
-  const {
-    timeout = 60_000,
-    events = ['mousemove', 'keydown', 'mousedown', 'touchstart', 'scroll'],
-    initialState = false,
-  } = options;
+export function useIdle(options: UseIdleOptions = {}): UseIdleResult {
+	const {
+		timeout = 60_000,
+		events = ['mousemove', 'keydown', 'mousedown', 'touchstart', 'scroll'],
+		initialState = false,
+	} = options;
 
-  const isBrowser = typeof window !== 'undefined';
+	const isBrowser = typeof window !== 'undefined';
 
-  const [isIdle, setIsIdle] = React.useState<boolean>(initialState);
-  const lasActiveRef = React.useRef<number>(Date.now());
+	const [isIdle, setIsIdle] = React.useState<boolean>(initialState);
+	const lasActiveRef = React.useRef<number>(Date.now());
 
-  const timeoutRef = React.useRef<number | null>(null);
+	const timeoutRef = React.useRef<number | null>(null);
 
-  const resetTimer = React.useCallback(() => {
-    lasActiveRef.current = Date.now();
+	const resetTimer = React.useCallback(() => {
+		lasActiveRef.current = Date.now();
 
-    setIsIdle(prev => (prev ? false : prev));
+		setIsIdle(prev => (prev ? false : prev));
 
-    if (timeoutRef.current !== null) {
-      window.clearTimeout(timeoutRef.current);
-    }
-    timeoutRef.current = window.setTimeout(() => {
-      setIsIdle(true);
-    }, timeout);
-  }, [timeout]);
+		if (timeoutRef.current !== null) {
+			window.clearTimeout(timeoutRef.current);
+		}
+		timeoutRef.current = window.setTimeout(() => {
+			setIsIdle(true);
+		}, timeout);
+	}, [timeout]);
 
-  React.useEffect(() => {
-    if (!isBrowser) return;
-    resetTimer();
-    for (const event of events) {
-      window.addEventListener(event, resetTimer, { passive: true });
-    }
-    return () => {
-      if (timeoutRef.current !== null) {
-        window.clearTimeout(timeoutRef.current);
-      }
-      for (const event of events) {
-        window.removeEventListener(event, resetTimer);
-      }
-    }
-  }, [events, isBrowser, resetTimer]);
+	React.useEffect(() => {
+		if (!isBrowser) return;
+		resetTimer();
+		for (const event of events) {
+			window.addEventListener(event, resetTimer, { passive: true });
+		}
+		return () => {
+			if (timeoutRef.current !== null) {
+				window.clearTimeout(timeoutRef.current);
+			}
+			for (const event of events) {
+				window.removeEventListener(event, resetTimer);
+			}
+		};
+	}, [events, isBrowser, resetTimer]);
 
-  return {
-    isIdle,
-    lastActiveAt: lasActiveRef.current,
-  };
+	return {
+		isIdle,
+		lastActiveAt: lasActiveRef.current,
+	};
 }

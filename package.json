@@ -38,8 +38,8 @@
 		"prepublishOnly": "pnpm run build",
 		"prettier-check": "prettier --check .",
 		"prettier-fix": "prettier --write .",
-    "lint": "eslint .",
-    "lint-fix": "eslint --fix ."
+		"lint": "eslint .",
+		"lint-fix": "eslint --fix ."
 	},
 	"peerDependencies": {
 		"react": "^19.2.0",

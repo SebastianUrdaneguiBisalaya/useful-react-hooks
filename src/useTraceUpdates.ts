@@ -51,27 +51,27 @@ import * as React from 'react';
  * @version 0.0.1
  *
  */
-export function useTraceUpdates(
-  value: Record<string, unknown>,
-  name?: string
-) {
-  const prev = React.useRef<Record<string, unknown> | null>(null);
+export function useTraceUpdates(value: Record<string, unknown>, name?: string) {
+	const prev = React.useRef<Record<string, unknown> | null>(null);
 
-  React.useEffect(() => {
-    if (prev.current) {
-      const changes: Record<string, { from: unknown; to: unknown }> = {};
-      for (const key in value) {
-        if (prev.current[key] !== value[key]) {
-          changes[key] = {
-            from: prev.current[key],
-            to: value[key],
-          }
-        }
-        if (Object.keys(changes).length > 0) {
-          console.log(`[useTraceUpdates] ${name ?? 'Component'} changes:`, changes)
-        }
-      }
-      prev.current = value;
-    }
-  }, [value, name]);
+	React.useEffect(() => {
+		if (prev.current) {
+			const changes: Record<string, { from: unknown; to: unknown }> = {};
+			for (const key in value) {
+				if (prev.current[key] !== value[key]) {
+					changes[key] = {
+						from: prev.current[key],
+						to: value[key],
+					};
+				}
+				if (Object.keys(changes).length > 0) {
+					console.log(
+						`[useTraceUpdates] ${name ?? 'Component'} changes:`,
+						changes
+					);
+				}
+			}
+			prev.current = value;
+		}
+	}, [value, name]);
 }
