@@ -24,6 +24,11 @@ const dataParameters: TableItemProps[] = [
     description: 'The absolute Unix timestamp (in milliseconds) when the countdown finishes.',
   },
   {
+    name: 'startOnMount',
+    type: 'boolean',
+    description: 'Whether to start the countdown on mount. Default: false.',
+  },
+  {
     name: 'options.interval',
     type: 'number',
     description: 'Frequency of updates in milliseconds. Default: 1000.',
@@ -52,6 +57,11 @@ const dataReturnValues: TableItemProps[] = [
     description: 'Boolean flag indicating if the timer is currently paused.',
   },
   {
+    name: 'status',
+    type: 'string',
+    description: 'The current status of the timer. Status types are "start", "running", "paused", and "completed".',
+  },
+  {
     name: 'controls.pause',
     type: '() => void',
     description: 'Stops the timer and captures the current remaining duration.',
@@ -72,7 +82,7 @@ function BaseTable({ data }: BaseTableProps) {
   const columns = data.length > 0 ? (Object.keys(data[0]) as (keyof TableItemProps)[]) : []
   return (
     <div className='w-full overflow-hidden'>
-      <div className='overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]'>
+      <div className='overflow-x-auto'>
         <table className="w-full table-auto">
           <colgroup>
             <col className="min-w-20" />

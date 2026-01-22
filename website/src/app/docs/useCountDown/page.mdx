@@ -1,5 +1,7 @@
 import { CodeBlock } from "@/components/shared/Codeblock";
 import Navbar from "@/components/shared/Navbar";
+import Playground from "@/app/docs/useCountDown/Playground";
+import Table from "@/app/docs/useCountDown/Table";
 
 <Navbar />
 
@@ -10,7 +12,7 @@ import Navbar from "@/components/shared/Navbar";
 #### **Installation**
 
 <CodeBlock
-  code={`npm install @vibehooks/react/countdown`}
+  code={`npm install @vibehooks/react/useCountDown`}
   language="bash"
 />
 
@@ -23,39 +25,34 @@ Unlike traditional counters that rely solely on **setInterval** increments (whic
 
 #### **Parameters**
 
-{/* Name,Type,Description
-endTime,number,The absolute Unix timestamp (in milliseconds) when the countdown finishes.
-options.interval,number,Frequency of updates in milliseconds. Default: 1000.
-options.onTick,(time: number) => void,Callback triggered on every tick with the current remaining time.
-options.onComplete,() => void,Callback triggered once the remaining time reaches zero. */}
+<Table.Parameters />
 
 #### **Return values**
-{/*
-Name,Type,Description
-count,number,The remaining time in milliseconds (clamped at 0).
-isPaused,boolean,Boolean flag indicating if the timer is currently paused.
-controls.pause,() => void,Stops the timer and captures the current remaining duration.
-controls.resume,() => void,Calculates a new endTime and restarts the interval.
-controls.reset,(newTime?: number) => void,Restarts the timer using the initial or a newly provided timestamp. */}
 
-#### **Playground**
+<Table.ReturnValues />
+
+#### **Demo**
+
+<Playground />
 
 #### **Source code**
 
-<CodeBlock
-  code={`
-import React, { useState, useCallback } from 'react';
-import { useCountDown } from './useCountDown';
+```typescript
+'use client';
+
+import React, { useState } from 'react';
+import { useCountDown } from '@vibehooks/react/useCountDown';
 
 const CountdownPro: React.FC = () => {
-  const [target, setTarget] = useState(Date.now() + 60_000);
+  const [endTime] = useState(() => Date.now() + 20_000);
 
   const {
     count,
     isPaused,
-    controls: { pause, resume, reset }
+    controls: { pause, resume, reset },
+    status
   } = useCountDown({
-    endTime: target,
+    endTime: endTime,
     options: {
       interval: 100,
       onTick: (remaining) => {
@@ -70,41 +67,45 @@ const CountdownPro: React.FC = () => {
   const formatTime = (ms: number) => (ms / 1000).toFixed(1);
 
   return (
-      <div className="p-4 border rounded-lg shadow-sm">
-        <h2 className="text-2xl font-bold mb-4">
-          Time Remaining: {formatTime(count)}s
-        </h2>
+      <div className="flex flex-col items-center gap-4 w-full p-4 border border-white/20 rounded-lg shadow-sm">
+        <div className='flex flex-col items-center'>
+          <h2 className="text-lg text-white/60 font-medium font-sora">
+            Time Remaining
+          </h2>
+          <h3 className="text-2xl font-bold font-reddit-sans">
+            {formatTime(count)}s
+          </h3>
+        </div>
 
         <div className="flex gap-2">
           <button
             onClick={isPaused ? resume : pause}
-            className="px-4 py-2 bg-blue-500 text-white rounded"
+            className="px-4 py-2 bg-orange-400 hover:bg-orange-500 transition-colors duration-300 ease-in-out text-white rounded-md cursor-pointer font-reddit-sans"
           >
             {isPaused ? 'Resume' : 'Pause'}
           </button>
 
           <button
-            onClick={() => reset()}
-            className="px-4 py-2 bg-gray-200 rounded"
+            onClick={() => reset(count + 10_000)}
+            className="px-4 py-2 bg-purple-400 hover:bg-purple-500 transition-colors duration-500 ease-in-out rounded-md cursor-pointer font-reddit-sans"
           >
-            Reset to Initial
+            Add 10s +
           </button>
 
           <button
-            onClick={() => reset(Date.now() + 10_000)}
-            className="px-4 py-2 bg-red-200 rounded"
+            onClick={() => reset()}
+            className="px-4 py-2 bg-red-400 hover:bg-red-500 transition-colors duration-500 ease-in-out rounded-md cursor-pointer font-reddit-sans"
           >
-            Set to 10s
+            Reset
           </button>
         </div>
 
-        <p className="mt-2 text-sm text-gray-500">
-          Status: {isPaused ? 'Paused' : 'Running'}
+        <p className="text-sm text-white/60 font-reddit-sans">
+          Status: {status.charAt(0).toUpperCase() + status.slice(1)}
         </p>
       </div>
   );
 };
-`}
-  language="typescript"
-  classNameCode="reddit-sans text-sm"
-/>
+
+export default CountdownPro;
+```
