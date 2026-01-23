@@ -1,7 +1,51 @@
-export default function Playground() {
-  return (
-    <div>
+'use client';
 
+import { useResettableState } from "../../../../../../src";
+
+export default function Playground() {
+  const [filters, setFilters, resetFilters] = useResettableState({
+    query: '',
+    category: 'all',
+    sortBy: 'relevance'
+  });
+
+  const handleQueryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFilters(prev => ({ ...prev, query: e.target.value }));
+  };
+
+  return (
+    <div className="flex flex-col items-center gap-4 p-4 border rounded-lg shadow-sm w-full border-white/20">
+      <h2 className="text-lg font-bold font-sora text-white/60">Product Filters</h2>
+
+      <div className="w-full max-w-sm flex flex-col items-center gap-4">
+        <input
+          type="text"
+          value={filters.query}
+          onChange={handleQueryChange}
+          placeholder="Search products..."
+          className="w-full px-4 py-3 border border-white/40 rounded-md font-reddit-sans focus:ring-0 focus:outline-none"
+        />
+
+        <div className="w-full flex flex-col md:flex-row items-center gap-4">
+          <button
+            className="flex-1 w-full bg-blue-600 text-white px-4 py-3 rounded-md hover:bg-blue-700 font-reddit-sans text-sm"
+            onClick={() => console.log('Applying:', filters)}
+          >
+            Apply Filters
+          </button>
+
+          <button
+            className="flex-1 w-full bg-gray-100 text-gray-700 px-4 py-3 rounded-md hover:bg-gray-200 font-reddit-sans text-sm"
+            onClick={resetFilters}
+          >
+            Reset to Default
+          </button>
+        </div>
+      </div>
+
+      <pre className="w-full flex flex-col text-white/60 items-center max-w-sm mt-2 p-2 text-sm rounded">
+        {JSON.stringify(filters, null, 2)}
+      </pre>
     </div>
-  )
+  );
 }

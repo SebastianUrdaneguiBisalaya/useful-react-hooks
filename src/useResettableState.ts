@@ -3,8 +3,6 @@ import * as React from 'react';
 /**
  * `useResettableState` is a React state hook with an explicit reset mechanism.
  *
- * @returns A state value, a setter, and a reset function.
- *
  * @example
  * ```tsx
  * const [count, setCount, reset] = useResettableState(0);
