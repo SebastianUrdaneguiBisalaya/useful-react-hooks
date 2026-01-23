@@ -1,9 +1,5 @@
 import * as React from 'react';
 
-export interface List<T> {
-	defaultValue?: T[];
-}
-
 export interface ListReturn<T> {
 	insert: (idx: number, item: T) => void;
 	items: T[];
@@ -14,11 +10,6 @@ export interface ListReturn<T> {
 
 /**
  * `useList` is a custom hook that allows you to create, update, and delete items in a list.
- *
- * @typeParam T Type of the items in the list.
- *
- * @param defaultValue - An array of default values to initialize the list with.
- * @returns An object containing the list items, methods to push, remove, and update items by index, and an insert method to add items to the end of the list.
  *
  * @example
  * ```tsx
@@ -31,7 +22,7 @@ export interface ListReturn<T> {
  * @version 0.0.1
  *
  */
-export function useList<T>({ defaultValue }: List<T>): ListReturn<T> {
+export function useList<T>(defaultValue:T[] = []): ListReturn<T> {
 	const [items, setItems] = React.useState<T[]>(defaultValue || []);
 
 	const insert = React.useCallback((idx: number, item: T) => {
