@@ -1,7 +1,46 @@
-export default function Playground() {
-  return (
-    <div>
+'use client';
 
+import { useState } from 'react';
+import { useThrottledCallback } from '../../../../../../src/index';
+
+export default function Playground() {
+  const [rawCount, setRawCount] = useState<number>(0);
+  const [throttledCount, setThrottledCount] = useState<number>(0);
+
+  const throttledHandler = useThrottledCallback(
+    () => {
+      setThrottledCount(prevCount => prevCount + 1);
+    },
+    { delay: 100 }
+  );
+
+  const handleMouseMove = () => {
+    setRawCount(prevCount => prevCount + 1);
+    throttledHandler();
+  };
+  return (
+    <div className="p-4 w-full space-y-4">
+      <div
+        onMouseMove={handleMouseMove}
+        className="h-64 bg-black/40 rounded-xl flex flex-col items-center justify-center border border-dashed border-white/20 cursor-crosshair group transition-colors hover:border-white/90"
+      >
+        <p className="text-purple-500 font-sora text-sm animate-pulse">MOVE MOUSE HERE</p>
+        <p className="text-white/40 text-xs mt-2 font-sora">Check the counters below</p>
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        <div className="p-4 bg-black/40 border border-white/20 rounded-lg shadow-sm">
+          <p className="text-[10px] font-bold text-white/80 font-reddit-sans uppercase tracking-widest">Raw Events</p>
+          <p className="text-3xl font-reddit-sans font-bold text-white/80">{rawCount}</p>
+          <p className="text-xs text-white/40 font-reddit-sans mt-1 italic">Updating ~60-120fps</p>
+        </div>
+
+        <div className="p-4 bg-black/40 border border-white/20 rounded-lg shadow-sm">
+          <p className="text-[10px] font-bold font-reddit-sans text-purple-500 uppercase tracking-widest">Throttled (100ms)</p>
+          <p className="text-3xl font-reddit-sans font-bold text-purple-500">{throttledCount}</p>
+          <p className="text-xs text-white/40 mt-1 italic font-reddit-sans">Max 10 updates per second</p>
+        </div>
+      </div>
     </div>
   )
 }

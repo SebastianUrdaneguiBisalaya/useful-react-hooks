@@ -15,12 +15,6 @@ export type ThrottledCallback<TArgs extends readonly unknown[]> = (
  * `useThrottledCallback` is a React hook that returns a throttled version of a callback.
  * The throttled callback will execute at most once every `delay` milliseconds, regardless of how many times it is invoked.
  *
- * @template TArgs Tuple of callback argument types.
- * @param callback The original callback to throttle.
- * @param options Throttle configuration options.
- *
- * @returns A throttled callback with stable reference.
- *
  * @example
  * ```tsx
  * * const onScroll = useThrottledCallback(
