@@ -22,10 +22,6 @@ export interface ToggleReturn {
 /**
  * `useToggle` returns a toggle state and a function to toggle the state.
  *
- * @param `defaultValue` Default value for the toggle.
- *
- * @returns
- *
  * @example
  * ```tsx
  * const { status, handleToggle } = useToggle({ defaultValue: false });
