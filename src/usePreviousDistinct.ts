@@ -3,8 +3,6 @@ import * as React from 'react';
 /**
  * `usePreviousDistinct` is a React hook that returns the previous value of a state variable, but only if it is different from the current value.
  *
- * @returns
- *
  * @example
  * ```tsx
  * const prevUserId = usePreviousDistinct(userId);
