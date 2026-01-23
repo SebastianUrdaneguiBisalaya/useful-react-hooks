@@ -1,7 +1,8 @@
 import { CodeBlock } from "@/components/shared/Codeblock";
 import Navbar from "@/components/shared/Navbar";
 import Playground from "@/app/docs/useCountDown/Playground";
-import Table from "@/app/docs/useCountDown/Table";
+import Table from "@/components/shared/Table";
+import data from "@/app/docs/useCountDown/data.json";
 
 <Navbar />
 
@@ -24,11 +25,11 @@ The hook provides explicit lifecycle management via a **status** state and memoi
 
 #### **Parameters**
 
-<Table.Parameters />
+<Table data={data.parameters} />
 
 #### **Return values**
 
-<Table.ReturnValues />
+<Table data={data.returnValues} />
 
 #### **Demo**
 
