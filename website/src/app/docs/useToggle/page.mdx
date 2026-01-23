@@ -1,0 +1,79 @@
+import { CodeBlock } from "@/components/shared/Codeblock";
+import Navbar from "@/components/shared/Navbar";
+import Playground from "@/app/docs/useToggle/Playground";
+import Table from "@/components/shared/Table";
+import data from "@/app/docs/useToggle/data.json";
+
+<Navbar />
+
+# **useToggle**
+
+### A lightweight, unopinionated hook to manage boolean state toggling with memoized handlers.
+
+#### **Installation**
+
+<CodeBlock
+  code={`npm install @vibehooks/react/useToggle`}
+  language="bash"
+/>
+
+#### **Description**
+
+The **useToggle** simplifies the management of binary states such as switches, modals, and visibility toggles. By encapsulating a boolean state and providing memoized update function, it ensures that child components do not undergo  unnecessary re-renders when the toggle logic is passed down as a prop.
+
+This hook is designed to be highly predictable and minimal, serving as a foundational utility for UI components that require a simple **"on/off"** mechanism without the boilerplate of manual state management.
+
+#### **Parameters**
+
+<Table data={data.parameters} />
+
+#### **Return values**
+
+<Table data={data.returnValues} />
+
+#### **Demo**
+
+<Playground />
+
+#### **Source code**
+
+```typescript
+'use client';
+
+import { useToggle } from '@vibehooks/react/useToggle';
+import { cn } from '@/lib/cn';
+
+const Toggle: React.FC = () => {
+  const { status, handleToggle } = useToggle({ defaultValue: false });
+  return (
+    <div className='flex flex-col items-center gap-4 p-4 w-full border border-white/20 rounded-lg shadow-sm'>
+      <h2 className="text-lg text-white/60 font-medium font-sora">
+        Toggle
+      </h2>
+      <button
+        className={cn(
+          'relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent',
+          'transition-colors duration-200 ease-in-out',
+          status ? 'bg-purple-500' : 'bg-white/20',
+        )}
+        onClick={handleToggle}
+        type='button'
+      >
+        <span
+          className={cn(
+            'pointer-events-none inline-block h-5 w-5 transform rounded-full',
+            'transition duration-200 ease-in-out',
+            status ? 'translate-x-5' : 'translate-x-0',
+            status ? 'bg-white' : 'bg-white/60',
+          )}
+        />
+      </button>
+      <p className='text-sm text-white/60 font-reddit-sans'>
+        Status: {status.toString().charAt(0).toUpperCase() + status.toString().slice(1)}
+      </p>
+    </div>
+  )
+}
+
+export default Toggle;
+```
