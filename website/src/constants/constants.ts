@@ -39,39 +39,39 @@ const hooksList: HooksListProps[] = [
     hooks: [
       {
         name: "useBatteryStatus",
-        path: "/docs/useBatteryStatus",
+        path: "/docs/browser-and-hardware/useBatteryStatus",
       },
       {
         name: "useGeolocation",
-        path: "/docs/useGeolocation",
+        path: "/docs/browser-and-hardware/useGeolocation",
       },
       {
         name: "useNetworkInformation",
-        path: "/docs/useNetworkInformation",
+        path: "/docs/browser-and-hardware/useNetworkInformation",
       },
       {
         name: "usePermissions",
-        path: "/docs/usePermissions",
+        path: "/docs/browser-and-hardware/usePermissions",
       },
       {
         name: "useScreenOrientation",
-        path: "/docs/useScreenOrientation",
+        path: "/docs/browser-and-hardware/useScreenOrientation",
       },
       {
         name: "useScreenWakeLock",
-        path: "/docs/useScreenWakeLock",
+        path: "/docs/browser-and-hardware/useScreenWakeLock",
       },
       {
         name: "useVibration",
-        path: "/docs/useVibration",
+        path: "/docs/browser-and-hardware/useVibration",
       },
       {
         name: "useUserActivation",
-        path: "/docs/useUserActivation",
+        path: "/docs/browser-and-hardware/useUserActivation",
       },
       {
         name: "useBarcode",
-        path: "/docs/useBarcode",
+        path: "/docs/browser-and-hardware/useBarcode",
       }
     ]
   },
@@ -80,27 +80,27 @@ const hooksList: HooksListProps[] = [
     hooks: [
       {
         name: "useAutoScroll",
-        path: "/docs/useAutoScroll",
+        path: "/docs/ui-and-layout/useAutoScroll",
       },
       {
         name: "useBodyScrollFreeze",
-        path: "/docs/useBodyScrollFreeze",
+        path: "/docs/ui-and-layout/useBodyScrollFreeze",
       },
       {
         name: "usePopover",
-        path: "/docs/usePopover",
+        path: "/docs/ui-and-layout/usePopover",
       },
       {
         name: "useFullscreen",
-        path: "/docs/useFullscreen",
+        path: "/docs/ui-and-layout/useFullscreen",
       },
       {
         name: "useIntersectionObserver",
-        path: "/docs/useIntersectionObserver",
+        path: "/docs/ui-and-layout/useIntersectionObserver",
       },
       {
         name: "useHoverIntent",
-        path: "/docs/useHoverIntent",
+        path: "/docs/ui-and-layout/useHoverIntent",
       }
     ]
   },
@@ -109,27 +109,27 @@ const hooksList: HooksListProps[] = [
     hooks: [
       {
         name: "useAsyncState",
-        path: "/docs/useAsyncState",
+        path: "/docs/connectivity-and-async/useAsyncState",
       },
       {
         name: "useWebsocket",
-        path: "/docs/useWebsocket",
+        path: "/docs/connectivity-and-async/useWebsocket",
       },
       {
         name: "useServerSentEvent",
-        path: "/docs/useServerSentEvent",
+        path: "/docs/connectivity-and-async/useServerSentEvent",
       },
       {
         name: "useTaskQueue",
-        path: "/docs/useTaskQueue",
+        path: "/docs/connectivity-and-async/useTaskQueue",
       },
       {
         name: "useIntervalSafe",
-        path: "/docs/useIntervalSafe",
+        path: "/docs/connectivity-and-async/useIntervalSafe",
       },
       {
         name: "useTimeout",
-        path: "/docs/useTimeout",
+        path: "/docs/connectivity-and-async/useTimeout",
       }
     ]
   },
@@ -138,44 +138,49 @@ const hooksList: HooksListProps[] = [
     hooks: [
       {
         name: "useLocalStorage",
-        path: "/docs/useLocalStorage",
+        path: "/docs/storage-and-persistence/useLocalStorage",
       },
       {
         name: "useIndexedDB",
-        path: "/docs/useIndexedDB",
+        path: "/docs/storage-and-persistence/useIndexedDB",
       },
       {
         name: "useCookies",
-        path: "/docs/useCookies",
+        path: "/docs/storage-and-persistence/useCookies",
       }
     ]
   },
   {
-    title: "Multimedia & AI",
+    title: "Multimedia",
     hooks: [
       {
         name: "useAudio",
-        path: "/docs/useAudio",
+        path: "/docs/multimedia/useAudio",
       },
       {
         name: "useSmartVideo",
-        path: "/docs/useSmartVideo",
+        path: "/docs/multimedia/useSmartVideo",
       },
       {
         name: "usePictureInPicture",
-        path: "/docs/usePictureInPicture",
+        path: "/docs/multimedia/usePictureInPicture",
       },
+    ]
+  },
+  {
+    title: "Artificial Intelligence",
+    hooks: [
       {
         name: "useSpeech",
-        path: "/docs/useSpeech",
+        path: "/docs/ai/useSpeech",
       },
       {
         name: "useTranslator",
-        path: "/docs/useTranslator",
+        path: "/docs/ai/useTranslator",
       },
       {
         name: "useSummarizer",
-        path: "/docs/useSummarizer",
+        path: "/docs/ai/useSummarizer",
       }
     ]
   },
@@ -184,35 +189,35 @@ const hooksList: HooksListProps[] = [
     hooks: [
       {
         name: "useIsClient",
-        path: "/docs/useIsClient",
+        path: "/docs/environment-and-lifecycle/useIsClient",
       },
       {
         name: "useIsDesktop",
-        path: "/docs/useIsDesktop",
+        path: "/docs/environment-and-lifecycle/useIsDesktop",
       },
       {
         name: "useIsFirstRender",
-        path: "/docs/useIsFirstRender",
+        path: "/docs/environment-and-lifecycle/useIsFirstRender",
       },
       {
         name: "usePreferredTheme",
-        path: "/docs/usePreferredTheme",
+        path: "/docs/environment-and-lifecycle/usePreferredTheme",
       },
       {
         name: "usePreferredLanguage",
-        path: "/docs/usePreferredLanguage",
+        path: "/docs/environment-and-lifecycle/usePreferredLanguage",
       },
       {
         name: "useScreenSize",
-        path: "/docs/useScreenSize",
+        path: "/docs/environment-and-lifecycle/useScreenSize",
       },
       {
         name: "usePageVisibility",
-        path: "/docs/usePageVisibility",
+        path: "/docs/environment-and-lifecycle/usePageVisibility",
       },
       {
         name: "useTraceUpdates",
-        path: "/docs/useTraceUpdates",
+        path: "/docs/environment-and-lifecycle/useTraceUpdates",
       }
     ]
   },
@@ -221,23 +226,23 @@ const hooksList: HooksListProps[] = [
     hooks: [
       {
         name: "useFile",
-        path: "/docs/useFile",
+        path: "/docs/productivity-and-utilities/useFile",
       },
       {
         name: "useCopyToClipboard",
-        path: "/docs/useCopyToClipboard",
+        path: "/docs/productivity-and-utilities/useCopyToClipboard",
       },
       {
         name: "useLocalNotifications",
-        path: "/docs/useLocalNotifications",
+        path: "/docs/productivity-and-utilities/useLocalNotifications",
       },
       {
         name: "useExternalNotifications",
-        path: "/docs/useExternalNotifications",
+        path: "/docs/productivity-and-utilities/useExternalNotifications",
       },
       {
         name: "useShoppingCart",
-        path: "/docs/useShoppingCart",
+        path: "/docs/productivity-and-utilities/useShoppingCart",
       }
     ]
   }
