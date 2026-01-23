@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useCountDown } from '../../../../../src/index';
+import { useCountDown } from '../../../../../../src/index';
 
 const CountDown: React.FC = () => {
   const [endTime] = useState(() => Date.now() + 10_000);

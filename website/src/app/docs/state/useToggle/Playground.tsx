@@ -1,7 +1,7 @@
 'use client';
 
-import { useToggle } from '../../../../../src/index';
-import { cn } from '../../../../../website/src/lib/cn';
+import { useToggle } from '../../../../../../src/index';
+import { cn } from '../../../../lib/cn';
 
 const Toggle: React.FC = () => {
   const { status, handleToggle } = useToggle({ defaultValue: false });
