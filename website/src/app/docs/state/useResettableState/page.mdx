@@ -40,7 +40,7 @@ This hook is particularly useful for managing temporary inputs, filters, or comp
 ```typescript
 'use client';
 
-import { useResettableState } from "../../../../../../src";
+import { useResettableState } from "@vibehooks/react/useResettableState";
 
 export default function Playground() {
   const [filters, setFilters, resetFilters] = useResettableState({

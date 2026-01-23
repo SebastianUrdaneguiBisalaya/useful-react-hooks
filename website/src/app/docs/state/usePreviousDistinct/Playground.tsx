@@ -11,8 +11,8 @@ export default function Playground() {
 
   return (
     <div className="p-4 rounded-lg shadow-sm border border-white/20 space-y-6">
-      <div className="flex gap-4 items-center">
-        <div className="flex-1 flex flex-col gap-2">
+      <div className="flex flex-col md:flex-row gap-4 items-center">
+        <div className="flex-1 w-full flex flex-col gap-2">
           <p className="text-xs font-sora text-white/60 uppercase font-bold">Current</p>
           <div
             className="h-12 w-full rounded-md"
@@ -21,7 +21,7 @@ export default function Playground() {
           <p className="text-sm font-reddit-sans text-white/80 mt-1 text-center">{color}</p>
         </div>
 
-        <div className="flex-1 flex flex-col gap-2">
+        <div className="flex-1 w-full flex flex-col gap-2">
           <p className="text-xs font-sora text-white/60 uppercase font-bold">Previous Distinct</p>
           <div
             className="h-12 w-full rounded-md bg-slate-100"
