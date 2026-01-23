@@ -10,7 +10,7 @@ export default function Playground() {
   const prevColor = usePreviousDistinct(color);
 
   return (
-    <div className="p-6 rounded-lg shadow-sm border border-white/20 space-y-6">
+    <div className="p-4 rounded-lg shadow-sm border border-white/20 space-y-6">
       <div className="flex gap-4 items-center">
         <div className="flex-1 flex flex-col gap-2">
           <p className="text-xs font-sora text-white/60 uppercase font-bold">Current</p>
