@@ -23,7 +23,6 @@ export { useIsFirstRender } from './useIsFirstRender';
 export { useList } from './useList';
 export { useLocalStorage } from './useLocalStorage';
 export { useLocalNotifications } from './useLocalNotifications';
-export { useObjectList } from './useObjectList';
 export { useNetworkInformation } from './useNetworkInformation';
 export { usePageVisibility } from './usePageVisibility';
 export { usePermissions } from './usePermissions';

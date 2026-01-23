@@ -32,10 +32,6 @@ const hooksList: HooksListProps[] = [
         name: "useToggle",
         path: "/docs/state/useToggle",
       },
-      {
-        name: "useObjectList",
-        path: "/docs/state/useObjectList",
-      },
     ]
   },
   {
