@@ -28,11 +28,6 @@ export interface UseDebouncedStateReturn<T> {
  * `useDebouncedState` is a React hook that manages a state value and exposes a debounced version of it.
  * The debounced value is updated only after the specified delay has elapsed since the last change to the inmediate value.
  *
- * @template T Type of the state value.
- * @param optons Hook configuration options.
- *
- * @returns An object containing the inmediate value, the debounced value, and a setter for the inmediate value.
- *
  * @example
  * ```tsx
  * const { value, debouncedValue, setValue } = useDebouncedState('', {
