@@ -42,14 +42,14 @@ export default function Playground() {
   const { isSupported, battery } = useBatteryStatus();
 
   useEffect(() => {
-    setMounted(true);
+    setTimeout(() => setMounted(true), 100);
   }, []);
 
   if (!mounted) {
     return (
     <div className="w-full border border-white/20 p-4 flex items-center justify-center">
-    <span className="text-white/20 text-sm">Loading battery info…</span>
-  </div>
+      <span className="text-white/20 text-sm">Loading battery info…</span>
+    </div>
   );
   }
 
