@@ -38,6 +38,10 @@ const hooksList: HooksListProps[] = [
     title: "Browser & Hardware",
     hooks: [
       {
+        name: "useBarcode",
+        path: "/docs/browser-and-hardware/useBarcode",
+      },
+      {
         name: "useBatteryStatus",
         path: "/docs/browser-and-hardware/useBatteryStatus",
       },
@@ -69,10 +73,6 @@ const hooksList: HooksListProps[] = [
         name: "useUserActivation",
         path: "/docs/browser-and-hardware/useUserActivation",
       },
-      {
-        name: "useBarcode",
-        path: "/docs/browser-and-hardware/useBarcode",
-      }
     ]
   },
   {
