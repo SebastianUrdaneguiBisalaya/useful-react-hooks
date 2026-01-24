@@ -1,38 +1,7 @@
-import { CodeBlock } from "@/components/shared/Codeblock";
-import Playground from "@/app/docs/browser-and-hardware/useScreenOrientation/Playground";
-import Table from "@/components/shared/Table";
-import data from "@/app/docs/browser-and-hardware/useScreenOrientation/data";
-
-# **useScreenOrientation**
-
-### A React hook that provides real-time access to the device's screen orientation state and control methods via the Screen Orientation API.
-
-#### **Installation**
-
-<CodeBlock
-  code={`npm install @vibehooks/react/useScreenOrientation`}
-  language="bash"
-/>
-
-#### **Description**
-
-The **useScreenOrientation** hook allows you to track changes in the device's orientation (type and angle) and manage orientation locks programmatically. It synchronizes the state with the browser's **screen.orientation** object and automatically updates whenever device is rotated, making it ideal for games, video players, or immersive mobile experiences.
-
-#### **Return values**
-
-<Table data={data.returnValues} />
-
-#### **Demo**
-
-<Playground />
-
-#### **Source code**
-
-```tsx
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useScreenOrientation } from "@vibehooks/react/useScreenOrientation";
+import { useScreenOrientation } from "../../../../../../src";
 
 export default function Playground() {
   const { isSupported, type, angle, lock, unlock } = useScreenOrientation();
@@ -102,4 +71,3 @@ export default function Playground() {
     </div>
   )
 }
-```

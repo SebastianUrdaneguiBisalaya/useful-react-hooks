@@ -56,8 +56,6 @@ export interface UseScreenOrientationResult {
  * `useScreenOrientation` provides unopinionated access to the Screen Orientation API.
  * It exposes current orientation state and helpers to lock/unlock orientation without imposing UI decisiones.
  *
- * @returns Screen orientation helpers and state.
- *
  * @example
  * ```tsx
  * const orientation = useScreenOrientation();
