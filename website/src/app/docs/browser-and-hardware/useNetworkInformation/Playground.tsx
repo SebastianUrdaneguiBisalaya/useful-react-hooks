@@ -1,39 +1,6 @@
-import { CodeBlock } from "@/components/shared/Codeblock";
-import Playground from "@/app/docs/browser-and-hardware/useNetworkInformation/Playground";
-import Table from "@/components/shared/Table";
-import data from "@/app/docs/browser-and-hardware/useNetworkInformation/data";
-
-# **useNetworkInformation**
-
-### A performance-aware hook that provides real-time network telemetry and user connectivity preferences to adapt application behavior.
-
-#### **Installation**
-
-<CodeBlock
-  code={`npm install @vibehooks/react/useNetworkInformation`}
-  language="bash"
-/>
-
-#### **Description**
-
-The **useNetworkInformation** hook with the **Network Information API** to expose live data about the device's connection quality, such as bandwidth (**downlink**), latency (**rtt**), and connection type (e.g. WiFi, celullar). It also detects the user's explicit **saveData** preference.
-
-This hook is essential for implementing **Adaptative Loading** strategies. By monitoring network conditions, applications can automatically serve lower-resolution assets, disable autoplay media, or defer non-critical background tasks when the user is on a congested or expensive connection.
-
-#### **Return values**
-
-<Table data={data.returnValues} />
-
-#### **Demo**
-
-<Playground />
-
-#### **Source code**
-
-```tsx
 'use client';
 
-import { useNetworkInformation } from "@vibehooks/react/useNetworkInformation";
+import { useNetworkInformation } from "../../../../../../src";
 import { cn } from '@/lib/cn';
 
 export default function Playground() {
@@ -117,5 +84,3 @@ function DefaultExperience() {
     <p className="font-reddit-sans text-white/80 text-center w-full">Standard Experience</p>
   )
 }
-```
-

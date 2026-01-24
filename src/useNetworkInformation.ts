@@ -136,17 +136,32 @@ function getConnection(): NetworkInformation | null {
 	);
 }
 
+let lastSnapshot: NetworkInformationSnapshot | null = null;
+
 function getSnapshot(): NetworkInformationSnapshot | null {
 	const connection = getConnection();
 	if (!connection) return null;
-	return {
-		downlink: connection.downlink,
+	const nextSnapshot: NetworkInformationSnapshot = {
+    downlink: connection.downlink,
 		downlinkMax: connection.downlinkMax,
 		effectiveType: connection.effectiveType,
 		rtt: connection.rtt,
 		saveData: connection.saveData,
 		type: connection.type,
-	};
+  };
+  if (
+    lastSnapshot &&
+    lastSnapshot.downlink === nextSnapshot.downlink &&
+    lastSnapshot.downlinkMax === nextSnapshot.downlinkMax &&
+    lastSnapshot.effectiveType === nextSnapshot.effectiveType &&
+    lastSnapshot.rtt === nextSnapshot.rtt &&
+    lastSnapshot.saveData === nextSnapshot.saveData &&
+    lastSnapshot.type === nextSnapshot.type
+  ) {
+    return lastSnapshot;
+  }
+  lastSnapshot = nextSnapshot;
+  return nextSnapshot;
 }
 
 function emit() {
@@ -176,8 +191,6 @@ export interface UseNetworkInformationResult extends NetworkInformationSnapshot 
 /**
  * `useNetworkInformation` returns live network information using the Network Information API.
  * The hook automatically updates when the underlying connection changes.
- *
- * @returns
  *
  * @example
  * ```tsx
