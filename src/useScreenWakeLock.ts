@@ -26,8 +26,6 @@ export interface UseScreenWakeLockResult {
  * `useScreenWakeLock` provides unopinionated access to the Screen Wake Lock Web API.
  * It allows consumers to request and release a screen wake lock without imposing lifecycle or UI behavior.
  *
- * @returns Wake lock helpers and state.
- *
  * @example
  * ```tsx
  * const wakeLock = useScreenWakeLock();

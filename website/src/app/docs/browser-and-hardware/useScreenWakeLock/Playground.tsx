@@ -1,38 +1,7 @@
-import { CodeBlock } from "@/components/shared/Codeblock";
-import Playground from "@/app/docs/browser-and-hardware/useScreenWakeLock/Playground";
-import Table from "@/components/shared/Table";
-import data from "@/app/docs/browser-and-hardware/useScreenWakeLock/data";
-
-# **useScreenWakeLock**
-
-### A React hook that provides unopinionated access to the Screen Wake Lock API to prevent devices from dimming or locking the screen.
-
-#### **Installation**
-
-<CodeBlock
-  code={`npm install @vibehooks/react/useScreenWakeLock`}
-  language="bash"
-/>
-
-#### **Description**
-
-The **useScreenWakeLock** hook allows web applications to request a "wake lock," ensuring the screen stays turned on during long-running tasks, such as following a recipe, reading an e-book, or watching a presentation. It manages the **WakeLockSentinel** lifecycle and provides reactive state to track whether the lock is currently active.
-
-#### **Return values**
-
-<Table data={data.returnValues} />
-
-#### **Demo**
-
-<Playground />
-
-#### **Source code**
-
-```tsx
 'use client';
 
 import { useState, useEffect } from "react";
-import { useScreenWakeLock } from "@vibehooks/react/useScreenWakeLock";
+import { useScreenWakeLock } from "../../../../../../src";
 import { cn } from "@/lib/cn";
 
 export default function Playground() {
@@ -110,4 +79,3 @@ export default function Playground() {
     </div>
   )
 }
-```
