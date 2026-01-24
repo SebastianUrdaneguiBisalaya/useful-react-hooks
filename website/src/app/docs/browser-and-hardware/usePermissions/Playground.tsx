@@ -1,43 +1,7 @@
-import { CodeBlock } from "@/components/shared/Codeblock";
-import Playground from "@/app/docs/browser-and-hardware/usePermissions/Playground";
-import Table from "@/components/shared/Table";
-import data from "@/app/docs/browser-and-hardware/usePermissions/data";
-
-# **usePermissions**
-
-### A reactive hook that observes and synchronizes browser permission statuses in real-time.
-
-#### **Installation**
-
-<CodeBlock
-  code={`npm install @vibehooks/react/usePermissions`}
-  language="bash"
-/>
-
-#### **Description**
-
-The **usePermissions** hook provides a declarative way to monitor the status of various browser features (such as camera access, geolocation, or notifications). It abstracts the complexities of the Permissions API by handling the initial asynchronous query and subscribing to state changes automatically. This allows the UI to react instantly when the user modifies permissions via the browser's settings bar.
-
-
-#### **Parameters**
-
-<Table data={data.parameters} />
-
-#### **Return values**
-
-<Table data={data.returnValues} />
-
-#### **Demo**
-
-<Playground />
-
-#### **Source code**
-
-```tsx
 'use client';
 
 import { useState, useEffect } from "react";
-import { usePermissions, type PermissionState } from "@vibehooks/react/usePermissions";
+import { usePermissions, type PermissionState } from "../../../../../../src/usePermissions";
 import { cn } from '@/lib/cn';
 
 const PERMISSIONS_TO_TRACK: PermissionName[] = [
@@ -115,5 +79,3 @@ function StatusBadge({ status }: { status?: PermissionState }) {
     </span>
   );
 };
-```
-

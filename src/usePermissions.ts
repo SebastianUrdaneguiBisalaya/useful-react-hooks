@@ -10,8 +10,6 @@ export type PermissionsSnapshot = Partial<
  * `usePermissions` is a React hook unopinionated to observe in real-time the permission status of browser using the Permissions API.
  * This hook does not manage permissions, it only observes them.
  *
- * @returns Permissions state and helpers.
- *
  * @example
  * ```tsx
  * const { permissions, isSupported } = usePermissions([
