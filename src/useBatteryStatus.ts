@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-export interface BatteryStatus {
+export interface UseBatteryStatus {
 	/** Indicates whether the device is currently charging. */
 	charging: boolean | null;
 
@@ -16,7 +16,7 @@ export interface BatteryStatus {
 
 export interface UseBatteryStatusReturn {
 	/** Raw battery information. Values are `null` until the Battery Manager is resolved. */
-	battery: BatteryStatus;
+	battery: UseBatteryStatus;
 
 	/** Indicates whether the Battery Status API is supported in the current runtime environment. */
 	isSupported: boolean;
@@ -61,8 +61,6 @@ declare global {
  * `useBatteryStatus`is a hook that provides information about the system's battery charge level and lets you be notified by events that are sent when the battery level or charging status changes.
  * This hook uses the native 'Battery Status API and it is not available in Web Workers and it is available only in secure contexts (HTTPS).
  *
- * @returns An object containing the battery status and a boolean indicating whether the Battery Status API is supported in the current runtime environment.
- *
  * @example
  * ```tsx
  * const { isSupported, battery } = useBatteryStatus();
@@ -91,7 +89,7 @@ export function useBatteryStatus(): UseBatteryStatusReturn {
 		typeof navigator !== 'undefined' &&
 		typeof navigator.getBattery === 'function';
 
-	const [battery, setBattery] = React.useState<BatteryStatus>({
+	const [battery, setBattery] = React.useState<UseBatteryStatus>({
 		charging: null,
 		chargingTime: null,
 		dischargingTime: null,
