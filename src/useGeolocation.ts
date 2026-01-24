@@ -46,8 +46,6 @@ export interface UseGeolocationResult {
 /**
  * `useGeolocation` is a React hook to safely access the Geolocation API in an unopinionated and SSR-safe manner.
  *
- * @returns {UseGeolocationResult} An object containing the support flag and geolocation control methods.
- *
  * @example
  * ```tsx
  *

@@ -1,36 +1,3 @@
-import { CodeBlock } from "@/components/shared/Codeblock";
-import Playground from "@/app/docs/browser-and-hardware/useGeolocation/Playground";
-import Table from "@/components/shared/Table";
-import data from "@/app/docs/browser-and-hardware/useGeolocation/data";
-
-# **useGeolocation**
-
-### A comprehensive, SSR-safe hook for interfacing with the Geolocation API and Permissions API to track device coordinates and access status.
-
-#### **Installation**
-
-<CodeBlock
-  code={`npm install @vibehooks/react/useGeolocation`}
-  language="bash"
-/>
-
-#### **Description**
-
-The **useGeolocation** provides a structured interface for retrieving and monitoring the physical location of a device. It abstracts the imperative nature of the browser's **navigation.geolocation** into a declarative React state, handling support detection and permission lifecycle tracking automatically.
-
-This hook is designed for applications requiring spatial awareness—such as maps, delivery services, or localized content—while maintaining a strict **unopinionated** approach by allowing the developer to decide exactly when to trigger tracking or single requests.
-
-#### **Return values**
-
-<Table data={data.returnValues} />
-
-#### **Demo**
-
-<Playground />
-
-#### **Source code**
-
-```typescript
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -114,5 +81,3 @@ export default function Playground() {
     </div>
   )
 }
-```
-
