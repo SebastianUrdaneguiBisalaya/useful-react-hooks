@@ -23,7 +23,7 @@ export default function Playground() {
   if (!mounted) {
     return (
       <div className="w-full border border-white/20 p-4 flex items-center justify-center">
-        <span className="text-white/20 text-sm text-center">Loading screen orientation info…</span>
+        <span className="text-white/20 text-sm text-center">Loading screen wake lock info…</span>
       </div>
     );
   }
@@ -31,7 +31,7 @@ export default function Playground() {
   if (!isSupported) {
     return (
       <div className="p-4 bg-red-100 font-reddit-sans text-red-700 rounded-md">
-        <strong>Error:</strong> The Screen Orientation API is not supported in this browser.
+        <strong>Error:</strong> The Screen Wake Lock API is not supported in this browser.
       </div>
     );
   }
