@@ -1,9 +1,10 @@
-export default function LayoutNotMounted({ title }: { title: string }) {
+export default function LayoutNotMounted() {
   return (
-    <div className="w-full max-w-2xl border border-white/20 p-4 flex flex-col items-center justify-center bg-neutral-900 rounded-lg shadow-md">
-      <h3 className="text-white/60 text-center font-sora text-lg font-semibold">
-        {title}
-      </h3>
+    <div className="flex w-full max-w-lg flex-row items-center justify-center rounded-lg border border-white/20 bg-neutral-900 p-4 shadow-md">
+      <div className="relative flex items-center">
+        <div className="h-5 w-5 rounded-full border-2 border-purple-500 border-t-transparent animate-spin" />
+      </div>
+      <h3 className="pl-4 font-sora text-left font-medium text-white/60">This component is loading.</h3>
     </div>
   )
 }
