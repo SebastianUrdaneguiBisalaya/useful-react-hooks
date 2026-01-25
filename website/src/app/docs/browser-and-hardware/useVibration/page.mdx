@@ -1,11 +1,11 @@
 import { CodeBlock } from "@/components/shared/Codeblock";
 import Playground from "@/app/docs/browser-and-hardware/useVibration/Playground";
 import Table from "@/components/shared/Table";
-import data from "@/app/docs/state/useCountDown/data.json";
+import data from "@/app/docs/browser-and-hardware/useVibration/data";
 
 # **useVibration**
 
-###
+### A React hook that provides an SSR-safe interface to interact with the device's physical vibration hardware.
 
 #### **Installation**
 
@@ -16,12 +16,11 @@ import data from "@/app/docs/state/useCountDown/data.json";
 
 #### **Description**
 
-
-#### **Parameters**
-
+The **useVibration hook** abstracts the **navigator.vibrate** API, allowing you to trigger haptic feedback through a single pulse or complex patterns (vibrate-pause sequences). It is designed to be unopinionated and safely handles environments where the API is unavailable, such as desktop browsers or Server-Side Rendering (SSR) contexts.
 
 #### **Return values**
 
+<Table data={data.returnValues} />
 
 #### **Demo**
 
