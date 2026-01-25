@@ -10,7 +10,7 @@ export default function LayoutPlayground({ className, children, title }: LayoutP
   return (
     <div
       className={cn(
-        'w-full max-w-lg mx-auto flex flex-col items-center gap-4 p-4 bg-gray-900 rounded-lg shadow-md border border-white/20',
+        'w-full max-w-lg mx-auto flex flex-col items-center gap-4 p-4 bg-neutral-900 rounded-lg shadow-md border border-white/20',
         className
       )}
     >
