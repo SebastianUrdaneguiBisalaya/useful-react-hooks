@@ -74,8 +74,8 @@ export function usePermissions<T extends readonly PermissionName[]>(
 					status.removeEventListener('change', handleChange);
 				});
 			} catch {
-        // TODO: handle error
-      }
+				// TODO: handle error
+			}
 		};
 
 		for (const name of permissionNames) {

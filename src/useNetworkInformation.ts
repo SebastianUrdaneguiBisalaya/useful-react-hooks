@@ -142,26 +142,26 @@ function getSnapshot(): NetworkInformationSnapshot | null {
 	const connection = getConnection();
 	if (!connection) return null;
 	const nextSnapshot: NetworkInformationSnapshot = {
-    downlink: connection.downlink,
+		downlink: connection.downlink,
 		downlinkMax: connection.downlinkMax,
 		effectiveType: connection.effectiveType,
 		rtt: connection.rtt,
 		saveData: connection.saveData,
 		type: connection.type,
-  };
-  if (
-    lastSnapshot &&
-    lastSnapshot.downlink === nextSnapshot.downlink &&
-    lastSnapshot.downlinkMax === nextSnapshot.downlinkMax &&
-    lastSnapshot.effectiveType === nextSnapshot.effectiveType &&
-    lastSnapshot.rtt === nextSnapshot.rtt &&
-    lastSnapshot.saveData === nextSnapshot.saveData &&
-    lastSnapshot.type === nextSnapshot.type
-  ) {
-    return lastSnapshot;
-  }
-  lastSnapshot = nextSnapshot;
-  return nextSnapshot;
+	};
+	if (
+		lastSnapshot &&
+		lastSnapshot.downlink === nextSnapshot.downlink &&
+		lastSnapshot.downlinkMax === nextSnapshot.downlinkMax &&
+		lastSnapshot.effectiveType === nextSnapshot.effectiveType &&
+		lastSnapshot.rtt === nextSnapshot.rtt &&
+		lastSnapshot.saveData === nextSnapshot.saveData &&
+		lastSnapshot.type === nextSnapshot.type
+	) {
+		return lastSnapshot;
+	}
+	lastSnapshot = nextSnapshot;
+	return nextSnapshot;
 }
 
 function emit() {

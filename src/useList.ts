@@ -22,7 +22,7 @@ export interface ListReturn<T> {
  * @version 0.0.1
  *
  */
-export function useList<T>(defaultValue:T[] = []): ListReturn<T> {
+export function useList<T>(defaultValue: T[] = []): ListReturn<T> {
 	const [items, setItems] = React.useState<T[]>(defaultValue || []);
 
 	const insert = React.useCallback((idx: number, item: T) => {
