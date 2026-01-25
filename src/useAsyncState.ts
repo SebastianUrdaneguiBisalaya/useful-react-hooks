@@ -47,22 +47,6 @@ export interface UseAsyncStateOptions<T> {
  * `useAsyncState` is a comprehensive hook for managing asynchronous fetch operations with built-in state management.
  * This hook eliminates the need to manually manage loading state, errors, retries, and data handling for fetch requests.
  *
- * @template T - The expected type of the response data.
- *
- * @param options - Configuration options for the hook.
- *
- * @returns An object containing the following properties:
- * - `data`: The fetched data or null
- * - `error`: Any error that occurred or null
- * - `isLoading`: True when a request is in progress
- * - `isSuccess`: True when the last request succeeded
- * - `isError`: True when the last request failed
- * - `isIdle`: True when no request has been made yet
- * - `execute`: Function to trigger the fetch request
- * - `reset`: Function to reset all state to initial values
- * - `mutate`: Function to manually update the data (optimistic updates)
- * - `retry`: Function to retry the last failed request
- *
  * @example
  * ```tsx
  * function UserProfile() {

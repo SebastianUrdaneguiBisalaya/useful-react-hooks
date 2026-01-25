@@ -1,39 +1,3 @@
-import { CodeBlock } from "@/components/shared/Codeblock";
-import Demo from "@/app/docs/connectivity-and-async/useAsyncState/Demo";
-import Table from "@/components/shared/Table";
-import data from "@/app/docs/connectivity-and-async/useAsyncState/data.json";
-
-# **useAsyncState**
-
-### A robust React hook for managing asynchronous operations and remote data fetching with integrated state tracking and retry logic.
-
-#### **Installation**
-
-<CodeBlock
-  code={`npm install @vibehooks/react/useAsyncState`}
-  language="bash"
-/>
-
-#### **Description**
-
-The **useAsyncState** hook provides a full-featured lifecycle management system for asynchronous requests. It eliminates the boilerplate of manually handling **loading**, **error**, and **data** states, while offering advanced features like automatic retries, request timeouts, URL parameter serialization, optimistic updates via **mutate**, and request cancellation via **AbortController**.
-
-#### **Parameters**
-
-<Table data={data.parameters} />
-
-#### **Return values**
-
-<Table data={data.returnValues} />
-
-#### **Demo**
-
-<Demo />
-
-
-#### **Source code**
-
-```tsx
 'use client';
 
 import { useState } from "react";
@@ -128,4 +92,3 @@ export default function Demo() {
     </LayoutDemo>
   )
 }
-```
