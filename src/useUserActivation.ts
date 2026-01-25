@@ -26,8 +26,6 @@ export interface UseUserActivationResult {
  * `useUserActivation` is a React hook that exposes the browser User Activation State.
  * This hook provides read-only access to `navigator.userActivation` allowing consumers to react to transient and persistent user activation without imposing side effects or control flow.
  *
- * @returns User activation state and helpers.
- *
  * @example
  * ```tsx
  * const { isActive, hasBeenActive } = useUserActivation();

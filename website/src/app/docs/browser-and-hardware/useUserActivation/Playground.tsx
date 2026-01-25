@@ -1,38 +1,7 @@
-import { CodeBlock } from "@/components/shared/Codeblock";
-import Playground from "@/app/docs/browser-and-hardware/useUserActivation/Playground";
-import Table from "@/components/shared/Table";
-import data from "@/app/docs/browser-and-hardware/useUserActivation/data";
-
-# **useUserActivation**
-
-### A React hook that tracks the browser's User Activation state to determine if a user has interacted with the page.
-
-#### **Installation**
-
-<CodeBlock
-  code={`npm install @vibehooks/react/useUserActivation`}
-  language="bash"
-/>
-
-#### **Description**
-
-The **useUserActivation** hook provides access to the **navigator.userActivation** API, which allows developers to check for "sticky" activation (has the user ever interacted?) and "transient" activation (is there a current interaction window?). This is critical for triggering restricted browser features like playing audio, opening popups, or accessing the clipboard, which often require a fresh user gesture.
-
-#### **Return values**
-
-<Table data={data.returnValues} />
-
-#### **Demo**
-
-<Playground />
-
-#### **Source code**
-
-```tsx
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useUserActivation } from '@vibehooks/react/useUserActivation';
+import { useUserActivation } from '../../../../../../src';
 import { cn } from '@/lib/cn';
 
 export default function UserActivationPlayground() {
@@ -149,5 +118,3 @@ function StatusRow({ label, value }: StatusRowProps) {
     </div>
   );
 }
-```
-
