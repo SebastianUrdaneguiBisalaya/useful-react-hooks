@@ -34,7 +34,7 @@ export default function Navigation() {
 
   return (
     <div className={cn(
-      "hidden fixed bottom-6 md:flex flex-col items-start justify-center left-6 bg-[rgba(255,255,255,0.05)] border-t border-t-[rgba(255,255,255,0.4)] border-l border-l-[rgba(255,255,255,0.3)] shadow-[3px_3px_3px_rgba(0,0,0,0.089)] backdrop-blur-[10px] w-fit max-h-[90%] rounded-lg",
+      "fixed w-fit max-md:right-0 bottom-0 md:bottom-6 flex flex-col items-start justify-between md:justify-center md:left-6 bg-[rgba(255,255,255,0.05)] border-t border-t-[rgba(255,255,255,0.4)] border-l border-l-[rgba(255,255,255,0.3)] shadow-[3px_3px_3px_rgba(0,0,0,0.089)] backdrop-blur-[10px] max-md:h-screen md:max-h-[90%] rounded-lg",
     )}>
       <div
         className={cn(

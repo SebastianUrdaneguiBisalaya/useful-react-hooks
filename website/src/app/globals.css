@@ -36,6 +36,7 @@ body {
 	align-items: center;
 	scroll-behavior: smooth;
 	overflow-x: hidden;
+  position: relative;
 }
 
 pre code span span {
