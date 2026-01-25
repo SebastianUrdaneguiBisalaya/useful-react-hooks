@@ -24,7 +24,17 @@ export interface UseBarcodeResult {
 	/**
 	 * Raw value of the barcode.
 	 */
-	rawValue: DetectorBarcode | null;
+	current: DetectorBarcode | null;
+
+  /**
+   * A function to start the scanning process.
+   */
+  start: () => Promise<void>;
+
+  /**
+   * A function to stop the scanning process.
+   */
+  stop: () => void;
 
 	/**
 	 * Whether the browser supports BarcodeDetector API.
@@ -37,20 +47,23 @@ export interface UseBarcodeOptions {
 	 * Optional element to scan: video, image or canvas.
 	 */
 	elementRef?: React.RefObject<
-		HTMLVideoElement | HTMLImageElement | HTMLCanvasElement
+		HTMLVideoElement | HTMLImageElement | HTMLCanvasElement | null
 	>;
 
 	/**
 	 * Optional formats to detect (default includes most common formats).
 	 */
 	formats?: string[];
+
+  /**
+   * Optional callback to be called when a barcode is detected.
+   */
+  onDetect?: (barcode: DetectorBarcode) => void;
 }
 
 /**
  * `useBarcode` is a hook to detect barcodes using the browser's BarcodeDetector API.
  * Automatically handles camera permissions, stream cleanup, and updates the last detected barcode.
- *
- * @returns An object containing the last detected barcode and whether barcode detection is supported.
  *
  * @example
  * ```tsx
@@ -92,79 +105,113 @@ export function useBarcode({
 		'upc_e',
 		'unknown',
 	],
+  onDetect,
 }: UseBarcodeOptions = {}): UseBarcodeResult {
-	const [detected, setDetected] = React.useState<DetectorBarcode | null>(null);
+	const [current, setCurrent] = React.useState<DetectorBarcode | null>(null);
 	const [supported, setSupported] = React.useState<boolean>(false);
 
+  const lastEmittedRef = React.useRef<string | null>(null);
 	const animationRef = React.useRef<number | null>(null);
 	const streamRef = React.useRef<MediaStream | null>(null);
 	const detectorRef = React.useRef<BarcodeDetector | null>(null);
+  const runningRef = React.useRef<boolean>(false);
 
 	React.useEffect(() => {
 		if (typeof window === 'undefined' || !('BarcodeDetector' in window)) {
 			setSupported(false);
 			return;
 		}
-		setSupported(true);
+    setSupported(true);
+    detectorRef.current = new BarcodeDetector({ formats });
+	}, [formats]);
 
-		detectorRef.current = new BarcodeDetector({ formats });
+  const emitDetected = React.useCallback((barcode: DetectorBarcode) => {
+    const key = `${barcode.format}-${barcode.rawValue}`;
+    if (lastEmittedRef.current === key) return;
+    lastEmittedRef.current = key;
+    setCurrent(barcode);
+    onDetect?.(barcode);
+  }, [onDetect]);
 
-		const isVideo = elementRef?.current instanceof HTMLVideoElement;
+  const scanOnce = React.useCallback(async (el: HTMLVideoElement | HTMLImageElement | HTMLCanvasElement) => {
+    if (!detectorRef.current) return;
+    try {
+      const barcodes = await detectorRef.current.detect(el);
+      if (barcodes.length > 0 && barcodes[0]) {
+        emitDetected(barcodes[0]);
+      } else {
+        lastEmittedRef.current = null;
+        setCurrent(null);
+      }
+    } catch (error: unknown) {
+      console.warn('useBarcode: barcode detection failed.', error);
+    }
+  }, [emitDetected]);
 
-		async function startVideo() {
-			const el = elementRef?.current;
-			if (!el || !(el instanceof HTMLVideoElement)) return;
-			try {
-				streamRef.current = await navigator.mediaDevices.getUserMedia({
-					video: { facingMode: 'environment' },
-				});
-				el.srcObject = streamRef.current;
-				el?.setAttribute('playsinline', 'true');
-				await el.play();
-				scanFrame();
-			} catch (error: unknown) {
-				console.warn('useBarcode: camera access denied or unavailable.', error);
-			}
-		}
+  const scanLoop = React.useCallback(async (video: HTMLVideoElement) => {
+    if (!runningRef.current) return;
+    if (video.videoWidth === 0) {
+      animationRef.current = requestAnimationFrame(() => scanLoop(video));
+      return;
+    }
+    await scanOnce(video);
+    animationRef.current = requestAnimationFrame(() => scanLoop(video));
+  }, [scanOnce]);
 
-		async function scanFrame() {
-			const el = elementRef?.current;
-			if (!el || !detectorRef.current) return;
+  const start = React.useCallback(async () => {
+    if (!supported) return;
+    if (!elementRef?.current) return;
+    if (runningRef.current) return;
 
-			if (el instanceof HTMLVideoElement && el.videoWidth === 0) {
-				animationRef.current = requestAnimationFrame(scanFrame);
-				return;
-			}
+    const el = elementRef.current;
+    runningRef.current = true;
 
-			try {
-				const barcodes = await detectorRef.current.detect(el);
-				if (barcodes.length > 0) {
-					setDetected(barcodes[0] ?? null);
-				} else {
-					setDetected(null);
-				}
-			} catch (error: unknown) {
-				console.warn('useBarcode: barcode detection failed.', error);
-			} finally {
-				animationRef.current = requestAnimationFrame(scanFrame);
-			}
-		}
+    if (el instanceof HTMLVideoElement) {
+      try {
+        streamRef.current = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: 'environment' },
+        });
+        el.srcObject = streamRef.current;
+        el.setAttribute('playsinline', 'true');
+        await el.play();
+        scanLoop(el);
+      } catch (error: unknown) {
+        runningRef.current = false;
+        console.warn('useBarcode: camera access denied or unavailable.', error);
+      }
+      return;
+    }
 
-		if (isVideo) startVideo();
-		else scanFrame();
+    if (el instanceof HTMLImageElement || el instanceof HTMLCanvasElement) {
+      await scanOnce(el);
+      runningRef.current = false;
+      return;
+    }
+    runningRef.current = false;
+  }, [elementRef, scanLoop, scanOnce, supported]);
 
-		return () => {
-			if (animationRef.current !== null) {
-				cancelAnimationFrame(animationRef.current);
-			}
-			if (streamRef.current) {
-				streamRef.current.getTracks().forEach(track => track.stop());
-			}
-		};
-	}, [elementRef, formats]);
+  const stop = React.useCallback(() => {
+    runningRef.current = false;
+    if (animationRef.current !== null) {
+      cancelAnimationFrame(animationRef.current);
+      animationRef.current = null;
+    }
+    if (streamRef.current) {
+      streamRef.current.getTracks().forEach(track => track.stop());
+      streamRef.current = null;
+    }
+    lastEmittedRef.current = null;
+    setCurrent(null);
+  }, []);
+
+  React.useEffect(() => {
+    return () => stop();
+  }, []);
 
 	return {
-		rawValue: detected,
+		current,
+    start,
+    stop,
 		supported,
 	};
 }

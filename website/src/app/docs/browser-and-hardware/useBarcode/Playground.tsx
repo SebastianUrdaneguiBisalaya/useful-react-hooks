@@ -1,42 +1,7 @@
-import { CodeBlock } from "@/components/shared/Codeblock";
-import Playground from "@/app/docs/browser-and-hardware/useBarcode/Playground";
-import Table from "@/components/shared/Table";
-import data from "@/app/docs/browser-and-hardware/useBarcode/data";
-
-# **useBarcode**
-
-### A React hook that provides a high-level interface for detecting barcodes and QR codes in real-time using the browser's Barcode Detection API.
-
-#### **Installation**
-
-<CodeBlock
-  code={`npm install @vibehooks/react/useBarcode`}
-  language="bash"
-/>
-
-#### **Description**
-
-The **useBarcode** hook automates the lifecycle of barcode detection. It handles camera stream initialization (using the environment/rear camera by default), executes a continuous scanning loop via **requestAnimationFrame**, and manages the underlying **BarcodeDetector** instance. It can process input from video streams, static images, or canvas elements, returning the raw data and format of the first detected barcode.
-
-#### **Parameters**
-
-<Table data={data.parameters} />
-
-#### **Return values**
-
-<Table data={data.returnValues} />
-
-#### **Demo**
-
-<Playground />
-
-#### **Source code**
-
-```tsx
 'use client';
 
 import { useState, useEffect, useRef } from "react";
-import { useBarcode } from "@vibehooks/react/useBarcode";
+import { useBarcode } from "../../../../../../src";
 import LayoutPlayground from "@/layouts/LayoutPlayground";
 import LayoutNotMounted from "@/layouts/LayoutNotMounted";
 import LayoutNotSupported from "@/layouts/LayoutNotSupported";
@@ -123,5 +88,3 @@ export default function Playground() {
     </LayoutPlayground>
   )
 }
-```
-
