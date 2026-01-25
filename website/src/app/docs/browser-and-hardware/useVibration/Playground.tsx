@@ -28,7 +28,7 @@ export default function Playground() {
   }
 
   return (
-    <div className="flex items-center justify-center p-4">
+    <div className="flex items-center justify-center">
       <div className="w-full max-w-md rounded-2xl border border-neutral-800 bg-neutral-900 p-6 space-y-6">
         <header className="space-y-1">
           <h3 className="text-lg text-white/60 font-semibold font-sora">Vibration API</h3>
