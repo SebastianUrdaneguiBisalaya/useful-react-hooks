@@ -5,7 +5,7 @@ import data from "@/app/docs/connectivity-and-async/useIntervalSafe/data.json";
 
 # **useIntervalSafe**
 
-###
+### A declarative and robust React hook for managing **setInterval** lifecycles with execution limits and manual controls.
 
 #### **Installation**
 
@@ -16,10 +16,16 @@ import data from "@/app/docs/connectivity-and-async/useIntervalSafe/data.json";
 
 #### **Description**
 
+The **useIntervalSafe** hook provides a safe way to handle intervals in React by using a **ref** for the callback to prevent stale closures. It extends the native **setInterval** functionality by adding features such as execution capping (**maxExecutions**), immediate execution, and a managed **isActive** state. It is designed to be SSR-safe and automatically cleans up the interval when the component unmounts to prevent memory leaks.
+
 
 #### **Parameters**
 
+<Table data={data.parameters} />
+
 #### **Return values**
+
+<Table data={data.returnValues} />
 
 #### **Demo**
 
@@ -29,5 +35,90 @@ import data from "@/app/docs/connectivity-and-async/useIntervalSafe/data.json";
 #### **Source code**
 
 ```tsx
+'use client';
 
+import { useState } from "react";
+import { useIntervalSafe } from "@vibehooks/react/useIntervalSafe";
+import DemoLayout from "@/layouts/LayoutPlayground";
+import { cn } from "@/lib/cn";
+
+export default function Demo() {
+  const [logs, setLogs] = useState<string[]>([]);
+  const {
+    isActive,
+    executionCount,
+    cancel,
+    start,
+    reset,
+  } = useIntervalSafe(
+    () => {
+      const timestamp = new Date().toLocaleTimeString();
+      setLogs((prev) => [`Tick a ${timestamp}`, ...prev].slice(0, 5));
+    },
+    {
+      delay: 2000,
+      maxExecutions: 5,
+      executeImmediately: true,
+    }
+  )
+
+  return (
+    <DemoLayout
+      title="Interval Safe"
+    >
+      <span className={cn(
+        "text-xs font-reddit-sans font-bold",
+        isActive ? "text-green-500" : "text-red-500"
+      )}>
+        Status: {isActive ? 'Running' : 'Idle'}
+      </span>
+
+      <div className="bg-neutral-800 rounded-md p-4 border border-white/20 w-full">
+        <div className="flex justify-between gap-2 text-sm mb-2 w-full">
+          <span className="text-white/70 font-reddit-sans">Executions:</span>
+          <span className="font-bold font-reddit-sans text-purple-500">{executionCount} / 5</span>
+        </div>
+        <div className="w-full bg-neutral-700 h-2 rounded-full overflow-hidden">
+          <div
+            className="bg-purple-500 h-full transition-all duration-500"
+            style={{ width: `${(executionCount / 5) * 100}%` }}
+          />
+        </div>
+      </div>
+
+      <div className="space-y-2 h-32 overflow-hidden p-3">
+        {logs.length === 0 && <p className="text-white/80 font-reddit-sans text-xs">No activity...</p>}
+        {logs.map((log, i) => (
+          <p key={i} className="text-green-400 font-reddit-sans text-xs">
+            {`> ${log}`}
+          </p>
+        ))}
+      </div>
+
+      <div className="grid grid-cols-2 gap-3">
+        <button
+          onClick={isActive ? cancel : start}
+          className={cn(
+            'px-4 py-3 cursor-pointer rounded-md font-reddit-sans w-full h-full font-bold transition-colors duration-500 ease-in-out',
+            isActive
+              ? 'bg-white text-black'
+              : 'bg-purple-500 text-white'
+          )}
+        >
+          {isActive ? 'Pause' : 'Start'}
+        </button>
+        <button
+          onClick={reset}
+          className="px-4 py-3 cursor-pointer font-reddit-sans w-full h-full bg-neutral-800 text-white rounded-md font-bold transition-colors duration-500 ease-in-out"
+        >
+          Reset
+        </button>
+      </div>
+
+      <p className="text-xs text-white/40 font-reddit-sans">
+        This interval is configured to stop automatically after 5 ticks.
+      </p>
+    </DemoLayout>
+  )
+}
 ```

@@ -49,14 +49,6 @@ export interface UseIntervalReturn {
 /**
  * `useInterval` is a custom hook for managing intervals in a declarative way. It's server safe and unopinionated about when/how to trigger the interval.
  *
- * @param callback - The function to be executed on each interval tick.
- * @param options - An object containing the following properties:
- *   - `delay`: The delay in milliseconds between each interval tick.
- *   - `startOnMount`: Whether the interval should start immediately on mount.
- *   - `executeInmediately`: Whether to execute the callback inmediately before starting the interval.
- *.  - `maxExecutions`: The maximum number of times to execute the callback. If undefined, runs indefinitely until cancelled.
- * @returns API for controlling the interval
- *
  * @example
  * ```tsx
  * // Auto-start interval
