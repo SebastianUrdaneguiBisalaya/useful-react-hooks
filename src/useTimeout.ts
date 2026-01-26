@@ -35,12 +35,6 @@ export interface UseTimeoutReturn {
 /**
  * `useTimeout` is a custom hook for managing timeouts in a declarative way. It's sever-safe and unopinionated about when/how to trigger the timeout.
  *
- * @params callback - The function to be executed after the delay.
- * @params options - An object containing the following properties:
- *   - `delay`: The delay in milliseconds before the callback is executed.
- *   - `startOnMount`: Whether the timeout should start immediately on mount.
- * @returns API for controlling the timeout
- *
  * @example
  * ```tsx
  * // Auto-start timeout
