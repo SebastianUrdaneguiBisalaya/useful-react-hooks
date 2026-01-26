@@ -31,8 +31,6 @@ export interface UsePictureInPictureResult {
  * `usePictureInPicture` provides unopinionated access to the Picture-in-Picture Web API for HTMLVideoElement.
  * It manages PiP lifecycle and state but leaves UI and UX decisions to the consumer.
  *
- * @returns Picture-in-Picture helpers and state.
- *
  * @example
  * ```tsx
  * const pip = usePictureInPicture();

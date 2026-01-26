@@ -1,0 +1,37 @@
+import { CodeBlock } from "@/components/shared/Codeblock";
+import Demo from "@/app/docs/multimedia/useAudio/Demo";
+import Table from "@/components/shared/Table";
+import data from "@/app/docs/multimedia/useAudio/data.json";
+
+# **useAudio**
+
+### A React hook providing a declarative and unopinionated interface to manage the HTML5 Audio API lifecycle.
+
+#### **Installation**
+
+<CodeBlock
+  code={`npm install @vibehooks/react/useAudio`}
+  language="bash"
+/>
+
+#### **Description**
+
+The **useAudio** abstracts the complexity of the **HTMLAudioElement**, offering reactive state tracking for audio playback status (playing, paused, loading, etc.) and error handling. It manages the internal audio instance, ensuring that event listeners are correctly cleaned up and audio is paused when the component unmounts to prevent memory leaks or ghost audio.
+
+#### **Parameters**
+
+<Table data={data.parameters} />
+
+#### **Return values**
+
+<Table data={data.returnValues} />
+
+#### **Demo**
+
+<Demo />
+
+#### **Source code**
+
+```tsx
+
+```

@@ -25,8 +25,6 @@ export interface UseAudioResult {
 /**
  * `useAudio` is a React hook that provides unopinionated access to the HTML5 Audio API.
  *
- * @returns
- *
  * @example
  * ```tsx
  * const audio = useAudio({ src: '/sound.mp3' });
