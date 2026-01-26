@@ -2,35 +2,19 @@ import type { HooksListProps } from "@/components/shared/Navigation";
 
 const hooksList: HooksListProps[] = [
   {
-    title: "State",
+    title: "Artificial Intelligence",
     hooks: [
       {
-        name: "useCountDown",
-        path: "/docs//state/useCountDown",
+        name: "useSpeech",
+        path: "/docs/ai/useSpeech",
       },
       {
-        name: "useDebouncedState",
-        path: "/docs/state/useDebouncedState",
+        name: "useSummarizer",
+        path: "/docs/ai/useSummarizer",
       },
       {
-        name: "useList",
-        path: "/docs/state/useList",
-      },
-      {
-        name: "usePreviousDistinct",
-        path: "/docs/state/usePreviousDistinct",
-      },
-      {
-        name: "useResettableState",
-        path: "/docs/state/useResettableState",
-      },
-      {
-        name: "useThrottledCallback",
-        path: "/docs/state/useThrottledCallback",
-      },
-      {
-        name: "useToggle",
-        path: "/docs/state/useToggle",
+        name: "useTranslator",
+        path: "/docs/ai/useTranslator",
       },
     ]
   },
@@ -66,42 +50,13 @@ const hooksList: HooksListProps[] = [
         path: "/docs/browser-and-hardware/useScreenWakeLock",
       },
       {
-        name: "useVibration",
-        path: "/docs/browser-and-hardware/useVibration",
-      },
-      {
         name: "useUserActivation",
         path: "/docs/browser-and-hardware/useUserActivation",
       },
-    ]
-  },
-  {
-    title: "UI & Layout",
-    hooks: [
       {
-        name: "useAutoScroll",
-        path: "/docs/ui-and-layout/useAutoScroll",
+        name: "useVibration",
+        path: "/docs/browser-and-hardware/useVibration",
       },
-      {
-        name: "useBodyScrollFreeze",
-        path: "/docs/ui-and-layout/useBodyScrollFreeze",
-      },
-      {
-        name: "usePopover",
-        path: "/docs/ui-and-layout/usePopover",
-      },
-      {
-        name: "useFullscreen",
-        path: "/docs/ui-and-layout/useFullscreen",
-      },
-      {
-        name: "useIntersectionObserver",
-        path: "/docs/ui-and-layout/useIntersectionObserver",
-      },
-      {
-        name: "useHoverIntent",
-        path: "/docs/ui-and-layout/useHoverIntent",
-      }
     ]
   },
   {
@@ -112,76 +67,25 @@ const hooksList: HooksListProps[] = [
         path: "/docs/connectivity-and-async/useAsyncState",
       },
       {
-        name: "useWebsocket",
-        path: "/docs/connectivity-and-async/useWebsocket",
-      },
-      {
-        name: "useServerSentEvent",
-        path: "/docs/connectivity-and-async/useServerSentEvent",
+        name: "useIntervalSafe",
+        path: "/docs/connectivity-and-async/useIntervalSafe",
       },
       {
         name: "useTaskQueue",
         path: "/docs/connectivity-and-async/useTaskQueue",
       },
       {
-        name: "useIntervalSafe",
-        path: "/docs/connectivity-and-async/useIntervalSafe",
-      },
-      {
         name: "useTimeout",
         path: "/docs/connectivity-and-async/useTimeout",
-      }
-    ]
-  },
-  {
-    title: "Storage & Persistence",
-    hooks: [
-      {
-        name: "useLocalStorage",
-        path: "/docs/storage-and-persistence/useLocalStorage",
       },
       {
-        name: "useIndexedDB",
-        path: "/docs/storage-and-persistence/useIndexedDB",
+        name: "useServerSentEvent",
+        path: "/docs/connectivity-and-async/useServerSentEvent",
       },
       {
-        name: "useCookies",
-        path: "/docs/storage-and-persistence/useCookies",
-      }
-    ]
-  },
-  {
-    title: "Multimedia",
-    hooks: [
-      {
-        name: "useAudio",
-        path: "/docs/multimedia/useAudio",
+        name: "useWebsocket",
+        path: "/docs/connectivity-and-async/useWebsocket",
       },
-      {
-        name: "useSmartVideo",
-        path: "/docs/multimedia/useSmartVideo",
-      },
-      {
-        name: "usePictureInPicture",
-        path: "/docs/multimedia/usePictureInPicture",
-      },
-    ]
-  },
-  {
-    title: "Artificial Intelligence",
-    hooks: [
-      {
-        name: "useSpeech",
-        path: "/docs/ai/useSpeech",
-      },
-      {
-        name: "useTranslator",
-        path: "/docs/ai/useTranslator",
-      },
-      {
-        name: "useSummarizer",
-        path: "/docs/ai/useSummarizer",
-      }
     ]
   },
   {
@@ -200,20 +104,20 @@ const hooksList: HooksListProps[] = [
         path: "/docs/environment-and-lifecycle/useIsFirstRender",
       },
       {
-        name: "usePreferredTheme",
-        path: "/docs/environment-and-lifecycle/usePreferredTheme",
+        name: "usePageVisibility",
+        path: "/docs/environment-and-lifecycle/usePageVisibility",
       },
       {
         name: "usePreferredLanguage",
         path: "/docs/environment-and-lifecycle/usePreferredLanguage",
       },
       {
-        name: "useScreenSize",
-        path: "/docs/environment-and-lifecycle/useScreenSize",
+        name: "usePreferredTheme",
+        path: "/docs/environment-and-lifecycle/usePreferredTheme",
       },
       {
-        name: "usePageVisibility",
-        path: "/docs/environment-and-lifecycle/usePageVisibility",
+        name: "useScreenSize",
+        path: "/docs/environment-and-lifecycle/useScreenSize",
       },
       {
         name: "useTraceUpdates",
@@ -222,30 +126,126 @@ const hooksList: HooksListProps[] = [
     ]
   },
   {
+    title: "Multimedia",
+    hooks: [
+      {
+        name: "useAudio",
+        path: "/docs/multimedia/useAudio",
+      },
+      {
+        name: "usePictureInPicture",
+        path: "/docs/multimedia/usePictureInPicture",
+      },
+      {
+        name: "useSmartVideo",
+        path: "/docs/multimedia/useSmartVideo",
+      },
+    ]
+  },
+  {
     title: "Productivity & Utilities",
     hooks: [
       {
-        name: "useFile",
-        path: "/docs/productivity-and-utilities/useFile",
-      },
-      {
         name: "useCopyToClipboard",
         path: "/docs/productivity-and-utilities/useCopyToClipboard",
-      },
-      {
-        name: "useLocalNotifications",
-        path: "/docs/productivity-and-utilities/useLocalNotifications",
       },
       {
         name: "useExternalNotifications",
         path: "/docs/productivity-and-utilities/useExternalNotifications",
       },
       {
+        name: "useFile",
+        path: "/docs/productivity-and-utilities/useFile",
+      },
+      {
+        name: "useLocalNotifications",
+        path: "/docs/productivity-and-utilities/useLocalNotifications",
+      },
+      {
         name: "useShoppingCart",
         path: "/docs/productivity-and-utilities/useShoppingCart",
       }
     ]
-  }
+  },
+  {
+    title: "State",
+    hooks: [
+      {
+        name: "useDebouncedState",
+        path: "/docs/state/useDebouncedState",
+      },
+      {
+        name: "useCountDown",
+        path: "/docs//state/useCountDown",
+      },
+      {
+        name: "useList",
+        path: "/docs/state/useList",
+      },
+      {
+        name: "usePreviousDistinct",
+        path: "/docs/state/usePreviousDistinct",
+      },
+      {
+        name: "useResettableState",
+        path: "/docs/state/useResettableState",
+      },
+      {
+        name: "useThrottledCallback",
+        path: "/docs/state/useThrottledCallback",
+      },
+      {
+        name: "useToggle",
+        path: "/docs/state/useToggle",
+      },
+    ]
+  },
+  {
+    title: "Storage & Persistence",
+    hooks: [
+      {
+        name: "useCookies",
+        path: "/docs/storage-and-persistence/useCookies",
+      },
+      {
+        name: "useIndexedDB",
+        path: "/docs/storage-and-persistence/useIndexedDB",
+      },
+      {
+        name: "useLocalStorage",
+        path: "/docs/storage-and-persistence/useLocalStorage",
+      },
+    ]
+  },
+  {
+    title: "UI & Layout",
+    hooks: [
+      {
+        name: "useAutoScroll",
+        path: "/docs/ui-and-layout/useAutoScroll",
+      },
+      {
+        name: "useBodyScrollFreeze",
+        path: "/docs/ui-and-layout/useBodyScrollFreeze",
+      },
+      {
+        name: "useFullscreen",
+        path: "/docs/ui-and-layout/useFullscreen",
+      },
+      {
+        name: "useHoverIntent",
+        path: "/docs/ui-and-layout/useHoverIntent",
+      },
+      {
+        name: "useIntersectionObserver",
+        path: "/docs/ui-and-layout/useIntersectionObserver",
+      },
+      {
+        name: "usePopover",
+        path: "/docs/ui-and-layout/usePopover",
+      },
+    ]
+  },
 ]
 
 export { hooksList };
