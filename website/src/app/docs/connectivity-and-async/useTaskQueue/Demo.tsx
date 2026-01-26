@@ -1,7 +1,78 @@
 'use client';
 
+import { useState } from "react";
+import { useTaskQueue, type Task } from "../../../../../../src/useTaskQueue";
+import DemoLayout from "@/layouts/LayoutPlayground";
+
 export default function Demo() {
+  const { enqueue, queue, running } = useTaskQueue<string>();
+  const [completed, setCompleted] = useState<string[]>([]);
+
+  const addNewTask = () => {
+    const taskId = `task-${Math.floor(Math.random() * 1000)}`;
+
+    const task: Task<string> = {
+      id: taskId,
+      run: async () => {
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+        setCompleted((prev) => [...prev, taskId]);
+        return taskId;
+      },
+    };
+
+    enqueue(task);
+  };
   return (
-    <div>Demo</div>
+    <DemoLayout
+      title="Tasks Queue"
+    >
+      <button
+        onClick={addNewTask}
+        className="px-4 py-3 bg-purple-500 hover:bg-purple-600 text-white rounded-md font-bold transition font-reddit-sans text-sm"
+      >
+        Add Task
+      </button>
+
+      <div className="w-full flex flex-col items-center gap-4">
+        <div className="w-fit flex items-center gap-3 px-4 py-3 bg-neutral-700 rounded-md">
+          <div className={`w-3 h-3 rounded-full ${running ? 'bg-green-500 animate-pulse' : 'bg-gray-300'}`} />
+          <span className="text-sm font-semibold text-white/70 font-reddit-sans">
+            {running ? 'Processing Queue...' : 'System Idle'}
+          </span>
+        </div>
+
+        <div className="flex flex-col gap-3 items-center w-full">
+          <h3 className="text-xs font-reddit-sans font-bold text-white/70 uppercase tracking-wider">
+            Pending Queue ({queue.length})
+          </h3>
+          <div className="flex flex-col items-center gap-2">
+            {queue.length === 0 && <p className="text-sm font-reddit-sans text-white/60">No tasks waiting</p>}
+            {queue.map((task, index) => (
+              <div key={task.id} className="flex gap-2 justify-between items-center px-4 py-3 bg-neutral-700 rounded-md">
+                <span className="text-sm font-reddit-sans text-white/60">{task.id}</span>
+                {index === 0 && running && (
+                  <span className="text-[10px] font-reddit-sans bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-bold">
+                    ACTIVE
+                  </span>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="w-full flex flex-col items-center gap-2">
+          <h4 className="text-xs font-reddit-sans font-bold text-white/70 uppercase tracking-wider self-center">
+            Completed List
+          </h4>
+          <div className="flex items-center flex-wrap gap-2 w-full">
+            {completed.map((id) => (
+              <span key={id} className="px-3 py-1 bg-green-100 text-green-700 text-xs rounded-md border border-green-300 font-reddit-sans">
+                {id} ✓
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </DemoLayout>
   )
 }

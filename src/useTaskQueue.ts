@@ -14,8 +14,6 @@ export interface UseTaskQueueResult<T = unknown> {
 /**
  * `useTaskQueue` is a React hook that manages a queue of async tasks with concurrency control.
  *
- * @returns
- *
  * @example
  * ```tsx
  * const { enqueue, running, queue } = useTaskQueue();
@@ -35,32 +33,36 @@ export function useTaskQueue<T = unknown>(): UseTaskQueueResult<T> {
 	const [queue, setQueue] = React.useState<Task<T>[]>([]);
 	const [running, setRunning] = React.useState<boolean>(false);
 
-	const processQueue = React.useCallback(async () => {
-		if (running || queue.length === 0) return;
-		setRunning(true);
-		while (queue.length > 0) {
-			const task = queue[0];
-			try {
-				await task?.run();
-			} catch (err: unknown) {
-				console.error(err);
-			} finally {
-				setQueue(prev => [...prev.slice(1)]);
-			}
-		}
-		setRunning(false);
-	}, [queue, running]);
-
-	const enqueue = React.useCallback(
-		(task: Task<T>) => {
-			setQueue(prev => [...prev, task]);
-		},
-		[setQueue]
-	);
+  const isProcessingRef = React.useRef<boolean>(false);
 
 	React.useEffect(() => {
-		if (!running && queue.length > 0) processQueue();
-	}, [queue, running, processQueue]);
+    if (queue.length === 0) {
+      setRunning(false);
+      return;
+    }
+
+    if (isProcessingRef.current) return;
+    isProcessingRef.current = true;
+
+    const task = queue[0];
+    setRunning(true);
+
+    const run = async () => {
+      try {
+        await task?.run();
+      } catch (error: unknown) {
+        console.error(error);
+      } finally {
+        isProcessingRef.current = false;
+        setQueue((prev) => prev.slice(1));
+      }
+    }
+    run();
+  }, [queue]);
+
+  const enqueue = React.useCallback((task: Task<T>) => {
+    setQueue((prev) => [...prev, task]);
+  }, []);
 
 	return {
 		enqueue,
