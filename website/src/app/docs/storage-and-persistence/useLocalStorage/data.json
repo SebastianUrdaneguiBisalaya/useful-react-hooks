@@ -1,0 +1,41 @@
+{
+  "parameters": [
+    {
+      "name": "key",
+      "type": "string",
+      "description": "The key under which the data is stored in localStorage."
+    },
+    {
+      "name": "options.fallback",
+      "type": "T",
+      "description": "The value to return if the key does not exist or parsing fails. Default: null."
+    }
+  ],
+  "returnValues": [
+    {
+      "name": "clear",
+      "type": "() => void",
+      "description": "Removes all entries from the entire localStorage for the current origin."
+    },
+    {
+      "name": "get",
+      "type": "() => T | null",
+      "description": "Retrieves and parses the value associated with the key."
+    },
+    {
+      "name": "remove",
+      "type": "() => void",
+      "description": "Specifically removes the entry associated with the provided key."
+    },
+    {
+      "name": "set",
+      "type": "(value: T) => void",
+      "description": "Serializes and saves the value to localStorage."
+    },
+    {
+      "name": "update",
+      "type": "(updater: (prev) => T) => void",
+      "description": "Updates the value using a callback function (similar to setState)."
+    }
+  ]
+}

@@ -37,12 +37,6 @@ export interface UseLocalStorageReturn<T> {
 /**
  * `useLocalStorage` is a React hook that provides a typed, unopinionated API for interacting with `window.localStorage`.
  *
- * @template T Type of the stored value.
- * @param key Key of the item to store.
- * @param options Optional configuration.
- *
- * @returns A set of imperative helpers for interacting with localStorage.
- *
  * @example
  * ```tsx
  * const storage = useLocalStorage<User>('user', {
@@ -58,6 +52,7 @@ export interface UseLocalStorageReturn<T> {
  *
  * @author Sebastian Marat Urdanegui Bisalaya <https://sebastianurdanegui.com>
  *
+ * @see https://developer.mozilla.org/es/docs/Web/API/Window/localStorage
  * @since 0.0.1
  * @version 0.0.1
  *

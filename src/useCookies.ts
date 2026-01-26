@@ -35,8 +35,6 @@ export interface UseCookieReturn {
  * `useCookies` is a React hook that provides unopinionated access to document cookies.
  * This hook does not sync cookies to React state and does not perform encoding beyond basic string handling.
  *
- * @returns Cookie helpers.
- *
  * @example
  * ```tsx
  *  const cookies = useCookies();
@@ -46,6 +44,7 @@ export interface UseCookieReturn {
  *
  * @author Sebastian Marat Urdanegui Bisalaya <https://sebastianurdanegui.com>
  *
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/Cookie_Store_API
  * @since 0.0.1
  * @version 0.0.1
  *

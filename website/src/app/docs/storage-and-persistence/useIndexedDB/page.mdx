@@ -1,0 +1,37 @@
+import { CodeBlock } from "@/components/shared/Codeblock";
+import Demo from "@/app/docs/connectivity-and-async/useIndexedDB/Demo";
+import Table from "@/components/shared/Table";
+import data from "@/app/docs/storage-and-persistence/useIndexedDB/data.json";
+
+# **useIndexedDB**
+
+### A React hook that abstracts the boilerplate of the IndexedDB API, facilitating database connections and transaction management.
+
+#### **Installation**
+
+<CodeBlock
+  code={`npm install @vibehooks/react/useIndexedDB`}
+  language="bash"
+/>
+
+#### **Description**
+
+The **useIndexedDB** hook simplifies working with the browser's low-level object-oriented database. It manages the connection lifecycle (opening and closing), handles schema upgrades via an **onUpgrade** callback, and provides a specialized **withStore** helper. This helper streamlines transaction creation and object store access, ensuring that operations are executed within the correct transactional context without manual state management of the database instance.
+
+#### **Parameters**
+
+<Table data={data.parameters} />
+
+#### **Return values**
+
+<Table data={data.returnValues} />
+
+#### **Demo**
+
+<Demo />
+
+#### **Source code**
+
+```tsx
+
+```

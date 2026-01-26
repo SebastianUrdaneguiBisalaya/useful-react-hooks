@@ -56,8 +56,6 @@ export interface UseIndexedDBTransactionResult {
  * This hook does not manage schemas, objet stores, or data shape.
  * It only abstracts database lifecycle and transaction boilerplate.
  *
- * @returns IndexedDB helpers.
- *
  * @example
  * ```tsx
  * const db = useIndexedDB({
@@ -75,6 +73,7 @@ export interface UseIndexedDBTransactionResult {
  *
  * @author Sebastian Marat Urdanegui Bisalaya <https://sebastianurdanegui.com>
  *
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API
  * @since 0.0.1
  * @version 0.0.1
  *
