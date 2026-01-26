@@ -10,10 +10,6 @@ export interface FullScreen {
 /**
  * `useFullScreen` controls the browser Fullscreen API.
  *
- * @param `ref` Ref to the element to be fullscreened.
- *
- * @returns An object with the current fullscreen status, enter, exit, and toggle functions.
- *
  * @example
  * ```tsx
  * const { isFullscreen, enter, exit, toggle } = useFullscreen<HTMLDivElement>(ref);

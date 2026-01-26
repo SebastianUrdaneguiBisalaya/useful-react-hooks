@@ -33,13 +33,6 @@ export interface IntersectionObserverReturn<T extends Element> {
  * `useIntersectionObserver` observers the visibility of an element using the native IntersectionObserver API.
  * Returns a typed `ref` that must be assigned to the element you want to observe.
  *
- * @typeParm T DOM element type. (e.g. HTMLDivElement).
- *
- * @param options IntersectionObserverOptions Configurations.
- * @param externalRef Ref to the element to observe.
- *
- * @returns An object with the reference, visibility state, and last entry.
- *
  * @example
  * ```tsx
  * const { ref, isVisible } = useIntersectionObserver<HTMLDivElement>({
@@ -52,10 +45,10 @@ export interface IntersectionObserverReturn<T extends Element> {
  *
  * @author Sebastian Marat Urdanegui Bisalaya <https://sebastianurdanegui.com>
  *
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
  * @since 0.0.1
  * @version 0.0.1
  *
- * @see https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
  */
 export function useIntersectionObserver<T extends Element = HTMLElement>(
 	options?: IntersectionObserverOptions,

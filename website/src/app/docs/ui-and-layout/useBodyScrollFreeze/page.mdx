@@ -1,0 +1,37 @@
+import { CodeBlock } from "@/components/shared/Codeblock";
+import Demo from "@/app/docs/ui-and-layout/useBodyScrollFreeze/Demo";
+import Table from "@/components/shared/Table";
+import data from "@/app/docs/ui-and-layout/useBodyScrollFreeze/data.json";
+
+# **useBodyScrollFreeze**
+
+### An imperative hook to disable body scrolling on specific axes while maintaining the user's current scroll position.
+
+#### **Installation**
+
+<CodeBlock
+  code={`npm install @vibehooks/react/useBodyScrollFreeze`}
+  language="bash"
+/>
+
+#### **Description**
+
+The **useBodyScrollFreeze** provides a mechanism to lock the background scroll, which is essential for modals, drawers, or full-screen overlays. Unlike simple **overflow: hidden** implementations, this hook uses **position: fixed** logic to ensure the page doesn't "jump" to the top when locked and restores the exact scroll position and original styles upon unmounting or unfreezing.
+
+#### **Parameters**
+
+<Table data={data.parameters} />
+
+#### **Return values**
+
+<Table data={data.returnValues} />
+
+#### **Demo**
+
+<Demo />
+
+#### **Source code**
+
+```tsx
+
+```

@@ -1,0 +1,37 @@
+import { CodeBlock } from "@/components/shared/Codeblock";
+import Demo from "@/app/docs/ui-and-layout/useAutoScroll/Demo";
+import Table from "@/components/shared/Table";
+import data from "@/app/docs/ui-and-layout/useAutoScroll/data.json";
+
+# **useAutoScroll**
+
+### A custom hook that automatically manages scrolling to the bottom of a container while respecting manual user navigation.
+
+#### **Installation**
+
+<CodeBlock
+  code={`npm install @vibehooks/react/useAutoScroll`}
+  language="bash"
+/>
+
+#### **Description**
+
+The **useAutoScroll** is designed for chat interfaces, logs, or feed-based UIs where content is added dynamically. It uses a **MutationObserver** to watch for DOM changes and automatically scrolls to the bottom if the user is already near the end (within a specified threshold). If the user scrolls up manually to read older content, the hook smartly pauses auto-scrolling to prevent interrupting their reading experience.
+
+#### **Parameters**
+
+<Table data={data.parameters} />
+
+#### **Return values**
+
+<Table data={data.returnValues} />
+
+#### **Demo**
+
+<Demo />
+
+#### **Source code**
+
+```tsx
+
+```

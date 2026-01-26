@@ -32,10 +32,6 @@ export interface UseHoverIntentResult {
  * `useHoverIntent` detects whether a mouse hover is intentional by observing pointer movement and time spent over an element.
  * It is useful for preventing accidental hover interactions.
  *
- * @param options Hover intent configuration.
- *
- * @returns Hover intent state and event handlers.
- *
  * @example
  * ```tsx
  * const hover = useHoverIntent({ delay: 150, tolerance: 8 });

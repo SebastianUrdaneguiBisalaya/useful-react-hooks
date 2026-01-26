@@ -9,13 +9,6 @@ export interface UseAutoScrollOptions {
 /**
  * `useAutoScroll` is a custom hook for automatically scrolling to the bottom of a container element.
  * It keeps the scroll at the bottom of the container while new content is generated, but only if the user is near the bottom. If the user scrolls up to read previous content, auto-scrolling is automatically disabled so as not to interrupt their reading.
- * @params options - Configuration object for the hook.
- * @returns An API for controlling the auto-scroll behavior:
- * - `ref`: A ref to the container element.
- * - `isAtBottom`: Whether the user is near the bottom of the container.
- * - `scrollToBottom`: A function to scroll the container to the bottom.
- * - `enableAutoScroll`: Enable auto-scrolling.
- * - `disableAutoScroll`: Disable auto-scrolling.
  *
  * @example
  * ```tsx

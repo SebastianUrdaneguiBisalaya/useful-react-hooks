@@ -1,0 +1,16 @@
+{
+  "parameters": [
+    {
+      "name": "options.axis",
+      "type": "'x' | 'y' | 'both'",
+      "description": "Specifies which axis should be locked. Default: 'y'."
+    }
+  ],
+  "returnValues": [
+    {
+      "name": "freeze",
+      "type": "(options?: BodyScrollFreezeOptions) => void",
+      "description": "Imperative function to apply the scroll lock to the body element."
+    }
+  ]
+}

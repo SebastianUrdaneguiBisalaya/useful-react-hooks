@@ -25,8 +25,6 @@ export interface BodyScrollFreezeReturn {
  * The hook does not automatically lock scrolling; consumers decide
  * when and how to apply it.
  *
- * @returns {BodyScrollFreezeReturn}
- *
  * @example
  * ```tsx
  * const { freeze } = useBodyScrollFreeze();

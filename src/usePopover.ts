@@ -35,8 +35,6 @@ export interface UsePopoverResult {
 /**
  * `usePopover` is React hook that manages the open/close state and lifecycle of a popover anchored to a trigger element.
  *
- * @returns Popover state and helpers.
- *
  * @example
  * ```tsx
  *  const popover = usePopover();
