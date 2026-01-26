@@ -5,7 +5,7 @@ import data from "@/app/docs/connectivity-and-async/useWebsocket/data.json";
 
 # **useWebsocket**
 
-###
+### A comprehensive React hook for managing WebSocket connections with built-in auto-reconnection logic, message history, and SSR safety.
 
 #### **Installation**
 
@@ -16,10 +16,15 @@ import data from "@/app/docs/connectivity-and-async/useWebsocket/data.json";
 
 #### **Description**
 
+The **useWebsocket** hook simplifies full-duplex communication in React applications by encapsulating the native **WebSocket API**. It automatically handles the connection lifecycle, provides reactive states for connection status and incoming data, and includes a configurable exponential-like reconnection mechanism for when connections are lost unexpectedly. It also handles JSON parsing by default and ensures clean resource disposal upon component unmounting.
 
 #### **Parameters**
 
+<Table data={data.parameters} />
+
 #### **Return values**
+
+<Table data={data.returnValues} />
 
 #### **Demo**
 

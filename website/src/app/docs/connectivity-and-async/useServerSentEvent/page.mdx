@@ -5,7 +5,7 @@ import data from "@/app/docs/connectivity-and-async/useServerSentEvent/data.json
 
 # **useServerSentEvent**
 
-###
+### A React hook that provides unopinionated access to the EventSource Web API for receiving real-time server-side updates.
 
 #### **Installation**
 
@@ -16,10 +16,15 @@ import data from "@/app/docs/connectivity-and-async/useServerSentEvent/data.json
 
 #### **Description**
 
+The **useServerSentEvent** hook manages the lifecycle of a Server-Sent Events (SSE) connection. Unlike WebSockets, SSE is a unidirectional protocol where the server pushes data to the client over HTTP. This hook handles the initialization, provides reactive connection status through **readyState**, and ensures the connection is properly closed when the component unmounts or is manually terminated.
 
 #### **Parameters**
 
+<Table data={data.parameters} />
+
 #### **Return values**
+
+<Table data={data.returnValues} />
 
 #### **Demo**
 

@@ -44,11 +44,6 @@ export interface UseServerSentEventResult {
  * `useServerSideEvent` provides unopinionated access to Server-Sent Event (SSE) via the EventSource Web API.
  * It manages the EventSource lifecycle but delegates data handling to consumer callbacks.
  *
- * @param url SSE endpoint URL.
- * @param options Connection and lifecycle options.
- *
- * @returns SSE connection helpers and state.
- *
  * @example
  * ```tsx
  * useServerSideEvent('/api/events', {

@@ -82,11 +82,6 @@ export interface UseWebsocketReturn<TMessage = unknown> {
 /**
  * `useWebsocket` is a React hook to manage Websocket connections with auto-reconnect, error handling, and SSR safety.
  *
- * @template TMessage Type of messages received via Websocket
- * @param options Websocket configuration options
- *
- * @returns Websocket state and controls
- *
  * @example
  * ```tsx
  * const { socket, message, isConnected, send } = useWebsocket<{ text: string }>({
