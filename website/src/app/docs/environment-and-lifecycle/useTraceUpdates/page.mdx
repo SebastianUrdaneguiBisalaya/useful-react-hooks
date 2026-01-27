@@ -1,0 +1,33 @@
+import { CodeBlock } from "@/components/shared/Codeblock";
+import Demo from "@/app/docs/environment-and-lifecycle/useTraceUpdates/Demo";
+import Table from "@/components/shared/Table";
+import data from "@/app/docs/environment-and-lifecycle/useTraceUpdates/data.json";
+
+# **useTimeout**
+
+### Logs property changes to the console whenever the component updates.
+
+#### **Installation**
+
+<CodeBlock
+  code={`npm install @vibehooks/react/useTraceUpdates`}
+  language="bash"
+/>
+
+#### **Description**
+
+A development-only debugging utility. When a component re-renders, this hook compares the current values of a provided object (usually props or state) against the previous values and logs exactly what changed to the console.
+
+#### **Parameters**
+
+<Table data={data.parameters} />
+
+#### **Demo**
+
+<Demo />
+
+#### **Source code**
+
+```tsx
+
+```

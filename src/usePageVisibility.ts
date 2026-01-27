@@ -63,14 +63,6 @@ export const pageVisibilityStore = visibilityStore();
  * `usePageVisibility` is a React hook that exposes the current visibility
  * state of the document using the Page Visibility API.
  *
- * Characteristics:
- * - SSR-safe
- * - Uses `useSyncExternalStore`
- * - Unopinionated (no side effects)
- * - Suitable for pausing/resuming logic externally
- *
- * @returns {PageVisibilityReturn}
- *
  * @example
  * ```tsx
  * function PollingController() {

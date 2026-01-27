@@ -3,8 +3,6 @@ import * as React from 'react';
 /**
  * `useIsClient` returns true if the code is running in the browser. Otherwise, it returns false if the code is running on the server.
  *
- * @returns A boolean value indicating if the code is running in the browser.
- *
  * @example
  * ```tsx
  * const isClient = useIsClient();

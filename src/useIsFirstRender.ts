@@ -3,8 +3,6 @@ import * as React from 'react';
 /**
  * `useIsFirstRender` returns true if the component is the first render.
  *
- * @returns A boolean value indicating if the component is the first render.
- *
  * @example
  * ```tsx
  * const isFirstRender = useIsFirstRender();

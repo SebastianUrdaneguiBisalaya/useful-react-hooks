@@ -1,0 +1,34 @@
+import { CodeBlock } from "@/components/shared/Codeblock";
+import Demo from "@/app/docs/environment-and-lifecycle/usePreferredTheme/Demo";
+import Table from "@/components/shared/Table";
+import data from "@/app/docs/environment-and-lifecycle/usePreferredTheme/data.json";
+
+# **usePreferredTheme**
+
+### Resolves the effective theme by reconciling system preferences and manual user selection.
+
+#### **Installation**
+
+<CodeBlock
+  code={`npm install @vibehooks/react/usePreferredTheme`}
+  language="bash"
+/>
+
+#### **Description**
+
+This hook manages dark/light mode logic. It monitors the **prefers-color-scheme** media query for system changes and allows users to override this via **localStorage**. It provides a utility function **toggleTheme** to switch between modes easily.
+
+#### **Return values**
+
+<Table data={data.returnValues} />
+
+#### **Demo**
+
+<Demo />
+
+
+#### **Source code**
+
+```tsx
+
+```

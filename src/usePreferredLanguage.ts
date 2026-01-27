@@ -120,15 +120,7 @@ export interface PreferredLanguageReturn {
 
 /**
  * `usePreferredLanguage` is a custom React hook that resolves the effective language for the application.
- *
- * Resolution strategy:
- * 1. User-selected language (if present)
- * 2. System language (navigator.language)
- * 3. Fallback ('en')
- *
  * This hook is SSR-safe and unopinionated.
- *
- * @returns {PreferredLanguageReturn}
  *
  * @example
  * ```tsx

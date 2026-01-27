@@ -1,0 +1,34 @@
+import { CodeBlock } from "@/components/shared/Codeblock";
+import Demo from "@/app/docs/environment-and-lifecycle/usePageVisibility/Demo";
+import Table from "@/components/shared/Table";
+import data from "@/app/docs/environment-and-lifecycle/usePageVisibility/data.json";
+
+# **usePageVisibility**
+
+### Provides the current visibility state of the document using the Page Visibility API.
+
+#### **Installation**
+
+<CodeBlock
+  code={`npm install @vibehooks/react/usePageVisibility`}
+  language="bash"
+/>
+
+#### **Description**
+
+Synchronizes with the document's visibility state (whether the tab is active/focused or hidden/minimized). It uses **useSyncExternalStore** for high-performance subscription to the **visibilitychange** event, making it ideal for pausing videos, stopping polling, or analytics.
+
+#### **Return values**
+
+<Table data={data.returnValues} />
+
+#### **Demo**
+
+<Demo />
+
+
+#### **Source code**
+
+```tsx
+
+```

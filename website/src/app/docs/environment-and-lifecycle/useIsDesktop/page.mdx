@@ -1,0 +1,37 @@
+import { CodeBlock } from "@/components/shared/Codeblock";
+import Demo from "@/app/docs/environment-and-lifecycle/useIsDesktop/Demo";
+import Table from "@/components/shared/Table";
+import data from "@/app/docs/environment-and-lifecycle/useIsDesktop/data.json";
+
+# **useIsDesktop**
+
+### Determines if the current viewport width meets or exceeds a specified desktop breakpoint.
+
+#### **Installation**
+
+<CodeBlock
+  code={`npm install @vibehooks/react/useIsDesktop`}
+  language="bash"
+/>
+
+#### **Description**
+
+A responsive utility hook that monitors window resizing and returns a boolean state indicating if the current screen width is greater than or equal to a provided pixel value. It leverages **useScreenSize** for centralized event listening.
+
+#### **Parameters**
+
+<Table data={data.parameters} />
+
+#### **Return values**
+
+<Table data={data.returnValues} />
+
+#### **Demo**
+
+<Demo />
+
+#### **Source code**
+
+```tsx
+
+```

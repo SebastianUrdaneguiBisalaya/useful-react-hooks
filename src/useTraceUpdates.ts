@@ -5,11 +5,6 @@ import * as React from 'react';
  * It is useful for debugging with React DevTools.
  * It is only recommended for development purposes.
  *
- * @param value Any object of props or state.
- * @param name Optional name for the trace.
- *
- * @returns
- *
  * @example
  * ```tsx
  * // Trace props changes

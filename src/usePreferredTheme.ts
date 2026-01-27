@@ -110,12 +110,6 @@ export interface PreferredThemeReturn {
 
 /**
  * `usePreferredTheme` resolves the effective theme for the application.
- * Resolution strategy:
- * 1. User-selected theme (if present)
- * 2. System theme (prefers-color-scheme)
- * 3. Fallback ('light')
- *
- * @returns {PreferredThemeReturn}
  *
  * @example
  * ```tsx

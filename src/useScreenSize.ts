@@ -8,8 +8,6 @@ export interface ScreenSize {
 /**
  * `useScreenSize` returns the current screen size.
  *
- * @returns The current screen size.
- *
  * @example
  * ```tsx
  * const { width, height } = useScreenSize();

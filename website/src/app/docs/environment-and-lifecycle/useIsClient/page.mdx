@@ -1,0 +1,33 @@
+import { CodeBlock } from "@/components/shared/Codeblock";
+import Demo from "@/app/docs/environment-and-lifecycle/useIsClient/Demo";
+import Table from "@/components/shared/Table";
+import data from "@/app/docs/environment-and-lifecycle/useIsClient/data.json";
+
+# **useIsClient**
+
+### Returns true if the code is running in the browser and false if it is running on the server.
+
+#### **Installation**
+
+<CodeBlock
+  code={`npm install @vibehooks/react/useIsClient`}
+  language="bash"
+/>
+
+#### **Description**
+
+The **useIsClient** is essential for SSR (Server-Side Rendering) environments like Next.js or Remix. It ensures that components requiring browser-only APIs (like **window** or **document**) only execute logic or render specific UI elements after the component has hydrated on the client, preventing hydration mismatch errors.
+
+#### **Return values**
+
+{/* <Table data={data.returnValues} /> */}
+
+#### **Demo**
+
+<Demo />
+
+#### **Source code**
+
+```tsx
+
+```
