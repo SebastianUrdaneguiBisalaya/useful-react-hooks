@@ -74,8 +74,6 @@ export interface UseSpeechResult {
 /**
  * `useSpeech` is a React hook that provides unopinionated access to the Speech API.
  *
- * @returns
- *
  * @example
  * ```tsx
  * const speech = useSpeech({ lang: 'en-US' });

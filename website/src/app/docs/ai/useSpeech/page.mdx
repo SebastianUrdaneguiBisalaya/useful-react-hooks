@@ -1,0 +1,37 @@
+import { CodeBlock } from "@/components/shared/Codeblock";
+import Demo from "@/app/docs/ai/useSpeech/Demo";
+import Table from "@/components/shared/Table";
+import data from "@/app/docs/ai/useSpeech/data.json";
+
+# **useSpeech**
+
+### Provides unopinionated, high-level access to the Web Speech API for speech-to-text recognition.
+
+#### **Installation**
+
+<CodeBlock
+  code={`npm install @vibehooks/react/useSpeech`}
+  language="bash"
+/>
+
+#### **Description**
+
+The **useSpeech** wraps the **SpeechRecognition** interface, allowing developers to convert audio from a microphone into real-time text strings. It handles cross-browser prefixes (e.g., **webkitSpeechRecognition**), manages internal state transitions (listening, stopped, error), and cleans up listeners automatically.
+
+#### **Parameters**
+
+<Table data={data.parameters} />
+
+#### **Return values**
+
+<Table data={data.returnValues} />
+
+#### **Demo**
+
+<Demo />
+
+#### **Source code**
+
+```tsx
+
+```

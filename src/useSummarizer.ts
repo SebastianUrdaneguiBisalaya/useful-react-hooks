@@ -76,8 +76,6 @@ export interface UseSummarizerReturn {
 /**
  * `useSummarizer` is React hook that provides low-level access to the browser Summarizer API.
  *
- * @returns Summarizer controls and helpers.
- *
  * @example
  * ```tsx
  * const {
