@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useAsyncState } from "../../../../../../src";
-import LayoutDemo from "@/layouts/LayoutPlayground";
+import LayoutDemo from "@/layouts/LayoutDemo";
 
 export interface Post {
   id: number;

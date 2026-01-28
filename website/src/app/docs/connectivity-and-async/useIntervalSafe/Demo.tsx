@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useIntervalSafe } from "../../../../../../src";
-import DemoLayout from "@/layouts/LayoutPlayground";
+import DemoLayout from "@/layouts/LayoutDemo";
 import { cn } from "@/lib/cn";
 
 export default function Demo() {

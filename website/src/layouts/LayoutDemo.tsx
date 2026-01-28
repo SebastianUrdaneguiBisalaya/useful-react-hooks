@@ -1,12 +1,12 @@
 import { cn } from '@/lib/cn';
 
-export interface LayoutPlaygroundProps {
+export interface LayoutDemoProps {
   className?: string;
   children: React.ReactNode;
   title: string;
 }
 
-export default function LayoutPlayground({ className, children, title }: LayoutPlaygroundProps) {
+export default function LayoutDemo({ className, children, title }: LayoutDemoProps) {
   return (
     <div
       className={cn(

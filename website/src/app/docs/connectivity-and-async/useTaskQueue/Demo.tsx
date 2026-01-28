@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useTaskQueue, type Task } from "../../../../../../src/useTaskQueue";
-import DemoLayout from "@/layouts/LayoutPlayground";
+import DemoLayout from "@/layouts/LayoutDemo";
 
 export default function Demo() {
   const { enqueue, queue, running } = useTaskQueue<string>();

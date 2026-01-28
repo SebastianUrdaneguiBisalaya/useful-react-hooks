@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useBarcode } from "../../../../../../src";
-import LayoutPlayground from "@/layouts/LayoutPlayground";
+import LayoutDemo from "@/layouts/LayoutDemo";
 import LayoutNotMounted from "@/layouts/LayoutNotMounted";
 import LayoutNotSupported from "@/layouts/LayoutNotSupported";
 
@@ -33,7 +33,7 @@ export default function Playground() {
   if (!supported) return <LayoutNotSupported title="Barcode" />;
 
   return (
-    <LayoutPlayground
+    <LayoutDemo
       title="Barcode"
     >
       <div className="relative overflow-hidden rounded-md bg-black aspect-video">
@@ -85,6 +85,6 @@ export default function Playground() {
           Point your camera at a QR code or barcode to see the result.
         </p>
       </div>
-    </LayoutPlayground>
+    </LayoutDemo>
   )
 }

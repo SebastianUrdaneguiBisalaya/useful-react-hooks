@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useTimeout } from "../../../../../../src";
-import LayoutDemo from "@/layouts/LayoutPlayground";
+import LayoutDemo from "@/layouts/LayoutDemo";
 
 export default function Demo() {
   const [isVisible, setIsVisible] = useState(false);

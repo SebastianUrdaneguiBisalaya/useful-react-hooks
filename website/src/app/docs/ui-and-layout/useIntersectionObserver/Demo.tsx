@@ -1,4 +1,4 @@
-import LayoutDemo from "@/layouts/LayoutPlayground";
+import LayoutDemo from "@/layouts/LayoutDemo";
 
 export default function Demo() {
   <LayoutDemo>
