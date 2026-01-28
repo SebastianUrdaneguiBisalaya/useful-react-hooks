@@ -1,4 +1,8 @@
 <p align="center">
+    <img src="./public/icon.png" alt="useful-react-hooks" height="80px">
+</p>
+
+<p align="center">
     <img src="./public/logo.png" alt="useful-react-hooks" height="40px">
 </p>
 
