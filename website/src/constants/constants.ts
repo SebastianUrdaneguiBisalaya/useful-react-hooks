@@ -176,7 +176,7 @@ const hooksList: HooksListProps[] = [
       },
       {
         name: "useCountDown",
-        path: "/docs//state/useCountDown",
+        path: "/docs/state/useCountDown",
       },
       {
         name: "useList",
