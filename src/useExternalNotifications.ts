@@ -62,13 +62,6 @@ export interface UseExternalNotificationResult {
 /**
  * `useExternalNotifications` is React hook for consuming and emitting external notifications using a global store.
  * It is thinking for events outside the normal cycle of React:
- * - Websockets
- * - Service Workers
- * - APIs
- * - BroadcastChannel
- * - Multi-tab
- *
- * @returns
  *
  * @example
  * ```tsx
@@ -127,6 +120,7 @@ export interface UseExternalNotificationResult {
  *
  * @author Sebastian Marat Urdanegui Bisalaya <https://sebastianurdanegui.com>
  *
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/Notification
  * @since 0.0.1
  * @version 0.0.1
  *

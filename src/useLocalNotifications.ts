@@ -14,8 +14,6 @@ export interface UseNotificationOptions extends NotificationOptions {
 /**
  * `useLocalNotifications` is React hook for managing local notifications in the browser.
  *
- * @returns An object containing the support flag and notification controls.
- *
  * @example
  * ```tsx
  * const { notify, requestPermission, permission } = useNotifications();
@@ -29,6 +27,7 @@ export interface UseNotificationOptions extends NotificationOptions {
  *
  * @author Sebastian Marat Urdanegui Bisalaya <https://sebastianurdanegui.com>
  *
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/Notification
  * @since 0.0.1
  * @version 0.0.1
  *

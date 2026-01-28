@@ -49,8 +49,6 @@ export interface UseFileResult {
  * `useFile` is a React hook that manages file selection and access in an unopinionated and transport-agnostic way.
  * This hook does not upload files, validate contents, or trigger side effects.
  *
- * @returns File helpers and input bindings.
- *
  * @example
  * ```tsx
  * const file = useFile({ accept: 'image/*', multiple: true });

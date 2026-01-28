@@ -9,8 +9,6 @@ export interface CopyToClipboardReturn {
  * `useCopyToClipboard` provides a safe way to copy text to the clipboard
  * using the Clipboard API.
  *
- * @returns An object containing the copied text and a copy function.
- *
  * @example
  * ```tsx
  * const { textCopied, copyToClipboard } = useCopyToClipboard();
@@ -22,6 +20,7 @@ export interface CopyToClipboardReturn {
  *
  * @author Sebastian Marat Urdanegui Bisalaya <https://sebastianurdanegui.com>
  *
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/Clipboard_API
  * @since 0.0.1
  * @version 0.0.1
  *

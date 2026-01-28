@@ -38,10 +38,6 @@ export interface UseShoppingCartReturn<T extends Record<string, unknown>> {
  * The hook does not assume any data structure; instead, it relies on user-provided extractor functions to derive semantic meaning (identity, price, quantity, taxes, discounts).
  * This design allows the hook to adapt to any domain model while still providing a complete and ergonomic shopping cart API.
  *
- * @typeParam T - The item type stored in the cart.
- * @param options - Configuration object defining how to extract semantic values from each item.
- * @returns An API for managing cart items and computing derived totals.
- *
  * @example
  * ```tsx
  * const cart = useShoppingCart<Product>({
