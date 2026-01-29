@@ -15,10 +15,11 @@ import * as React from 'react';
  *
  */
 export function useIsFirstRender(): boolean {
-	const isFirstRender = React.useRef(true);
+  const [isFirst, setIsFirst] = React.useState<boolean>(true);
 
-	const value = isFirstRender.current;
-	isFirstRender.current = false;
+  React.useEffect(() => {
+    setIsFirst(false);
+  }, []);
 
-	return value;
+  return isFirst;
 }
