@@ -3,7 +3,7 @@
 import { useNetworkInformation } from "../../../../../../src";
 import { cn } from '@/lib/cn';
 
-export default function Playground() {
+export default function Demo() {
   const network = useNetworkInformation();
 
   if (!network.supported) {

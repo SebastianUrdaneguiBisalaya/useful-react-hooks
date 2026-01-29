@@ -5,7 +5,7 @@ import { usePreviousDistinct } from '../../../../../../src/index';
 
 const colors = ['#3b82f6', '#ef4444', '#10b981', '#f59e0b'];
 
-export default function Playground() {
+export default function Demo() {
   const [color, setColor] = useState('#3b82f6');
   const prevColor = usePreviousDistinct(color);
 

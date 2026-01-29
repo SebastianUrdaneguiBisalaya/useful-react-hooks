@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useThrottledCallback } from '../../../../../../src/index';
 
-export default function Playground() {
+export default function Demo() {
   const [rawCount, setRawCount] = useState<number>(0);
   const [throttledCount, setThrottledCount] = useState<number>(0);
 

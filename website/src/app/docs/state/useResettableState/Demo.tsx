@@ -2,7 +2,7 @@
 
 import { useResettableState } from "../../../../../../src";
 
-export default function Playground() {
+export default function Demo() {
   const [filters, setFilters, resetFilters] = useResettableState({
     query: '',
     category: 'all',

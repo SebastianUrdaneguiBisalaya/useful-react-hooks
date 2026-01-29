@@ -1,9 +1,9 @@
 'use client';
 
 import { useToggle } from '../../../../../../src/index';
-import { cn } from '../../../../lib/cn';
+import { cn } from '@/lib/cn';
 
-const Toggle: React.FC = () => {
+export default function Demo() {
   const { status, handleToggle } = useToggle({ defaultValue: false });
   return (
     <div className='flex flex-col items-center gap-4 p-4 w-full border border-white/20 rounded-lg shadow-sm'>
@@ -34,5 +34,3 @@ const Toggle: React.FC = () => {
     </div>
   )
 }
-
-export default Toggle;

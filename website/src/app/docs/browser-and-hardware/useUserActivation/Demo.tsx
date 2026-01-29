@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useUserActivation } from '../../../../../../src';
 import { cn } from '@/lib/cn';
 
-export default function UserActivationPlayground() {
+export default function UserActivationDemo() {
   const {
     isSupported,
     hasBeenActive,

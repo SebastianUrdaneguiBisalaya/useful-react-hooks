@@ -1,5 +1,5 @@
 import { CodeBlock } from "@/components/shared/Codeblock";
-import Playground from "@/app/docs/browser-and-hardware/useNetworkInformation/Playground";
+import Demo from "@/app/docs/browser-and-hardware/useNetworkInformation/Demo";
 import Table from "@/components/shared/Table";
 import data from "@/app/docs/browser-and-hardware/useNetworkInformation/data";
 
@@ -26,7 +26,7 @@ This hook is essential for implementing **Adaptative Loading** strategies. By mo
 
 #### **Demo**
 
-<Playground />
+<Demo />
 
 #### **Source code**
 
@@ -36,7 +36,7 @@ This hook is essential for implementing **Adaptative Loading** strategies. By mo
 import { useNetworkInformation } from "@vibehooks/react/useNetworkInformation";
 import { cn } from '@/lib/cn';
 
-export default function Playground() {
+export default function Demo() {
   const network = useNetworkInformation();
 
   if (!network.supported) {

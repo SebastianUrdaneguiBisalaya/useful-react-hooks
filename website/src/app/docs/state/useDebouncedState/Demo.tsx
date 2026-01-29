@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { useDebouncedState } from "../../../../../../src";
 
-export default function Playground() {
+export default function Demo() {
   const { value, debouncedValue, setValue } = useDebouncedState('', { delay: 500 });
   const isSearching = value !== debouncedValue && Boolean(value);
 

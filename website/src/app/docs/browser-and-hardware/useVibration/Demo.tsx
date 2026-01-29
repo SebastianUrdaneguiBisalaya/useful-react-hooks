@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useVibration } from "../../../../../../src";
 import { cn } from "@/lib/cn";
 
-export default function Playground() {
+export default function Demo() {
   const [mounted, setMounted] = useState<boolean>(false);
   const { isSupported, vibrate, cancel } = useVibration();
   const [lastResult, setLastResult] = useState<boolean | null>(null);

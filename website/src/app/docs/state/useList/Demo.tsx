@@ -3,14 +3,14 @@
 import { useState } from 'react';
 import { Plus, Minus, Check } from 'lucide-react';
 import { useList } from "../../../../../../src";
-import { cn } from "../../../../../src/lib/cn";
+import { cn } from "@/lib/cn";
 
 export interface ToDoItem {
   title: string;
   completed: boolean;
 }
 
-export default function Playground() {
+export default function Demo() {
   const { items, insert, push, remove, update } = useList<ToDoItem>([]);
   const [task, setTask] = useState<string>('');
 

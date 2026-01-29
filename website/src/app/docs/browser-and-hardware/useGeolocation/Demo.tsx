@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useGeolocation } from "../../../../../../src";
 
-export default function Playground() {
+export default function Demo() {
   const { clearWatch, error, getCurrentPosition, isSupported, permissionState, position, watchPosition } = useGeolocation();
 
   const [watcherId, setWatcherId] = useState<number | null>(null);

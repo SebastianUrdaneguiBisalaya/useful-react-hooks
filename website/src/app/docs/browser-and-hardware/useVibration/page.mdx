@@ -1,5 +1,5 @@
 import { CodeBlock } from "@/components/shared/Codeblock";
-import Playground from "@/app/docs/browser-and-hardware/useVibration/Playground";
+import Demo from "@/app/docs/browser-and-hardware/useVibration/Demo";
 import Table from "@/components/shared/Table";
 import data from "@/app/docs/browser-and-hardware/useVibration/data";
 
@@ -24,7 +24,7 @@ The **useVibration hook** abstracts the **navigator.vibrate** API, allowing you 
 
 #### **Demo**
 
-<Playground />
+<Demo />
 
 #### **Source code**
 
@@ -35,7 +35,7 @@ import { useState, useEffect } from "react";
 import { useVibration } from "@vibehooks/react/useVibration";
 import { cn } from "@/lib/cn";
 
-export default function Playground() {
+export default function Demo() {
   const [mounted, setMounted] = useState<boolean>(false);
   const { isSupported, vibrate, cancel } = useVibration();
   const [lastResult, setLastResult] = useState<boolean | null>(null);

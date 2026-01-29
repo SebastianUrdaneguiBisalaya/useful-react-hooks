@@ -11,7 +11,7 @@ const PERMISSIONS_TO_TRACK: PermissionName[] = [
   'notifications',
 ];
 
-export default function Playground() {
+export default function Demo() {
   const { isSupported, permissions } = usePermissions(PERMISSIONS_TO_TRACK);
   const [mounted, setMounted] = useState<boolean>(false);
 

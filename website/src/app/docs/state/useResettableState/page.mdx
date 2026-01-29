@@ -1,5 +1,5 @@
 import { CodeBlock } from "@/components/shared/Codeblock";
-import Playground from "@/app/docs/state/useResettableState/Playground";
+import Demo from "@/app/docs/state/useResettableState/Demo";
 import Table from "@/components/shared/Table";
 import data from "@/app/docs/state/useResettableState/data.json";
 
@@ -30,7 +30,7 @@ This hook is particularly useful for managing temporary inputs, filters, or comp
 
 #### **Demo**
 
-<Playground />
+<Demo />
 
 #### **Source code**
 
@@ -39,7 +39,7 @@ This hook is particularly useful for managing temporary inputs, filters, or comp
 
 import { useResettableState } from "@vibehooks/react/useResettableState";
 
-export default function Playground() {
+export default function Demo() {
   const [filters, setFilters, resetFilters] = useResettableState({
     query: '',
     category: 'all',

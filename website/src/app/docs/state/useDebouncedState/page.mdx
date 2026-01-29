@@ -1,5 +1,5 @@
 import { CodeBlock } from "@/components/shared/Codeblock";
-import Playground from "@/app/docs/state/useDebouncedState/Playground";
+import Demo from "@/app/docs/state/useDebouncedState/Demo";
 import Table from "@/components/shared/Table";
 import data from "@/app/docs/state/useDebouncedState/data.json";
 
@@ -30,7 +30,7 @@ This pattern is the industry standard for search bars, preventing "server hammer
 
 #### **Demo**
 
-<Playground />
+<Demo />
 
 #### **Source code**
 
@@ -40,7 +40,7 @@ This pattern is the industry standard for search bars, preventing "server hammer
 import { useEffect } from "react";
 import { useDebouncedState } from "@vibehooks/react/useDebouncedState";
 
-export default function Playground() {
+export default function Demo() {
   const { value, debouncedValue, setValue } = useDebouncedState('', { delay: 500 });
   const isSearching = value !== debouncedValue && Boolean(value);
 

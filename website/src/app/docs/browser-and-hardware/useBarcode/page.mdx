@@ -1,5 +1,5 @@
 import { CodeBlock } from "@/components/shared/Codeblock";
-import Playground from "@/app/docs/browser-and-hardware/useBarcode/Playground";
+import Demo from "@/app/docs/browser-and-hardware/useBarcode/Demo";
 import Table from "@/components/shared/Table";
 import data from "@/app/docs/browser-and-hardware/useBarcode/data";
 
@@ -28,7 +28,7 @@ The **useBarcode** hook automates the lifecycle of barcode detection. It handles
 
 #### **Demo**
 
-<Playground />
+<Demo />
 
 #### **Source code**
 
@@ -41,7 +41,7 @@ import LayoutDemo from "@/layouts/LayoutDemo";
 import LayoutNotMounted from "@/layouts/LayoutNotMounted";
 import LayoutNotSupported from "@/layouts/LayoutNotSupported";
 
-export default function Playground() {
+export default function Demo() {
   const [mounted, setMounted] = useState<boolean>(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const seenRef = useRef<Set<string>>(new Set());

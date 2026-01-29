@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useScreenOrientation } from "../../../../../../src";
 
-export default function Playground() {
+export default function Demo() {
   const { isSupported, type, angle, lock, unlock } = useScreenOrientation();
   const [mounted, setMounted] = useState<boolean>(false);
 

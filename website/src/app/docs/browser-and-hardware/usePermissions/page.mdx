@@ -1,5 +1,5 @@
 import { CodeBlock } from "@/components/shared/Codeblock";
-import Playground from "@/app/docs/browser-and-hardware/usePermissions/Playground";
+import Demo from "@/app/docs/browser-and-hardware/usePermissions/Demo";
 import Table from "@/components/shared/Table";
 import data from "@/app/docs/browser-and-hardware/usePermissions/data";
 
@@ -29,7 +29,7 @@ The **usePermissions** hook provides a declarative way to monitor the status of 
 
 #### **Demo**
 
-<Playground />
+<Demo />
 
 #### **Source code**
 
@@ -47,7 +47,7 @@ const PERMISSIONS_TO_TRACK: PermissionName[] = [
   'notifications',
 ];
 
-export default function Playground() {
+export default function Demo() {
   const { isSupported, permissions } = usePermissions(PERMISSIONS_TO_TRACK);
   const [mounted, setMounted] = useState<boolean>(false);
 

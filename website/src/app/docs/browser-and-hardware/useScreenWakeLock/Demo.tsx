@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useScreenWakeLock } from "../../../../../../src";
 import { cn } from "@/lib/cn";
 
-export default function Playground() {
+export default function Demo() {
   const { isSupported, isActive, request, release } = useScreenWakeLock();
   const [mounted, setMounted] = useState<boolean>(false);
 

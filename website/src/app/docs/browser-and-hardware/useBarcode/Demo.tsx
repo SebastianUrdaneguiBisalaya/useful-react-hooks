@@ -6,7 +6,7 @@ import LayoutDemo from "@/layouts/LayoutDemo";
 import LayoutNotMounted from "@/layouts/LayoutNotMounted";
 import LayoutNotSupported from "@/layouts/LayoutNotSupported";
 
-export default function Playground() {
+export default function Demo() {
   const [mounted, setMounted] = useState<boolean>(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const seenRef = useRef<Set<string>>(new Set());

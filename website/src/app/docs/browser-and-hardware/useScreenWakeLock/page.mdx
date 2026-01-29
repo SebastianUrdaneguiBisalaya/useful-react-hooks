@@ -1,5 +1,5 @@
 import { CodeBlock } from "@/components/shared/Codeblock";
-import Playground from "@/app/docs/browser-and-hardware/useScreenWakeLock/Playground";
+import Demo from "@/app/docs/browser-and-hardware/useScreenWakeLock/Demo";
 import Table from "@/components/shared/Table";
 import data from "@/app/docs/browser-and-hardware/useScreenWakeLock/data";
 
@@ -24,7 +24,7 @@ The **useScreenWakeLock** hook allows web applications to request a "wake lock,"
 
 #### **Demo**
 
-<Playground />
+<Demo />
 
 #### **Source code**
 
@@ -35,7 +35,7 @@ import { useState, useEffect } from "react";
 import { useScreenWakeLock } from "@vibehooks/react/useScreenWakeLock";
 import { cn } from "@/lib/cn";
 
-export default function Playground() {
+export default function Demo() {
   const { isSupported, isActive, request, release } = useScreenWakeLock();
   const [mounted, setMounted] = useState<boolean>(false);
 

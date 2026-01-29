@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useBatteryStatus } from '../../../../../../src/useBatteryStatus';
 import { cn } from '@/lib/cn';
 
-export default function Playground() {
+export default function Demo() {
   const [mounted, setMounted] = useState<boolean>(false);
   const { isSupported, battery } = useBatteryStatus();
 
