@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-export interface UseShoppingCartOptions<T extends Record<string, unknown>> {
+export interface UseShoppingCartOptions<T extends object> {
 	getItemDiscount?: (item: T) => number;
 	getItemKey: (item: T) => string | number;
 	getItemPrice: (item: T) => number;
@@ -18,7 +18,7 @@ export interface ShoppingCartItemDetail {
 	unitPrice: number;
 }
 
-export interface UseShoppingCartReturn<T extends Record<string, unknown>> {
+export interface UseShoppingCartReturn<T extends object> {
 	addItem: (item: T) => void;
 	clear: () => void;
 	getDetails: () => ShoppingCartItemDetail[];
@@ -59,7 +59,7 @@ export interface UseShoppingCartReturn<T extends Record<string, unknown>> {
  * @version 0.0.1
  *
  */
-export function useShoppingCart<T extends Record<string, unknown>>(
+export function useShoppingCart<T extends object>(
 	options: UseShoppingCartOptions<T>
 ): UseShoppingCartReturn<T> {
 	const {
