@@ -2,6 +2,7 @@ import * as React from 'react';
 
 export interface NotificationPayload extends NotificationOptions {
 	createdAt: number;
+  id?: string;
 	title: string;
 }
 
@@ -19,41 +20,49 @@ function emit() {
 function onStorageEvent(event: StorageEvent) {
 	if (event.key !== 'notifications') return;
 	try {
-		Notification = JSON.parse(event.newValue ?? '[]');
+    const next = JSON.parse(event.newValue ?? '[]');
+    if (Object.is(next, notifications)) return;
+    notifications = next;
 		emit();
 	} catch {
 		// TODO: handle error
 	}
 }
 
+function suscribe(listener: Listener) {
+  listeners.add(listener);
+  if (!isListening && typeof window !== 'undefined') {
+		window.addEventListener('storage', onStorageEvent);
+		isListening = true;
+	}
+
+	return () => {
+		listeners.delete(listener);
+
+		if (listeners.size === 0 && isListening) {
+			window.removeEventListener('storage', onStorageEvent);
+			isListening = false;
+		}
+	};
+}
+
+function getSnapshot() {
+	return notifications;
+}
+
 export const notificationStore = {
-	getSnapshot() {
-		return notifications;
-	},
-	push(notification: NotificationPayload) {
-		notifications = [...notifications, notification];
+	getSnapshot,
+  push(notification: NotificationPayload) {
+    notifications = [...notifications, notification];
 		localStorage.setItem('notifications', JSON.stringify(notifications));
 		emit();
-	},
-	suscribe(listener: Listener) {
-		listeners.add(listener);
-		if (!isListening && typeof window !== 'undefined') {
-			window.addEventListener('storage', onStorageEvent);
-			isListening = true;
-		}
-		return () => {
-			listeners.delete(listener);
-			if (listeners.size === 0 && isListening) {
-				window.removeEventListener('storage', onStorageEvent);
-				isListening = false;
-			}
-		};
-	},
-};
+  },
+  suscribe,
+}
 
 export interface UseExternalNotificationResult {
 	isSupported: boolean;
-	notifications: NotificationPayload[];
+	notifications: NotificationPayload[] | null;
 	notify: (notification: Omit<NotificationPayload, 'createdAt'>) => void;
 	permission: NotificationPermission;
 	requestPermission: () => Promise<NotificationPermission>;
@@ -127,9 +136,9 @@ export interface UseExternalNotificationResult {
  */
 export function useExternalNotifications(): UseExternalNotificationResult {
 	const notifications = React.useSyncExternalStore(
-		notificationStore.suscribe.bind(notificationStore),
-		notificationStore.getSnapshot.bind(notificationStore),
-		() => []
+		notificationStore.suscribe,
+		notificationStore.getSnapshot,
+		() => null
 	);
 	const isSupported = typeof window !== 'undefined' && 'Notification' in window;
 
@@ -149,6 +158,8 @@ export function useExternalNotifications(): UseExternalNotificationResult {
 
 			notificationStore.push(payload);
 
+      if (!isSupported || permission !== 'granted') return;
+
 			const options: NotificationOptions = {
 				...(notification.badge !== undefined && { badge: notification.badge }),
 				...(notification.body !== undefined && { body: notification.body }),
@@ -161,9 +172,7 @@ export function useExternalNotifications(): UseExternalNotificationResult {
 				}),
 			};
 
-			if (isSupported && permission === 'granted') {
-				new Notification(payload.title, options);
-			}
+			new Notification(payload.title, options);
 		},
 		[isSupported, permission]
 	);
