@@ -17,11 +17,6 @@ export interface UseNotificationOptions extends NotificationOptions {
  * @example
  * ```tsx
  * const { notify, requestPermission, permission } = useNotifications();
- *
- * React.useEffect(() => {
- *   if (permission !== 'granted') requestPermission();
- * }, []);
- *
  * notify({ title: 'Hello', body: 'World' });
  * ```
  *
@@ -32,7 +27,7 @@ export interface UseNotificationOptions extends NotificationOptions {
  * @version 0.0.1
  *
  */
-export function useLocalNotifications(): UseLocalNotificationResult {
+export function useLocaleNotifications(): UseLocalNotificationResult {
 	const [permission, setPermission] = React.useState<NotificationPermission>(
 		typeof window !== 'undefined' && 'Notification' in window
 			? Notification.permission
