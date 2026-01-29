@@ -30,11 +30,11 @@ This hook is designed for applications requiring spatial awareness—such as map
 
 #### **Source code**
 
-```typescript
+```tsx
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useGeolocation } from "../../../../../../src";
+import { useGeolocation } from "@vibehooks/react/useGeolocation";
 
 export default function Demo() {
   const { clearWatch, error, getCurrentPosition, isSupported, permissionState, position, watchPosition } = useGeolocation();
