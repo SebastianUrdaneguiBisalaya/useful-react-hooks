@@ -15,7 +15,7 @@ export default function LayoutDemo({ className, children, title }: LayoutDemoPro
       )}
     >
       <h3
-        className='text-lg w-full text-center text-white/60 font-sora font-semibold'
+        className='text-lg w-full text-center text-white/80 font-sora font-semibold'
       >
         {title}
       </h3>
