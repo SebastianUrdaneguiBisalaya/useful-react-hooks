@@ -33,5 +33,24 @@ A responsive utility hook that monitors window resizing and returns a boolean st
 #### **Source code**
 
 ```tsx
+'use client';
 
+import { useIsDesktop } from "@vibehooks/react/useIsDesktop";
+import LayoutDemo from "@/layouts/LayoutDemo";
+
+export default function Demo() {
+  const isDesktop = useIsDesktop(1024);
+	return (
+		<LayoutDemo
+      title="Verifying Desktop Environment"
+    >
+      <p className="font-reddit-sans text-sm text-white/60 w-full text-center">
+        Current environment:{' '}
+        <span className="font-reddit-sans text-sm text-white/80 font-bold">
+          {isDesktop ? "🖥️ Desktop View" : "📱 Mobile/Tablet View"}
+        </span>
+      </p>
+		</LayoutDemo>
+	);
+}
 ```
