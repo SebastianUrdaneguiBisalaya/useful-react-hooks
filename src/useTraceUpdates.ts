@@ -59,14 +59,14 @@ export function useTraceUpdates(value: Record<string, unknown>, name?: string) {
 						to: value[key],
 					};
 				}
-				if (Object.keys(changes).length > 0) {
-					console.log(
-						`[useTraceUpdates] ${name ?? 'Component'} changes:`,
-						changes
-					);
-				}
 			}
-			prev.current = value;
+      if (Object.keys(changes).length > 0) {
+        console.log(
+          `[useTraceUpdates] ${name ?? 'Component'} changes:`,
+          changes
+        );
+      }
 		}
+    prev.current = value;
 	}, [value, name]);
 }
