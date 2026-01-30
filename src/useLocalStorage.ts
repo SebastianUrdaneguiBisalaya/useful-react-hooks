@@ -2,22 +2,12 @@ import * as React from 'react';
 
 export interface UseLocalStorageOptions<T> {
 	/**
-	 * Optional fallback value returned when the key does not exist or parsing fails.
+	 * Fallback value returned when the key does not exist or parsing fails.
 	 */
-	fallback?: T;
+	fallback: T;
 }
 
 export interface UseLocalStorageReturn<T> {
-	/**
-	 * Clears all localStorage entries.
-	 */
-	clear(): void;
-
-	/**
-	 * Reads and parses a value from localStorage.
-	 */
-	get(): T | null;
-
 	/**
 	 * Removes the key from localStorage.
 	 */
@@ -32,6 +22,35 @@ export interface UseLocalStorageReturn<T> {
 	 * Updates the stored value using a functional updater.
 	 */
 	update(updater: (prev: T | null) => T): void;
+
+  /**
+   * The current value of the key.
+   */
+  value: T;
+}
+
+const listeners = new Set<() => void>();
+const cache = new Map<string, unknown>();
+
+function emit() {
+	listeners.forEach(listener => listener());
+}
+
+function subscribe(listener: () => void) {
+	listeners.add(listener);
+	return () => {
+		listeners.delete(listener);
+	};
+}
+
+function readFromStorage<T>(key: string, fallback: T): T {
+  if (typeof window === 'undefined') return fallback;
+  try {
+    const raw = window.localStorage.getItem(key);
+    return raw === null ? fallback : JSON.parse(raw) as T;
+  } catch {
+    return fallback;
+  }
 }
 
 /**
@@ -59,55 +78,49 @@ export interface UseLocalStorageReturn<T> {
  */
 export function useLocalStorage<T>(
 	key: string,
-	options?: UseLocalStorageOptions<T>
+	options: UseLocalStorageOptions<T>
 ): UseLocalStorageReturn<T> {
-	const fallback = options?.fallback ?? null;
-	const isSupported =
-		typeof window !== 'undefined' && typeof window.localStorage !== 'undefined';
+	const { fallback } = options;
 
-	const get = React.useCallback((): T | null => {
-		if (!isSupported) return fallback;
-		try {
-			const raw = window.localStorage.getItem(key);
-			if (raw === null) return fallback;
-			return JSON.parse(raw) as T;
-		} catch {
-			return fallback;
-		}
-	}, [key, fallback, isSupported]);
+  const getSnapshot = React.useCallback((): T => {
+    if (!cache.has(key)) {
+      cache.set(key, readFromStorage(key, fallback));
+    }
+    return cache.get(key) as T;
+  }, [key, fallback]);
 
-	const set = React.useCallback(
-		(value: T) => {
-			if (!isSupported) return;
-			window.localStorage.setItem(key, JSON.stringify(value));
-		},
-		[key, isSupported]
-	);
+  const value = React.useSyncExternalStore(
+    subscribe,
+    getSnapshot,
+    () => fallback
+  );
 
-	const remove = React.useCallback(() => {
-		if (!isSupported) return;
-		window.localStorage.removeItem(key);
-	}, [key, isSupported]);
+  const set = React.useCallback(
+    (next: T) => {
+      if (typeof window === 'undefined') return;
+      cache.set(key, next);
+      window.localStorage.setItem(key, JSON.stringify(next));
+      emit();
+    }, [key]
+  );
 
-	const clear = React.useCallback(() => {
-		if (!isSupported) return;
-		window.localStorage.clear();
-	}, [isSupported]);
+  const update = React.useCallback(
+    (updater: (prev: T) => T) => {
+      set(updater(value));
+    }, [value, set]
+  );
 
-	const update = React.useCallback(
-		(updater: (prev: T | null) => T) => {
-			const current = get();
-			const next = updater(current);
-			set(next);
-		},
-		[get, set]
-	);
+  const remove = React.useCallback(() => {
+    if (typeof window === 'undefined') return;
+    cache.delete(key);
+    window.localStorage.removeItem(key);
+    emit();
+  }, [key]);
 
 	return {
-		clear,
-		get,
 		remove,
 		set,
 		update,
+    value,
 	};
 }

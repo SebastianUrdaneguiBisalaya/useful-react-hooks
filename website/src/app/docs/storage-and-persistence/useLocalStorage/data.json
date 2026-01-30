@@ -8,19 +8,14 @@
     {
       "name": "options.fallback",
       "type": "T",
-      "description": "The value to return if the key does not exist or parsing fails. Default: null."
+      "description": "The value to return if the key does not exist or parsing fails."
     }
   ],
   "returnValues": [
     {
-      "name": "clear",
-      "type": "() => void",
-      "description": "Removes all entries from the entire localStorage for the current origin."
-    },
-    {
-      "name": "get",
-      "type": "() => T | null",
-      "description": "Retrieves and parses the value associated with the key."
+      "name": "value",
+      "type": "T",
+      "description": "The current value of the key."
     },
     {
       "name": "remove",
