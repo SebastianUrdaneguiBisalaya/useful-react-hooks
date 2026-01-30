@@ -17,7 +17,7 @@ export default function LayoutDemo({ className, classNameText, children, title }
     >
       <h3
         className={cn(
-          'text-lg w-full text-center text-white/80 font-sora font-semibold',
+          'w-full text-center text-white/80 font-sora font-semibold',
           classNameText
         )}
       >
