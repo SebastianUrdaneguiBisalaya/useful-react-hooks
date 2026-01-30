@@ -77,7 +77,7 @@ If you do not want create your custom hook, you can also contribute to the packa
 | [**useHoverIntent**](https://github.com/SebastianUrdaneguiBisalaya/vibehooks/blob/main/src/useHoverIntent.ts) | A detection hook that distinguishes between accidental mouse-overs and intentional user hovers.|
 | [**useFile**](https://github.com/SebastianUrdaneguiBisalaya/vibehooks/blob/main/src/useFile.ts) | Manages file selection state and provides input-ready props for uploads and drag-and-drop.|
 | [**useFullscreen**](https://github.com/SebastianUrdaneguiBisalaya/vibehooks/blob/main/src/useFullScreen.ts) | A declarative interface for managing the browser Fullscreen API on a specific DOM element.|
-| [**useIdle**](https://github.com/SebastianUrdaneguiBisalaya/vibehooks/blob/main/src/useIdle.ts) | |
+| [**useIdle**](https://github.com/SebastianUrdaneguiBisalaya/vibehooks/blob/main/src/useIdle.ts) | An SSR-safe hook to monitor user inactivity by tracking browser interaction events and exposing real-time idle status based on a custom timeout.|
 | [**useIndexedDB**](https://github.com/SebastianUrdaneguiBisalaya/vibehooks/blob/main/src/useIndexedDB.ts) | A React hook that abstracts the boilerplate of the IndexedDB API, facilitating database connections and transaction management.|
 | [**useIntersectionObserver**](https://github.com/SebastianUrdaneguiBisalaya/vibehooks/blob/main/src/useIntersectionObserver.ts) | A hook that monitors the visibility and intersection of a DOM element within a viewport.|
 | [**useIntervalSafe**](https://github.com/SebastianUrdaneguiBisalaya/vibehooks/blob/main/src/useIntervalSafe.ts) | A declarative and robust React hook for managing **setInterval** lifecycles with execution limits and manual controls.|
