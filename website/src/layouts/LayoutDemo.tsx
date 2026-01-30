@@ -2,11 +2,12 @@ import { cn } from '@/lib/cn';
 
 export interface LayoutDemoProps {
   className?: string;
+  classNameText?: string;
   children: React.ReactNode;
   title: string;
 }
 
-export default function LayoutDemo({ className, children, title }: LayoutDemoProps) {
+export default function LayoutDemo({ className, classNameText, children, title }: LayoutDemoProps) {
   return (
     <div
       className={cn(
@@ -15,7 +16,10 @@ export default function LayoutDemo({ className, children, title }: LayoutDemoPro
       )}
     >
       <h3
-        className='text-lg w-full text-center text-white/80 font-sora font-semibold'
+        className={cn(
+          'text-lg w-full text-center text-white/80 font-sora font-semibold',
+          classNameText
+        )}
       >
         {title}
       </h3>
