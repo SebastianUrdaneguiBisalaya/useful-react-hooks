@@ -11,6 +11,11 @@
       "name": "freeze",
       "type": "(options?: BodyScrollFreezeOptions) => void",
       "description": "Imperative function to apply the scroll lock to the body element."
+    },
+    {
+      "name": "unfreeze",
+      "type": "() => void",
+      "description": "Reverts the scroll lock by resetting the body element styles."
     }
   ]
 }
