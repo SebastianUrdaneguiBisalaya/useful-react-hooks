@@ -2,12 +2,12 @@
   "returnValues": [
     {
       "name": "anchorRef",
-      "type": "React.RefObject<HTMLElement>",
+      "type": "React.RefObject<T>",
       "description": "Ref to be assigned to the trigger element (e.g., a button)."
     },
     {
       "name": "popoverRef",
-      "type": "React.RefObject<HTMLElement>",
+      "type": "React.RefObject<T>",
       "description": "Ref to be assigned to the floating content element."
     },
     {
