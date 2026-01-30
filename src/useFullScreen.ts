@@ -22,7 +22,7 @@ export interface FullScreen {
  *
  */
 export function useFullscreen<T extends HTMLElement>(
-	ref: React.RefObject<T>
+	ref: React.RefObject<T | null>
 ): FullScreen {
 	const [isFullscreen, setIsFullscreen] = React.useState<boolean>(false);
 

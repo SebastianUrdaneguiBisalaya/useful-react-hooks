@@ -1,7 +1,7 @@
 import { CodeBlock } from "@/components/shared/Codeblock";
-import Demo from "@/app/docs/ui-and-layout/useFullScreen/Demo";
+import Demo from "@/app/docs/ui-and-layout/useFullscreen/Demo";
 import Table from "@/components/shared/Table";
-import data from "@/app/docs/ui-and-layout/useFullScreen/data.json";
+import data from "@/app/docs/ui-and-layout/useFullscreen/data.json";
 
 # **useFullScreen**
 
@@ -33,5 +33,33 @@ The **useFullscreen** hook abstracts the complexity of the Fullscreen API, provi
 #### **Source code**
 
 ```tsx
+'use client';
 
+import { useRef } from "react";
+import { useFullscreen } from "@vibehooks/react/useFullscreen";
+import LayoutDemo from "@/layouts/LayoutDemo";
+import { Button } from "@/components/ui/Button";
+
+export default function Demo() {
+  const ref = useRef<HTMLDivElement>(null);
+  const { toggle, isFullscreen } = useFullscreen<HTMLDivElement>(ref);
+
+  return (
+    <LayoutDemo
+      title="Fullscreen"
+    >
+      <div
+        className="w-full flex flex-col items-center justify-center gap-2"
+        ref={ref}
+      >
+        <p className="font-reddit-sans text-sm text-white/70 w-full text-center">
+          Status: <span className="font-bold">{isFullscreen ? 'Fullscreen' : 'Normal'}</span>
+        </p>
+        <Button.Primary onClick={toggle}>
+          Toggle Fullscreen
+        </Button.Primary>
+      </div>
+    </LayoutDemo>
+  )
+}
 ```
