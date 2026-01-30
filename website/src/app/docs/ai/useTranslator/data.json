@@ -2,8 +2,8 @@
   "parameters": [
     {
       "name": "options.sourceLanguage",
-      "type": "string | undefined",
-      "description": "The BCP 47 code for the source language (or undefined for auto-detect). Default: undefined."
+      "type": "string",
+      "description": "The BCP 47 code for the source language. Required."
     },
     {
       "name": "options.targetLanguage",
