@@ -62,6 +62,11 @@ export interface UseSummarizerReturn {
 	 */
 	destroy(): void;
 
+  /**
+   * Checks if the provided error is an AbortError.
+   */
+  isAbortError(error: unknown): boolean;
+
 	/**
 	 * Indicates whether the Summarizer API exists in the current environment.
 	 */
@@ -70,7 +75,13 @@ export interface UseSummarizerReturn {
 	/**
 	 * Runs a sumamrization request using the active Summarizer instance.
 	 */
-	summarize(text: string, options?: { signal?: AbortSignal }): Promise<string>;
+	summarize(text: string): Promise<string>;
+}
+
+function isAbortError(error: unknown): boolean {
+  return (
+    error instanceof DOMException && error.name === 'AbortError'
+  )
 }
 
 /**
@@ -132,25 +143,38 @@ export function useSummarizer(): UseSummarizerReturn {
 			abortRef.current = new AbortController();
 			summarizerRef.current = await window.Summarizer!.create({
 				...options,
-				signal: abortRef.current.signal,
 			});
 		},
 		[isSupported]
 	);
 
 	const summarize = React.useCallback(
-		async (text: string, options?: { signal?: AbortSignal }) => {
+		async (text: string) => {
 			if (!summarizerRef.current) {
 				throw new Error('Summarizer instance not created.');
 			}
-			return summarizerRef.current.summarize(text, options);
+      if (!abortRef.current) {
+        abortRef.current = new AbortController();
+      }
+			try {
+        return await summarizerRef.current.summarize(text, {
+          signal: abortRef.current.signal
+        });
+      } catch (err: unknown) {
+        if (isAbortError(err)) {
+          return Promise.reject(err);
+        }
+        throw err;
+      }
 		},
 		[]
 	);
 
 	const cancel = React.useCallback(() => {
-		abortRef.current?.abort();
-		abortRef.current = null;
+		if (abortRef.current) {
+      abortRef.current?.abort();
+		  abortRef.current = null;
+    }
 	}, []);
 
 	const destroy = React.useCallback(() => {
@@ -164,6 +188,7 @@ export function useSummarizer(): UseSummarizerReturn {
 		checkAvailability,
 		create,
 		destroy,
+    isAbortError,
 		isSupported,
 		summarize,
 	};

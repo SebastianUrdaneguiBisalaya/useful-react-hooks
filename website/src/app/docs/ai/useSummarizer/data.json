@@ -21,13 +21,18 @@
       "description": "Cleans up the model instance and releases browser resources."
     },
     {
+      "name": "isAbortError",
+      "type": "(error: unknown) => boolean",
+      "description": "Checks if the provided error is an AbortError."
+    },
+    {
       "name": "isSupported",
       "type": "boolean",
       "description": "true if the browser supports the window.Summarizer API."
     },
     {
       "name": "summarize",
-      "type": "(text: string, opts={}) => Promise<string>",
+      "type": "(text: string) => Promise<string>",
       "description": "Asynchronously processes the input text and returns a summary."
     }
   ]
