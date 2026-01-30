@@ -34,6 +34,10 @@ const hooksList: HooksListProps[] = [
         path: "/docs/browser-and-hardware/useGeolocation",
       },
       {
+        name: "useIdle",
+        path: "/docs/browser-and-hardware/useIdle",
+      },
+      {
         name: "useNetworkInformation",
         path: "/docs/browser-and-hardware/useNetworkInformation",
       },

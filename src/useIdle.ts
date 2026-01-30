@@ -39,8 +39,6 @@ export interface UseIdleResult {
  * This hook does not perform side effects (logout, pause, etc.).
  * It only exposes idle state so the consumer can decide what to do.
  *
- * @returns Idle state and helpers.
- *
  * @example
  * ```tsx
  * const { isIdle } = useIdle({ timeout: 30000 });

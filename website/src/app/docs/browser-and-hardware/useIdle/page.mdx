@@ -1,0 +1,79 @@
+import { CodeBlock } from "@/components/shared/Codeblock";
+import Demo from "@/app/docs/browser-and-hardware/useIdle/Demo";
+import Table from "@/components/shared/Table";
+import data from "@/app/docs/browser-and-hardware/useIdle/data";
+
+# **useIdle**
+
+### An SSR-safe hook to monitor user inactivity by tracking browser interaction events and exposing real-time idle status based on a custom timeout.
+
+#### **Installation**
+
+<CodeBlock
+  code={`npm install @vibehooks/react/useIdle`}
+  language="bash"
+/>
+
+#### **Description**
+
+The **useIdle** observes a customizable set of browser events (such as **mousemove**, **keydown**, or **scroll**). Each detected interaction resets an internal timer; if no activity occurs before the **timeout** expires, the user is marked as idle. This hook is purely reactive, allowing developers to trigger side effects like session timeouts, pausing expensive computations, or UI state changes.
+
+#### **Return values**
+
+<Table data={data.returnValues} />
+
+#### **Demo**
+
+<Demo />
+
+#### **Source code**
+
+```tsx
+'use client';
+
+import { useIdle } from "@vibehooks/react/useIdle";
+import LayoutDemo from "@/layouts/LayoutDemo";
+import { cn } from "@/lib/cn";
+
+export default function Demo() {
+  const { isIdle, lastActiveAt } = useIdle({
+    events: ['mousemove', 'keydown', 'mousedown', 'touchstart', 'scroll'],
+    timeout: 5000,
+  });
+
+  return (
+    <LayoutDemo
+      title="Idle"
+    >
+      <div className="flex items-center space-x-2">
+        <span className='relative flex h-3 w-3'>
+          {!isIdle && (
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+          )}
+          <span
+            className={cn(
+              'relative inline-flex rounded-full h-3 w-3',
+              isIdle ? 'bg-amber-500' : 'bg-green-500'
+            )}
+          >
+          </span>
+        </span>
+        <span className="text-sm font-reddit-sans text-white/80 font-medium">
+          Status: {isIdle ? 'User is Idle' : 'User is Active'}
+        </span>
+      </div>
+
+      <p className="text-sm font-reddit-sans text-white/70">
+        Last Activity: {new Date(lastActiveAt).toLocaleTimeString()}
+      </p>
+
+      {isIdle && (
+        <p className="text-sm text-amber-500 font-reddit-sans">
+          <strong>Note:</strong> Auto-pausing background processes to save resources.
+        </p>
+      )}
+    </LayoutDemo>
+  )
+}
+```
+
