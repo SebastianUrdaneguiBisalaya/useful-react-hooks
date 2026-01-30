@@ -1,13 +1,35 @@
 'use client';
 
+import { usePreferredTheme } from "../../../../../../src";
 import LayoutDemo from "@/layouts/LayoutDemo";
+import { cn } from "@/lib/cn";
 
 export default function Demo() {
+  const { systemTheme, userTheme, toggleTheme, setUserTheme } = usePreferredTheme();
 	return (
 		<LayoutDemo
-      title="useIsClient"
+      className={cn(
+        'transition-colors duration-500 ease-in-out',
+        'dark:bg-neutral-900 bg-neutral-100'
+      )}
+      classNameText={cn(
+        'transition-colors duration-500 ease-in-out',
+        'dark:text-white/80 text-neutral-900',
+      )}
+      title="Theme Manager"
     >
-			<div>This is a client-side component.</div>
+      <div className="w-full grid grid-cols-1 md:grid-cols-2">
+        <p className="w-full text-center font-reddit-sans text-sm text-neutral-800 dark:text-white/70">System: <span className="font-bold font-reddit-sans text-neutral-900 dark:text-white">{systemTheme}</span></p>
+        <p className="w-full text-center font-reddit-sans text-sm text-neutral-800 dark:text-white/70">User override: <span className="font-bold font-reddit-sans text-neutral-900 dark:text-white">{userTheme ?? "Follow system"}</span></p>
+      </div>
+      <div className="flex flex-row w-full items-center gap-4">
+        <button className="w-full font-reddit-sans text-sm text-white/80 hover:text-white/90 transition-colors duration-500 ease-in-out border border-transparent dark:border-white/40 px-4 py-3 rounded-md cursor-pointer bg-purple-500 dark:bg-neutral-900 hover:bg-purple-600 dark:hover:bg-neutral-950" onClick={() => toggleTheme()}>
+          Toggle Theme
+        </button>
+        <button className="w-full font-reddit-sans text-sm text-neutral-800 dark:text-white/80 hover:text-neutral-900 dark:hover:text-white/90 transition-colors duration-500 ease-in-out border border-transparent dark:border-white/40 px-4 py-3 rounded-md cursor-pointer bg-neutral-300 dark:bg-neutral-900 hover:bg-neutral-400 dark:hover:bg-neutral-950" onClick={() => setUserTheme(null)}>
+          Reset to system
+        </button>
+      </div>
 		</LayoutDemo>
 	);
 }

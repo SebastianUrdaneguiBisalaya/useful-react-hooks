@@ -108,6 +108,17 @@ export interface PreferredThemeReturn {
 	userTheme: Theme | null;
 }
 
+function updateDOMTheme(theme: Theme) {
+  if (typeof window === 'undefined') return;
+  const root = document.documentElement;
+  if (theme === 'dark') {
+    root.classList.add('dark');
+  } else {
+    root.classList.remove('dark');
+  }
+  root.style.colorScheme = theme;
+}
+
 /**
  * `usePreferredTheme` resolves the effective theme for the application.
  *
@@ -141,7 +152,7 @@ export interface PreferredThemeReturn {
  *            </button>
  *        </div>
  *    );
- *}
+ * }
  * ```
  *
  * @author Sebastian Marat Urdanegui Bisalaya <https://sebastianurdanegui.com>
@@ -164,6 +175,10 @@ export function usePreferredTheme(): PreferredThemeReturn {
 	);
 
 	const resolved = userTheme ?? systemTheme ?? 'light';
+
+  React.useEffect(() => {
+    updateDOMTheme(resolved);
+  }, [resolved]);
 
 	const toggleTheme = React.useCallback(
 		(options?: { dark?: Theme; light?: Theme }) => {
