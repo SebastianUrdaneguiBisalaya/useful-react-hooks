@@ -1,7 +1,7 @@
 'use client';
 
 import { usePreferredLanguage } from "../../../../../../src";
-import LayoutDemo from "@/layouts/LayoutDemo";
+import LayoutDemo from "@/layouts/Layout";
 
 export default function Demo() {
   const { language , setUserLanguage, systemLanguage, userLanguage } = usePreferredLanguage();

@@ -1,17 +1,18 @@
 'use client';
 
-import { useState } from 'react';
 import { Plus, Minus, Check } from 'lucide-react';
+import { useState } from 'react';
+
 import { useList } from "../../../../../../src";
 import { cn } from "@/lib/cn";
 
 export interface ToDoItem {
-  title: string;
   completed: boolean;
+  title: string;
 }
 
 export default function Demo() {
-  const { items, insert, push, remove, update } = useList<ToDoItem>([]);
+  const { insert, items, push, remove, update } = useList<ToDoItem>([]);
   const [task, setTask] = useState<string>('');
 
   return (
@@ -28,7 +29,7 @@ export default function Demo() {
           />
           <button
             className='bg-purple-500 hover:bg-purple-600 transition-colors duration-500 ease-in-out rounded-full px-2 py-1 cursor-pointer aspect-square'
-            onClick={() => push({ title: task, completed: false })}
+            onClick={() => push({ completed: false, title: task })}
           >
             <Plus className="w-5 h-5" />
           </button>

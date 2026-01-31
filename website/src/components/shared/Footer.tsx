@@ -5,7 +5,7 @@ export default function Footer() {
         <span className="font-jersey-15 text-2xl">vibe</span>
         <span className="font-jersey-15 text-purple-500 text-2xl">Hooks</span>
       </div>
-      <span className="font-sora text-[10px] text-white/50 md:leading-2">- developed by <a target="_blank" className="hover:text-white text-white/50 transition-all duration-500 ease-in-out" href="https://sebastianurdanegui.com">Sebastian Marat Urdanegui Bisalaya</a></span>
+      <span className="font-sora text-[10px] text-white/50 md:leading-2">- developed by <a className="hover:text-white text-white/50 transition-all duration-500 ease-in-out" href="https://sebastianurdanegui.com" rel="noreferrer" target="_blank">Sebastian Marat Urdanegui Bisalaya</a></span>
     </footer>
   )
 }

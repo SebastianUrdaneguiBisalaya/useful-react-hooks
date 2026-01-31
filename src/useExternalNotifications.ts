@@ -2,7 +2,7 @@ import * as React from 'react';
 
 export interface NotificationPayload extends NotificationOptions {
 	createdAt: number;
-  id?: string;
+	id?: string;
 	title: string;
 }
 
@@ -20,9 +20,9 @@ function emit() {
 function onStorageEvent(event: StorageEvent) {
 	if (event.key !== 'notifications') return;
 	try {
-    const next = JSON.parse(event.newValue ?? '[]');
-    if (Object.is(next, notifications)) return;
-    notifications = next;
+		const next = JSON.parse(event.newValue ?? '[]');
+		if (Object.is(next, notifications)) return;
+		notifications = next;
 		emit();
 	} catch {
 		// TODO: handle error
@@ -30,8 +30,8 @@ function onStorageEvent(event: StorageEvent) {
 }
 
 function suscribe(listener: Listener) {
-  listeners.add(listener);
-  if (!isListening && typeof window !== 'undefined') {
+	listeners.add(listener);
+	if (!isListening && typeof window !== 'undefined') {
 		window.addEventListener('storage', onStorageEvent);
 		isListening = true;
 	}
@@ -52,13 +52,13 @@ function getSnapshot() {
 
 export const notificationStore = {
 	getSnapshot,
-  push(notification: NotificationPayload) {
-    notifications = [...notifications, notification];
+	push(notification: NotificationPayload) {
+		notifications = [...notifications, notification];
 		localStorage.setItem('notifications', JSON.stringify(notifications));
 		emit();
-  },
-  suscribe,
-}
+	},
+	suscribe,
+};
 
 export interface UseExternalNotificationResult {
 	isSupported: boolean;
@@ -158,7 +158,7 @@ export function useExternalNotifications(): UseExternalNotificationResult {
 
 			notificationStore.push(payload);
 
-      if (!isSupported || permission !== 'granted') return;
+			if (!isSupported || permission !== 'granted') return;
 
 			const options: NotificationOptions = {
 				...(notification.badge !== undefined && { badge: notification.badge }),

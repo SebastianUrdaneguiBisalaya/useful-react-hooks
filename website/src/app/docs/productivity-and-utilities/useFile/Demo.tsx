@@ -1,7 +1,7 @@
 'use client';
 
 import { useFile } from "../../../../../../src";
-import LayoutDemo from "@/layouts/LayoutDemo"
+import LayoutDemo from "@/layouts/Layout"
 
 export default function Demo() {
   const { files, hasFiles, inputProps, reset } = useFile({

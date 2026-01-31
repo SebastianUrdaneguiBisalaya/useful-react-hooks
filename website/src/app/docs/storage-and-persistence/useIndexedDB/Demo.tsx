@@ -1,29 +1,30 @@
 'use client';
 
 import { useState, useEffect, useCallback } from "react";
+
 import { useIndexedDB } from "../../../../../../src";
-import LayoutDemo from "@/layouts/LayoutDemo";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
+import LayoutDemo from "@/layouts/Layout";
 
 export interface Note {
+  createdAt: number;
   id?: number;
   text: string;
-  createdAt: number;
 }
 
 export default function Demo() {
   const db = useIndexedDB({
     name: 'notes-db',
-    version: 1,
     onUpgrade(db) {
       if (!db.objectStoreNames.contains('notes')) {
         db.createObjectStore('notes', {
-          keyPath: 'id',
           autoIncrement: true,
+          keyPath: 'id',
         })
       }
-    }
+    },
+    version: 1
   });
 
   const [notes, setNotes] = useState<Note[]>([]);
@@ -44,7 +45,7 @@ export default function Demo() {
   const addNote = async () => {
     if (!text.trim()) return;
     await db.withStore('notes', store => {
-      store.add({ text, createdAt: Date.now() });
+      store.add({ createdAt: Date.now(), text });
       return Promise.resolve();
     });
     setText('');
@@ -67,9 +68,9 @@ export default function Demo() {
     >
       <div className="w-full flex flex-row items-center gap-4">
         <Input.Primary
-          value={text}
           onChange={handleOnChange}
           placeholder="Write something here"
+          value={text}
         />
         <Button.Primary
           onClick={addNote}

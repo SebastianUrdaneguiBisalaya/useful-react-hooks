@@ -1,14 +1,15 @@
 'use client';
 
-import { useState } from "react";
-import Link from "next/link";
-import { cn } from "@/lib/cn";
-import { hooksList } from "@/constants/constants";
 import { ChevronRight, Terminal } from "lucide-react";
+import Link from "next/link";
+import { useState } from "react";
+
+import { hooksList } from "@/constants/constants";
+import { cn } from "@/lib/cn";
 
 export interface HooksListProps {
-  title: string;
   hooks: HookProps[];
+  title: string;
 }
 
 export interface HookProps {
@@ -18,8 +19,8 @@ export interface HookProps {
 
 export default function Navigation() {
   const listMajorItems = hooksList.map(item => ({
-    title: item.title,
     show: false,
+    title: item.title,
   }));
   const [showList, setShowList] = useState<boolean>(true);
   const [listMajorItemsState, setListMajorItemsState] = useState<Record<string, boolean>>(listMajorItems.reduce((acc, item) => ({ ...acc, [item.title]: false }), {}));
@@ -53,9 +54,9 @@ export default function Navigation() {
                   key={item.title}
                 >
                   <button
-                    id={`open-${item.title}-hooks-list`}
                     aria-label={`Open ${item.title} hooks list`}
                     className="w-full flex flex-row items-center justify-between gap-2 cursor-pointer group"
+                    id={`open-${item.title}-hooks-list`}
                     onClick={() => toggleMajorItem(item.title)}
                   >
                     <span className="font-sora text-sm font-bold text-white/95 group-hover:text-white">{item.title}</span>
@@ -95,12 +96,12 @@ export default function Navigation() {
         </div>
       </div>
       <button
-        id="open-modal-to-show-hook-list"
         aria-label="Open modal to show hooks list"
         className={cn(
           "relative w-full flex flex-row items-center gap-2 px-6 py-4 group cursor-pointer",
           showList && "border-t border-white/20",
         )}
+        id="open-modal-to-show-hook-list"
         onClick={toggleList}
       >
         <Terminal className="w-5 text-white/50 transition-all duration-500 ease-in-out hover:text-white" />

@@ -1,34 +1,35 @@
 'use client';
 
-import Link from "next/link";
-import { hooksList } from "@/constants/constants";
 import { motion, useAnimationControls } from "motion/react";
+import Link from "next/link";
 import { useEffect } from "react";
 
+import { hooksList } from "@/constants/constants";
+
 export interface SliderItemProps {
-  title: string;
   path: string;
+  title: string;
 }
 
 const startLeft = (controls: ReturnType<typeof useAnimationControls>) => {
   controls.start({
-    x: "-100%",
     transition: {
       duration: 60,
-      repeat: Infinity,
-      ease: "linear"
-    }
+      ease: "linear",
+      repeat: Infinity
+    },
+    x: "-100%"
   });
 };
 
 const startRight = (controls: ReturnType<typeof useAnimationControls>) => {
   controls.start({
-    x: 0,
     transition: {
       duration: 60,
-      repeat: Infinity,
-      ease: "linear"
-    }
+      ease: "linear",
+      repeat: Infinity
+    },
+    x: 0
   });
 };
 
@@ -36,8 +37,8 @@ const startRight = (controls: ReturnType<typeof useAnimationControls>) => {
 export default function Slider() {
   const hooksTag: SliderItemProps[] = hooksList.flatMap((item) =>
     item.hooks.map((hook) => ({
-      title: hook.name,
-      path: hook.path
+      path: hook.path,
+      title: hook.name
     }))
   );
 
@@ -61,31 +62,31 @@ export default function Slider() {
         onMouseLeave={() => startLeft(row1Controls)}
       >
         <motion.div
+          animate={row1Controls}
           className="flex flex-row items-center"
           initial={{ x: 0 }}
-          animate={row1Controls}
         >
           {
             firstChunk.map((item) => (
               <SliderItem
                 key={item.title}
-                title={item.title}
                 path={item.path}
+                title={item.title}
               />
             ))
           }
         </motion.div>
         <motion.div
+          animate={row1Controls}
           className="flex flex-row items-center"
           initial={{ x: 0 }}
-          animate={row1Controls}
         >
           {
             firstChunk.map((item) => (
               <SliderItem
                 key={item.title}
-                title={item.title}
                 path={item.path}
+                title={item.title}
               />
             ))
           }
@@ -97,31 +98,31 @@ export default function Slider() {
         onMouseLeave={() => startRight(row2Controls)}
       >
         <motion.div
-          initial={{ x: "-100%" }}
           animate={row2Controls}
           className="flex flex-row items-center"
+          initial={{ x: "-100%" }}
         >
           {
             secondChunk.map((item) => (
               <SliderItem
                 key={item.title}
-                title={item.title}
                 path={item.path}
+                title={item.title}
               />
             ))
           }
         </motion.div>
         <motion.div
-          initial={{ x: "-100%" }}
           animate={row2Controls}
           className="flex flex-row items-center"
+          initial={{ x: "-100%" }}
         >
           {
             secondChunk.map((item) => (
               <SliderItem
                 key={item.title}
-                title={item.title}
                 path={item.path}
+                title={item.title}
               />
             ))
           }
@@ -131,7 +132,7 @@ export default function Slider() {
   )
 }
 
-function SliderItem({ title, path }: SliderItemProps) {
+function SliderItem({ path, title }: SliderItemProps) {
   return (
     <Link
       className="group shrink-0 border-t border-x border-b-3 border-t-white/20 border-x-white/20 border-b-white/40 mr-2 px-2 py-1 rounded-xl bg-[rgba(255,255,255,0.06)] hover:bg-white transition-all duration-500 ease-in-out"

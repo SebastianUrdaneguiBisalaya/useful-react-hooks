@@ -1,29 +1,36 @@
 'use client';
 
 import { useState, useEffect } from "react";
+
 import { useSummarizer } from "../../../../../../src";
-import LayoutDemo from "@/layouts/LayoutDemo";
-import LayoutNotMounted from "@/layouts/LayoutNotMounted";
-import LayoutNotSupported from "@/layouts/LayoutNotSupported";
 import { Button } from "@/components/ui/Button";
 import { TextArea } from "@/components/ui/TextArea";
+import { Layout } from "@/layouts/Layout";
 
 export default function Demo() {
   const [isMounted, setIsMounted] = useState<boolean>(false);
   const [summary, setSummary] = useState<string | null>(null);
   const [status, setStatus] = useState<string>('');
   const [text, setText] = useState<string>('');
-  const { cancel, checkAvailability, create, summarize, destroy, isAbortError, isSupported } = useSummarizer();
+  const {
+    cancel,
+    checkAvailability,
+    create,
+    destroy,
+    isAbortError,
+    isSupported,
+    summarize
+  } = useSummarizer();
 
   const run = async () => {
     try {
       setStatus('checking');
 
       const availability = await checkAvailability({
-        length: 'long',
-        type: 'tldr',
         inputLanguage: 'en',
+        length: 'long',
         outputLanguage: 'es',
+        type: 'tldr',
       });
 
       if (availability !== 'available') {
@@ -66,16 +73,31 @@ export default function Demo() {
     }, 100);
   }, []);
 
-  if (!isMounted) return <LayoutNotMounted />;
-  if (!isSupported) return <LayoutNotSupported title="The Summarizer API is not supported in this browser."/>;
+  if (!isMounted) {
+    return (
+      <Layout>
+        <Layout.ContentLoading />
+      </Layout>
+    )
+  }
+  if (!isSupported) {
+    return (
+      <Layout>
+        <Layout.ContentNotSupported>
+          The Summarizer API is not supported in this browser.
+        </Layout.ContentNotSupported>
+      </Layout>
+    )
+  }
 
 	return (
-		<LayoutDemo
-      title="Summarizer AI"
-    >
-      <p className="text-center text-sm border border-white/20 rounded-2xl px-4 py-1.5 font-reddit-sans text-white/70">
-        Status: <span className="font-black text-white/80">{status}</span>
-      </p>
+		<Layout>
+      <Layout.Title>
+        Summarizer AI
+      </Layout.Title>
+      <Layout.Caption>
+        Status: {status}
+		  </Layout.Caption>
       <TextArea.Primary
         onChange={handleChangeText}
         placeholder="Enter text here..."
@@ -89,13 +111,9 @@ export default function Demo() {
           Cancel
         </Button.Destructive>
       </div>
-      {
-        summary && (
-          <p className="font-reddit-sans text-sm text-center text-white">
-            {summary}
-          </p>
-        )
-      }
-		</LayoutDemo>
+      <Layout.Paragraph>
+        {summary}
+      </Layout.Paragraph>
+    </Layout>
 	);
 }

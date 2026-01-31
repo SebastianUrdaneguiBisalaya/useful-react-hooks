@@ -1,11 +1,11 @@
 'use client';
 
 import { usePreferredTheme } from "../../../../../../src";
-import LayoutDemo from "@/layouts/LayoutDemo";
+import LayoutDemo from "@/layouts/Layout";
 import { cn } from "@/lib/cn";
 
 export default function Demo() {
-  const { systemTheme, userTheme, toggleTheme, setUserTheme } = usePreferredTheme();
+  const { setUserTheme, systemTheme, toggleTheme, userTheme } = usePreferredTheme();
 	return (
 		<LayoutDemo
       className={cn(

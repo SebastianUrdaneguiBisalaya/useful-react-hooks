@@ -10,6 +10,7 @@
   --font-sora: var(--font-sora);
   --font-reddit-sans: var(--font-reddit-sans);
   --font-jersey-15: var(--font-jersey-15);
+  --font-cascadia-code: var(--font-cascadia-code);
 }
 
 @custom-variant dark (&:where(.dark, .dark *));
@@ -38,7 +39,7 @@ pre code span span {
 }
 
 .reddit-sans pre code span span {
-  font-family: var(--font-reddit-sans);
+  font-family: var(--font-cascadia-code);
 }
 
 .motion-slider-gradient {

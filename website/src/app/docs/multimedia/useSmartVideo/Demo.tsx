@@ -1,8 +1,8 @@
 'use client';
 
 import { useSmartVideo } from "../../../../../../src";
-import LayoutDemo from "@/layouts/LayoutDemo";
 import { Button } from "@/components/ui/Button";
+import LayoutDemo from "@/layouts/Layout";
 
 export default function Demo() {
   const { isPlaying, isVisible, pause, play, reset, stop, videoRef } = useSmartVideo({
@@ -17,10 +17,10 @@ export default function Demo() {
       title="Smart Video"
     >
       <video
-        ref={videoRef}
-        src="/video.mp4"
         className="aspect-video rounded-md w-full"
         controls
+        ref={videoRef}
+        src="/video.mp4"
       />
       <div className="grid grid-cols-2 place-items-center md:grid-cols-4 gap-2">
         <Button.Secondary onClick={play}>

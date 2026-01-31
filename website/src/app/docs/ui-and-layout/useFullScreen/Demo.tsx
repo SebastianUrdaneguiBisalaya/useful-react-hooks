@@ -1,13 +1,14 @@
 'use client';
 
 import { useRef } from "react";
+
 import { useFullscreen } from "../../../../../../src";
-import LayoutDemo from "@/layouts/LayoutDemo";
 import { Button } from "@/components/ui/Button";
+import LayoutDemo from "@/layouts/Layout";
 
 export default function Demo() {
   const ref = useRef<HTMLDivElement>(null);
-  const { toggle, isFullscreen } = useFullscreen<HTMLDivElement>(ref);
+  const { isFullscreen, toggle } = useFullscreen<HTMLDivElement>(ref);
 
   return (
     <LayoutDemo

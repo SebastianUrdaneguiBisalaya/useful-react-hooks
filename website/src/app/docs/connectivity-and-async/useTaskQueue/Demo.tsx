@@ -1,8 +1,9 @@
 'use client';
 
 import { useState } from "react";
+
 import { useTaskQueue, type Task } from "../../../../../../src/useTaskQueue";
-import DemoLayout from "@/layouts/LayoutDemo";
+import DemoLayout from "@/layouts/Layout";
 
 export default function Demo() {
   const { enqueue, queue, running } = useTaskQueue<string>();
@@ -27,8 +28,8 @@ export default function Demo() {
       title="Tasks Queue"
     >
       <button
-        onClick={addNewTask}
         className="px-4 py-3 bg-purple-500 hover:bg-purple-600 text-white rounded-md font-bold transition font-reddit-sans text-sm"
+        onClick={addNewTask}
       >
         Add Task
       </button>
@@ -48,7 +49,7 @@ export default function Demo() {
           <div className="flex flex-col items-center gap-2">
             {queue.length === 0 && <p className="text-sm font-reddit-sans text-white/60">No tasks waiting</p>}
             {queue.map((task, index) => (
-              <div key={task.id} className="flex gap-2 justify-between items-center px-4 py-3 bg-neutral-700 rounded-md">
+              <div className="flex gap-2 justify-between items-center px-4 py-3 bg-neutral-700 rounded-md" key={task.id}>
                 <span className="text-sm font-reddit-sans text-white/60">{task.id}</span>
                 {index === 0 && running && (
                   <span className="text-[10px] font-reddit-sans bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-bold">
@@ -66,7 +67,7 @@ export default function Demo() {
           </h4>
           <div className="flex items-center flex-wrap gap-2 w-full">
             {completed.map((id) => (
-              <span key={id} className="px-3 py-1 bg-green-100 text-green-700 text-xs rounded-md border border-green-300 font-reddit-sans">
+              <span className="px-3 py-1 bg-green-100 text-green-700 text-xs rounded-md border border-green-300 font-reddit-sans" key={id}>
                 {id} ✓
               </span>
             ))}

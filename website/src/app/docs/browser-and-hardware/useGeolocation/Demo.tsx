@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+
 import { useGeolocation } from "../../../../../../src";
 
 export default function Demo() {
@@ -62,16 +63,16 @@ export default function Demo() {
 
           <div className="flex gap-4">
             <button
-              onClick={() => getCurrentPosition()}
               className="flex-1 cursor-pointer px-4 py-2 font-reddit-sans bg-purple-400 text-white rounded-lg text-sm font-medium hover:bg-purple-500 transition-colors duration-500 ease-in-out"
+              onClick={() => getCurrentPosition()}
             >
               Get Once
             </button>
             <button
-              onClick={toggleTracking}
               className={`flex-1 cursor-pointer px-4 py-2 font-reddit-sans rounded-lg text-sm font-medium border transition-colors duration-500 ease-in-out ${
                 watcherId !== null ? 'bg-red-50 border-red-200 text-red-600' : 'bg-white border-slate-200 text-slate-700'
               }`}
+              onClick={toggleTracking}
             >
               {watcherId !== null ? 'Stop Tracking' : 'Start Watch'}
             </button>

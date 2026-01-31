@@ -85,7 +85,7 @@ export interface UseFileResult {
 export function useFile(options: UseFileOptions = {}): UseFileResult {
 	const { accept, disabled, multiple = false } = options;
 	const [files, setInternalFiles] = React.useState<File[]>([]);
-  const inputRef = React.useRef<HTMLInputElement | null>(null);
+	const inputRef = React.useRef<HTMLInputElement | null>(null);
 
 	const setFiles = React.useCallback(
 		(input: File[] | FileList) => {
@@ -97,9 +97,9 @@ export function useFile(options: UseFileOptions = {}): UseFileResult {
 
 	const reset = React.useCallback(() => {
 		setInternalFiles([]);
-    if (inputRef.current) {
-      inputRef.current.value = '';
-    }
+		if (inputRef.current) {
+			inputRef.current.value = '';
+		}
 	}, []);
 
 	const onChange = React.useCallback<
@@ -118,7 +118,7 @@ export function useFile(options: UseFileOptions = {}): UseFileResult {
 			disabled,
 			multiple,
 			onChange,
-      ref: inputRef,
+			ref: inputRef,
 			type: 'file',
 		}),
 		[accept, multiple, disabled, onChange]

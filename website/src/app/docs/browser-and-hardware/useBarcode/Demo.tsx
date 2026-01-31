@@ -1,8 +1,9 @@
 'use client';
 
 import { useState, useEffect, useRef } from "react";
+
 import { useBarcode } from "../../../../../../src";
-import LayoutDemo from "@/layouts/LayoutDemo";
+import LayoutDemo from "@/layouts/Layout";
 import LayoutNotMounted from "@/layouts/LayoutNotMounted";
 import LayoutNotSupported from "@/layouts/LayoutNotSupported";
 
@@ -38,10 +39,10 @@ export default function Demo() {
     >
       <div className="relative overflow-hidden rounded-md bg-black aspect-video">
         <video
-          ref={videoRef}
           className="w-full h-full object-cover"
           muted
           playsInline
+          ref={videoRef}
         />
       </div>
 

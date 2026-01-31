@@ -62,10 +62,10 @@ export interface UseSummarizerReturn {
 	 */
 	destroy(): void;
 
-  /**
-   * Checks if the provided error is an AbortError.
-   */
-  isAbortError(error: unknown): boolean;
+	/**
+	 * Checks if the provided error is an AbortError.
+	 */
+	isAbortError(error: unknown): boolean;
 
 	/**
 	 * Indicates whether the Summarizer API exists in the current environment.
@@ -79,9 +79,7 @@ export interface UseSummarizerReturn {
 }
 
 function isAbortError(error: unknown): boolean {
-  return (
-    error instanceof DOMException && error.name === 'AbortError'
-  )
+	return error instanceof DOMException && error.name === 'AbortError';
 }
 
 /**
@@ -148,33 +146,30 @@ export function useSummarizer(): UseSummarizerReturn {
 		[isSupported]
 	);
 
-	const summarize = React.useCallback(
-		async (text: string) => {
-			if (!summarizerRef.current) {
-				throw new Error('Summarizer instance not created.');
+	const summarize = React.useCallback(async (text: string) => {
+		if (!summarizerRef.current) {
+			throw new Error('Summarizer instance not created.');
+		}
+		if (!abortRef.current) {
+			abortRef.current = new AbortController();
+		}
+		try {
+			return await summarizerRef.current.summarize(text, {
+				signal: abortRef.current.signal,
+			});
+		} catch (err: unknown) {
+			if (isAbortError(err)) {
+				return Promise.reject(err);
 			}
-      if (!abortRef.current) {
-        abortRef.current = new AbortController();
-      }
-			try {
-        return await summarizerRef.current.summarize(text, {
-          signal: abortRef.current.signal
-        });
-      } catch (err: unknown) {
-        if (isAbortError(err)) {
-          return Promise.reject(err);
-        }
-        throw err;
-      }
-		},
-		[]
-	);
+			throw err;
+		}
+	}, []);
 
 	const cancel = React.useCallback(() => {
 		if (abortRef.current) {
-      abortRef.current?.abort();
-		  abortRef.current = null;
-    }
+			abortRef.current?.abort();
+			abortRef.current = null;
+		}
 	}, []);
 
 	const destroy = React.useCallback(() => {
@@ -188,7 +183,7 @@ export function useSummarizer(): UseSummarizerReturn {
 		checkAvailability,
 		create,
 		destroy,
-    isAbortError,
+		isAbortError,
 		isSupported,
 		summarize,
 	};

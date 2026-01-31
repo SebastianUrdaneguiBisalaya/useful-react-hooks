@@ -16,7 +16,7 @@ export interface BodyScrollFreezeOptions {
 
 export interface BodyScrollFreezeReturn {
 	freeze: (options?: BodyScrollFreezeOptions) => void;
-  unfreeze: () => void;
+	unfreeze: () => void;
 }
 
 /**
@@ -79,20 +79,20 @@ export function useBodyScrollFreeze(): BodyScrollFreezeReturn {
 		}
 	}, []);
 
-  const unfreeze = React.useCallback(() => {
-    if (typeof window === 'undefined') return;
-    if (!originalStyles.current) return;
-    const body = document.body;
-    const { overflowX, overflowY, position, scrollY, top, width } =
-      originalStyles.current;
-    body.style.position = position;
-    body.style.top = top;
-    body.style.width = width;
-    body.style.overflowX = overflowX;
-    body.style.overflowY = overflowY;
-    window.scrollTo(0, scrollY);
-    originalStyles.current = null;
-  }, []);
+	const unfreeze = React.useCallback(() => {
+		if (typeof window === 'undefined') return;
+		if (!originalStyles.current) return;
+		const body = document.body;
+		const { overflowX, overflowY, position, scrollY, top, width } =
+			originalStyles.current;
+		body.style.position = position;
+		body.style.top = top;
+		body.style.width = width;
+		body.style.overflowX = overflowX;
+		body.style.overflowY = overflowY;
+		window.scrollTo(0, scrollY);
+		originalStyles.current = null;
+	}, []);
 
 	React.useEffect(() => {
 		return () => {
@@ -113,6 +113,6 @@ export function useBodyScrollFreeze(): BodyScrollFreezeReturn {
 
 	return {
 		freeze,
-    unfreeze,
+		unfreeze,
 	};
 }

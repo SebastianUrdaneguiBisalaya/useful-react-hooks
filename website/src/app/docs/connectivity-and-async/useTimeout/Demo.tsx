@@ -1,13 +1,14 @@
 'use client';
 
 import { useState } from "react";
+
 import { useTimeout } from "../../../../../../src";
-import LayoutDemo from "@/layouts/LayoutDemo";
+import LayoutDemo from "@/layouts/Layout";
 
 export default function Demo() {
   const [isVisible, setIsVisible] = useState(false);
 
-  const { isActive, start, cancel, reset } = useTimeout(
+  const { cancel, isActive, reset, start } = useTimeout(
     () => {
       setIsVisible(false);
     },
@@ -35,23 +36,23 @@ export default function Demo() {
 
       <div className="grid grid-cols-1 gap-3">
         <button
-          onClick={triggerNotification}
-          disabled={isActive}
           className="w-full text-sm cursor-pointer font-reddit-sans px-4 py-3 bg-purple-500 hover:bg-purple-600 text-white rounded-md font-bold transition disabled:bg-purple-300"
+          disabled={isActive}
+          onClick={triggerNotification}
         >
           {isActive ? 'Processing...' : 'Save Changes'}
         </button>
 
         <div className="grid grid-cols-2 gap-2">
           <button
-            onClick={cancel}
             className="px-4 py-3 cursor-pointer font-reddit-sans bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-md text-sm font-semibold transition"
+            onClick={cancel}
           >
             Cancel Timer
           </button>
           <button
-            onClick={reset}
             className="px-4 py-3 cursor-pointer font-reddit-sans bg-white border border-gray-200 text-gray-600 rounded-md text-sm font-semibold hover:bg-gray-50 transition"
+            onClick={reset}
           >
             Reset
           </button>

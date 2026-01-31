@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+
 import { useThrottledCallback } from '../../../../../../src/index';
 
 export default function Demo() {
@@ -21,8 +22,8 @@ export default function Demo() {
   return (
     <div className="p-4 w-full space-y-4">
       <div
-        onMouseMove={handleMouseMove}
         className="h-64 bg-black/40 rounded-xl flex flex-col items-center justify-center border border-dashed border-white/20 cursor-crosshair group transition-colors hover:border-white/90"
+        onMouseMove={handleMouseMove}
       >
         <p className="text-purple-500 font-sora text-sm animate-pulse">MOVE MOUSE HERE</p>
         <p className="text-white/40 text-xs mt-2 font-sora">Check the counters below</p>

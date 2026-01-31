@@ -1,29 +1,35 @@
 import type { Metadata } from "next";
-import { Sora, Reddit_Sans, Jersey_15 } from 'next/font/google';
-import "./globals.css";
+import { Sora, Reddit_Sans, Jersey_15, Cascadia_Code } from 'next/font/google';
 
-import Navigation from "@/components/shared/Navigation";
+import "./globals.css";
 import Footer from "@/components/shared/Footer";
+import Navigation from "@/components/shared/Navigation";
 
 const sora = Sora({
-  variable: "--font-sora",
   subsets: ["latin"],
+  variable: "--font-sora",
 });
 
 const redditSans = Reddit_Sans({
-  variable: "--font-reddit-sans",
   subsets: ["latin"],
+  variable: "--font-reddit-sans",
 });
 
 const jersey15 = Jersey_15({
-  variable: "--font-jersey-15",
   subsets: ["latin"],
+  variable: "--font-jersey-15",
   weight: ["400"],
 });
 
+const cascadiaCode = Cascadia_Code({
+  subsets: ["latin"],
+  variable: "--font-cascadia-code",
+  weight: ["500"],
+});
+
 export const metadata: Metadata = {
+  description: "Modern and unopinionated React hooks with a focus on developer experience.",
   title: "vibeHooks - Modern and unopinionated React hooks.",
-  description: "Modern, unopinionated React hooks with a focus on developer experience.",
 };
 
 export default function RootLayout({
@@ -34,7 +40,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${sora.variable} ${redditSans.variable} ${jersey15.variable} antialiased`}
+        className={`${sora.variable} ${redditSans.variable} ${jersey15.variable} ${cascadiaCode.variable} antialiased`}
       >
         <div className="max-w-3xl w-full min-h-screen h-full flex flex-col">
           {children}

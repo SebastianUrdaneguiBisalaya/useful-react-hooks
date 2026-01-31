@@ -1,8 +1,9 @@
 'use client';
 
-import Link from "next/link";
-import Navbar from "@/components/shared/Navbar";
 import { ArrowLeft } from "lucide-react";
+import Link from "next/link";
+
+import Navbar from "@/components/shared/Navbar";
 
 export default function NotFound() {
   return (

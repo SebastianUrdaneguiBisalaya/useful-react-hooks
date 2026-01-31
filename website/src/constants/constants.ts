@@ -2,7 +2,6 @@ import type { HooksListProps } from "@/components/shared/Navigation";
 
 const hooksList: HooksListProps[] = [
   {
-    title: "Artificial Intelligence",
     hooks: [
       {
         name: "useSpeech",
@@ -16,10 +15,10 @@ const hooksList: HooksListProps[] = [
         name: "useTranslator",
         path: "/docs/ai/useTranslator",
       },
-    ]
+    ],
+    title: "Artificial Intelligence"
   },
   {
-    title: "Browser & Hardware",
     hooks: [
       {
         name: "useBarcode",
@@ -61,10 +60,10 @@ const hooksList: HooksListProps[] = [
         name: "useVibration",
         path: "/docs/browser-and-hardware/useVibration",
       },
-    ]
+    ],
+    title: "Browser & Hardware"
   },
   {
-    title: "Connectivity & Async",
     hooks: [
       {
         name: "useAsyncState",
@@ -90,10 +89,10 @@ const hooksList: HooksListProps[] = [
         name: "useWebsocket",
         path: "/docs/connectivity-and-async/useWebsocket",
       },
-    ]
+    ],
+    title: "Connectivity & Async"
   },
   {
-    title: "Environment & Lifecycle",
     hooks: [
       {
         name: "useIsClient",
@@ -127,10 +126,10 @@ const hooksList: HooksListProps[] = [
         name: "useTraceUpdates",
         path: "/docs/environment-and-lifecycle/useTraceUpdates",
       }
-    ]
+    ],
+    title: "Environment & Lifecycle"
   },
   {
-    title: "Multimedia",
     hooks: [
       {
         name: "useAudio",
@@ -144,10 +143,10 @@ const hooksList: HooksListProps[] = [
         name: "useSmartVideo",
         path: "/docs/multimedia/useSmartVideo",
       },
-    ]
+    ],
+    title: "Multimedia"
   },
   {
-    title: "Productivity & Utilities",
     hooks: [
       {
         name: "useCopyToClipboard",
@@ -169,10 +168,10 @@ const hooksList: HooksListProps[] = [
         name: "useShoppingCart",
         path: "/docs/productivity-and-utilities/useShoppingCart",
       }
-    ]
+    ],
+    title: "Productivity & Utilities"
   },
   {
-    title: "State",
     hooks: [
       {
         name: "useDebouncedState",
@@ -202,10 +201,10 @@ const hooksList: HooksListProps[] = [
         name: "useToggle",
         path: "/docs/state/useToggle",
       },
-    ]
+    ],
+    title: "State"
   },
   {
-    title: "Storage & Persistence",
     hooks: [
       {
         name: "useCookies",
@@ -219,10 +218,10 @@ const hooksList: HooksListProps[] = [
         name: "useLocalStorage",
         path: "/docs/storage-and-persistence/useLocalStorage",
       },
-    ]
+    ],
+    title: "Storage & Persistence"
   },
   {
-    title: "UI & Layout",
     hooks: [
       {
         name: "useAutoScroll",
@@ -248,7 +247,8 @@ const hooksList: HooksListProps[] = [
         name: "usePopover",
         path: "/docs/ui-and-layout/usePopover",
       },
-    ]
+    ],
+    title: "UI & Layout"
   },
 ]
 

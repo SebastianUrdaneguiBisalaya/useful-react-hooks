@@ -4,7 +4,7 @@ import { useToggle } from '../../../../../../src/index';
 import { cn } from '@/lib/cn';
 
 export default function Demo() {
-  const { status, handleToggle } = useToggle({ defaultValue: false });
+  const { handleToggle, status } = useToggle({ defaultValue: false });
   return (
     <div className='flex flex-col items-center gap-4 p-4 w-full border border-white/20 rounded-lg shadow-sm'>
       <h2 className="text-lg text-white/60 font-medium font-sora">

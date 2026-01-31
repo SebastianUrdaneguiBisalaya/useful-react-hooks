@@ -1,13 +1,14 @@
-import { cn } from "@/lib/cn";
 import React from "react";
 
+import { cn } from "@/lib/cn";
+
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  className?: string;
   children: React.ReactNode;
+  className?: string;
 }
 
 const BaseButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, children, ...props }, ref) => {
+  ({ children, className, ...props }, ref) => {
     return (
       <button
         className={cn(
@@ -94,8 +95,8 @@ const Warning = React.forwardRef<HTMLButtonElement, ButtonProps>(
 Warning.displayName = 'Button.Warning';
 
 export const Button = Object.assign(BaseButton, {
+  Destructive,
   Primary,
   Secondary,
-  Destructive,
   Warning
 });

@@ -1,12 +1,13 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+
 import { useBatteryStatus } from '../../../../../../src/useBatteryStatus';
 import { cn } from '@/lib/cn';
 
 export default function Demo() {
   const [mounted, setMounted] = useState<boolean>(false);
-  const { isSupported, battery } = useBatteryStatus();
+  const { battery, isSupported } = useBatteryStatus();
 
   useEffect(() => {
     setTimeout(() => setMounted(true), 100);
@@ -28,7 +29,7 @@ export default function Demo() {
     )
   }
 
-  const { level, charging, chargingTime, dischargingTime } = battery;
+  const { charging, chargingTime, dischargingTime, level } = battery;
   const percentage = level !== null ? Math.round(level * 100) : 0;
 
   return (

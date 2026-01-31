@@ -1,11 +1,12 @@
 'use client';
 
 import { useState, useEffect } from "react";
+
 import { useScreenWakeLock } from "../../../../../../src";
 import { cn } from "@/lib/cn";
 
 export default function Demo() {
-  const { isSupported, isActive, request, release } = useScreenWakeLock();
+  const { isActive, isSupported, release, request } = useScreenWakeLock();
   const [mounted, setMounted] = useState<boolean>(false);
 
   useEffect(() => {
@@ -54,13 +55,13 @@ export default function Demo() {
       </p>
 
       <button
-        onClick={toggleWakeLock}
         className={cn(
           'w-full px-4 py-3 rounded-md cursor-pointer font-medium font-reddit-sans transition-all',
           isActive
             ? 'bg-red-500 hover:bg-red-600 text-white'
             : 'bg-indigo-600 hover:bg-indigo-700 text-white'
         )}
+        onClick={toggleWakeLock}
       >
         {isActive ? 'Release Wake Lock' : 'Request Wake Lock'}
       </button>

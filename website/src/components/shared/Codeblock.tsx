@@ -14,11 +14,11 @@ import { cn } from '@/lib/cn';
 export type CodeLanguage = keyof typeof bundledLanguages;
 
 export interface CodeBlockProps {
-    code: string;
-    language?: CodeLanguage;
-    filename?: string;
-    theme?: keyof typeof bundledThemes;
     classNameCode?: string;
+    code: string;
+    filename?: string;
+    language?: CodeLanguage;
+    theme?: keyof typeof bundledThemes;
 }
 
 let highlighterPromise: Promise<Highlighter> | null = null;
@@ -36,13 +36,13 @@ function getHighlighterSingleton(
     return highlighterPromise;
 }
 
-export const CodeBlock: React.FC<CodeBlockProps> = ({
+export default function Codeblock({
+    classNameCode,
     code,
     filename,
     language = 'ts',
     theme = 'github-dark-high-contrast',
-    classNameCode,
-}) => {
+}: CodeBlockProps) {
     const [html, setHtml] = useState<string>('');
     const [copied, setCopied] = useState<boolean>(false);
 

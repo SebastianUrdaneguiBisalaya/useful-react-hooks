@@ -1,18 +1,19 @@
 'use client';
 
 import { useState } from "react";
+
 import { useIntervalSafe } from "../../../../../../src";
-import DemoLayout from "@/layouts/LayoutDemo";
+import DemoLayout from "@/layouts/Layout";
 import { cn } from "@/lib/cn";
 
 export default function Demo() {
   const [logs, setLogs] = useState<string[]>([]);
   const {
-    isActive,
-    executionCount,
     cancel,
-    start,
+    executionCount,
+    isActive,
     reset,
+    start,
   } = useIntervalSafe(
     () => {
       const timestamp = new Date().toLocaleTimeString();
@@ -20,8 +21,8 @@ export default function Demo() {
     },
     {
       delay: 2000,
-      maxExecutions: 5,
       executeImmediately: true,
+      maxExecutions: 5,
     }
   )
 
@@ -52,7 +53,7 @@ export default function Demo() {
       <div className="space-y-2 h-32 overflow-hidden p-3">
         {logs.length === 0 && <p className="text-white/80 font-reddit-sans text-xs">No activity...</p>}
         {logs.map((log, i) => (
-          <p key={i} className="text-green-400 font-reddit-sans text-xs">
+          <p className="text-green-400 font-reddit-sans text-xs" key={i}>
             {`> ${log}`}
           </p>
         ))}
@@ -60,19 +61,19 @@ export default function Demo() {
 
       <div className="grid grid-cols-2 gap-3">
         <button
-          onClick={isActive ? cancel : start}
           className={cn(
             'px-4 py-3 cursor-pointer rounded-md font-reddit-sans w-full h-full font-bold transition-colors duration-500 ease-in-out',
             isActive
               ? 'bg-white text-black'
               : 'bg-purple-500 text-white'
           )}
+          onClick={isActive ? cancel : start}
         >
           {isActive ? 'Pause' : 'Start'}
         </button>
         <button
-          onClick={reset}
           className="px-4 py-3 cursor-pointer font-reddit-sans w-full h-full bg-neutral-800 text-white rounded-md font-bold transition-colors duration-500 ease-in-out"
+          onClick={reset}
         >
           Reset
         </button>

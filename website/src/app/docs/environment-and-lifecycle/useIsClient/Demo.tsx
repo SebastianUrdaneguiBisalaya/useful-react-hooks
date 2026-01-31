@@ -1,7 +1,7 @@
 'use client';
 
 import { useIsClient } from "../../../../../../src";
-import LayoutDemo from "@/layouts/LayoutDemo";
+import LayoutDemo from "@/layouts/Layout";
 
 export default function Demo() {
   const isClient = useIsClient();

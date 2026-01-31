@@ -33,36 +33,36 @@ export function useTaskQueue<T = unknown>(): UseTaskQueueResult<T> {
 	const [queue, setQueue] = React.useState<Task<T>[]>([]);
 	const [running, setRunning] = React.useState<boolean>(false);
 
-  const isProcessingRef = React.useRef<boolean>(false);
+	const isProcessingRef = React.useRef<boolean>(false);
 
 	React.useEffect(() => {
-    if (queue.length === 0) {
-      setRunning(false);
-      return;
-    }
+		if (queue.length === 0) {
+			setRunning(false);
+			return;
+		}
 
-    if (isProcessingRef.current) return;
-    isProcessingRef.current = true;
+		if (isProcessingRef.current) return;
+		isProcessingRef.current = true;
 
-    const task = queue[0];
-    setRunning(true);
+		const task = queue[0];
+		setRunning(true);
 
-    const run = async () => {
-      try {
-        await task?.run();
-      } catch (error: unknown) {
-        console.error(error);
-      } finally {
-        isProcessingRef.current = false;
-        setQueue((prev) => prev.slice(1));
-      }
-    }
-    run();
-  }, [queue]);
+		const run = async () => {
+			try {
+				await task?.run();
+			} catch (error: unknown) {
+				console.error(error);
+			} finally {
+				isProcessingRef.current = false;
+				setQueue(prev => prev.slice(1));
+			}
+		};
+		run();
+	}, [queue]);
 
-  const enqueue = React.useCallback((task: Task<T>) => {
-    setQueue((prev) => [...prev, task]);
-  }, []);
+	const enqueue = React.useCallback((task: Task<T>) => {
+		setQueue(prev => [...prev, task]);
+	}, []);
 
 	return {
 		enqueue,

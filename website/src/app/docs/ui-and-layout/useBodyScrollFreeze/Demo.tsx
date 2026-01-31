@@ -1,9 +1,10 @@
 'use client';
 
 import { useState, useEffect } from "react";
+
 import { useBodyScrollFreeze } from "../../../../../../src";
-import LayoutDemo from "@/layouts/LayoutDemo";
 import { Button } from "@/components/ui/Button";
+import LayoutDemo from "@/layouts/Layout";
 
 export default function Demo() {
   const { freeze, unfreeze } = useBodyScrollFreeze();

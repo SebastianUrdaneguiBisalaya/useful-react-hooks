@@ -1,10 +1,11 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+
 import { useScreenOrientation } from "../../../../../../src";
 
 export default function Demo() {
-  const { isSupported, type, angle, lock, unlock } = useScreenOrientation();
+  const { angle, isSupported, lock, type, unlock } = useScreenOrientation();
   const [mounted, setMounted] = useState<boolean>(false);
 
   useEffect(() => {
@@ -51,15 +52,15 @@ export default function Demo() {
 
       <div className="flex flex-col gap-3">
         <button
-          onClick={handleLock}
           className="w-full px-4 py-3 bg-purple-500 text-white rounded-lg font-semibold hover:bg-purple-600 transition-colors duration-500 ease-in-out cursor-pointer font-reddit-sans"
+          onClick={handleLock}
         >
           Force Landscape Lock
         </button>
 
         <button
-          onClick={() => unlock()}
           className="w-full px-4 py-3 bg-white border border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-gray-50 transition-colors duration-500 ease-in-out cursor-pointer font-reddit-sans"
+          onClick={() => unlock()}
         >
           Unlock Orientation
         </button>

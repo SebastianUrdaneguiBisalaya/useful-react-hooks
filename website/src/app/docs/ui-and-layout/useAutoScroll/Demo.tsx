@@ -1,9 +1,10 @@
 'use client';
 
 import { useState, useEffect } from "react";
+
 import { useAutoScroll } from "../../../../../../src";
-import LayoutDemo from "@/layouts/LayoutDemo";
 import { Button } from "@/components/ui/Button";
+import LayoutDemo from "@/layouts/Layout";
 import { cn } from "@/lib/cn";
 
 export interface Message {
@@ -12,9 +13,9 @@ export interface Message {
 }
 
 export default function Demo() {
-  const { ref, isAtBottom, enableAutoScroll } = useAutoScroll({
-    threshold: 80,
-    behavior: 'smooth'
+  const { enableAutoScroll, isAtBottom, ref } = useAutoScroll({
+    behavior: 'smooth',
+    threshold: 80
   });
 
   const [messages, setMessages] = useState<Message[]>([]);

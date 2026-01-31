@@ -1,27 +1,28 @@
 'use client';
 
 import { useState } from 'react';
+
 import { useCountDown } from '../../../../../../src/index';
 
 export default function Demo() {
   const [endTime] = useState(() => Date.now() + 10_000);
 
   const {
+    controls: { increment, pause, reset, resume, start },
     count,
-    controls: { start, pause, resume, reset, increment },
     status
   } = useCountDown({
     endTime: endTime,
-    startOnMount: false,
     options: {
       interval: 100,
-      onTick: (remaining) => {
-        if (remaining < 10000) console.log("Final stretch!");
-      },
       onComplete: () => {
         console.log("Countdown finished!");
+      },
+      onTick: (remaining) => {
+        if (remaining < 10000) console.log("Final stretch!");
       }
-    }
+    },
+    startOnMount: false
   });
 
   const formatTime = (ms: number) => (ms / 1000).toFixed(0);
@@ -39,28 +40,28 @@ export default function Demo() {
 
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
           <button
-            onClick={() => start()}
             className='px-4 py-2 bg-sky-400 hover:bg-sky-500 transition-colors duration-500 ease-in-out text-white rounded-md cursor-pointer font-reddit-sans'
+            onClick={() => start()}
           >
             Start
           </button>
           <button
-            onClick={status === 'paused' ? resume : pause}
             className="px-4 py-2 bg-orange-400 hover:bg-orange-500 transition-colors duration-300 ease-in-out text-white rounded-md cursor-pointer font-reddit-sans"
+            onClick={status === 'paused' ? resume : pause}
           >
             {status === 'paused' ? 'Resume' : 'Pause'}
           </button>
 
           <button
-            onClick={() => increment(10_000)}
             className="px-4 py-2 bg-purple-400 hover:bg-purple-500 transition-colors duration-500 ease-in-out rounded-md cursor-pointer font-reddit-sans"
+            onClick={() => increment(10_000)}
           >
             10s +
           </button>
 
           <button
-            onClick={() => reset()}
             className="px-4 py-2 bg-red-400 hover:bg-red-500 transition-colors duration-500 ease-in-out rounded-md cursor-pointer font-reddit-sans"
+            onClick={() => reset()}
           >
             Reset
           </button>

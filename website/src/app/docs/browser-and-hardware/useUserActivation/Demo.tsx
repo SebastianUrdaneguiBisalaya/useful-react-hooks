@@ -1,14 +1,15 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+
 import { useUserActivation } from '../../../../../../src';
 import { cn } from '@/lib/cn';
 
 export default function UserActivationDemo() {
   const {
-    isSupported,
     hasBeenActive,
     isActive,
+    isSupported,
     refresh,
   } = useUserActivation();
 
@@ -61,20 +62,20 @@ export default function UserActivationDemo() {
 
             <div className="flex flex-col md:flex-row items-center gap-3">
               <button
-                onClick={refresh}
                 className="w-full flex-1 rounded-lg bg-neutral-800 hover:bg-neutral-700 transition-colors duration-500 ease-in-out px-4 py-3 text-sm cursor-pointer font-reddit-sans"
+                onClick={refresh}
               >
                 Status Refresh
               </button>
 
               <button
-                disabled={!isActive}
-                onClick={() => alert('Sensitive action executed.')}
                 className="w-full flex-1 rounded-lg px-4 py-3 text-sm font-medium transition
                   disabled:cursor-not-allowed
                   disabled:bg-neutral-800
                   disabled:text-neutral-500
                   bg-indigo-600 hover:bg-indigo-500 cursor-pointer font-reddit-sans"
+                disabled={!isActive}
+                onClick={() => alert('Sensitive action executed.')}
               >
                 Sensitive Action
               </button>

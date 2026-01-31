@@ -109,14 +109,14 @@ export interface PreferredThemeReturn {
 }
 
 function updateDOMTheme(theme: Theme) {
-  if (typeof window === 'undefined') return;
-  const root = document.documentElement;
-  if (theme === 'dark') {
-    root.classList.add('dark');
-  } else {
-    root.classList.remove('dark');
-  }
-  root.style.colorScheme = theme;
+	if (typeof window === 'undefined') return;
+	const root = document.documentElement;
+	if (theme === 'dark') {
+		root.classList.add('dark');
+	} else {
+		root.classList.remove('dark');
+	}
+	root.style.colorScheme = theme;
 }
 
 /**
@@ -176,9 +176,9 @@ export function usePreferredTheme(): PreferredThemeReturn {
 
 	const resolved = userTheme ?? systemTheme ?? 'light';
 
-  React.useEffect(() => {
-    updateDOMTheme(resolved);
-  }, [resolved]);
+	React.useEffect(() => {
+		updateDOMTheme(resolved);
+	}, [resolved]);
 
 	const toggleTheme = React.useCallback(
 		(options?: { dark?: Theme; light?: Theme }) => {

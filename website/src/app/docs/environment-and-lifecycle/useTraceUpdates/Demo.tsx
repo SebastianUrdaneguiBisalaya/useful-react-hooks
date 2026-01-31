@@ -1,8 +1,9 @@
 'use client';
 
 import { useState } from "react";
+
 import { useTraceUpdates } from "../../../../../../src";
-import LayoutDemo from "@/layouts/LayoutDemo";
+import LayoutDemo from "@/layouts/Layout";
 
 export default function Demo() {
   const [count, setCount] = useState<number>(0);
@@ -34,9 +35,9 @@ export default function Demo() {
       <input
         className="w-full focus:outline-none border border-white/40 px-4 py-3 rounded-md font-reddit-sans text-sm"
         onChange={handleChangeText}
-        value={text}
         placeholder="Type to trigger trace..."
         type="text"
+        value={text}
       />
 		</LayoutDemo>
 	);

@@ -1,8 +1,9 @@
 'use client';
 
 import { useState, useEffect } from "react";
+
 import { useCookies } from "../../../../../../src";
-import LayoutDemo from "@/layouts/LayoutDemo";
+import LayoutDemo from "@/layouts/Layout";
 
 const COOKIE_NAME = 'cookie-consent';
 

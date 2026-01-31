@@ -1,31 +1,31 @@
 import * as React from 'react';
 
 interface TranslatorConfig {
-  sourceLanguage?: BCP47LanguageTag;
-  targetLanguage: BCP47LanguageTag;
+	sourceLanguage?: BCP47LanguageTag;
+	targetLanguage: BCP47LanguageTag;
 }
 
 type TranslatorAvailability = 'available' | 'unavailable' | 'downloadable';
 
 interface Translator {
-  destroy(): void;
-  readonly inputQuota: number;
-  measureInputUsage(text: string): Promise<number>;
-  readonly sourceLanguage: BCP47LanguageTag;
-  readonly targetLanguage: BCP47LanguageTag;
-  translate(text: string): Promise<string>;
-  translateStreaming(text: string): ReadableStream<string>;
+	destroy(): void;
+	readonly inputQuota: number;
+	measureInputUsage(text: string): Promise<number>;
+	readonly sourceLanguage: BCP47LanguageTag;
+	readonly targetLanguage: BCP47LanguageTag;
+	translate(text: string): Promise<string>;
+	translateStreaming(text: string): ReadableStream<string>;
 }
 
 interface TranslatorConstructor {
-  availability(config: TranslatorConfig): Promise<TranslatorAvailability>;
-  create(config: TranslatorConfig): Promise<Translator>;
+	availability(config: TranslatorConfig): Promise<TranslatorAvailability>;
+	create(config: TranslatorConfig): Promise<Translator>;
 }
 
 declare global {
-  interface Window {
-    Translator?: TranslatorConstructor;
-  }
+	interface Window {
+		Translator?: TranslatorConstructor;
+	}
 }
 
 /**
@@ -144,11 +144,11 @@ export function useTranslator(
 
 	React.useEffect(() => {
 		if (typeof window === 'undefined' || !window.Translator) {
-      setIsSupported(false);
-      setError(new Error('Translator API is not supported in this browser.'));
-      return;
-    }
-    setIsSupported(true);
+			setIsSupported(false);
+			setError(new Error('Translator API is not supported in this browser.'));
+			return;
+		}
+		setIsSupported(true);
 	}, []);
 
 	const checkLanguageSupport = React.useCallback(async (): Promise<boolean> => {
@@ -161,10 +161,10 @@ export function useTranslator(
 		}
 		try {
 			const availability = await window.Translator.availability({
-        sourceLanguage,
-        targetLanguage,
-      });
-      const supported = availability === 'available';
+				sourceLanguage,
+				targetLanguage,
+			});
+			const supported = availability === 'available';
 			setIsLanguagePairSupported(supported);
 			onLanguageSupportCheck?.(supported);
 			return supported;
@@ -179,47 +179,49 @@ export function useTranslator(
 	}, [sourceLanguage, targetLanguage, onLanguageSupportCheck]);
 
 	const ensureTranslator = React.useCallback(async () => {
-    if (translatorRef.current) return translatorRef.current;
-    if (!window.Translator) {
-      throw new Error('Translator API is not supported in this browser.');
-    }
-    const translator = await window.Translator.create({
-      sourceLanguage,
-      targetLanguage,
-    });
+		if (translatorRef.current) return translatorRef.current;
+		if (!window.Translator) {
+			throw new Error('Translator API is not supported in this browser.');
+		}
+		const translator = await window.Translator.create({
+			sourceLanguage,
+			targetLanguage,
+		});
 
-    translatorRef.current = translator;
-    return translator;
-  }, [sourceLanguage, targetLanguage]);
+		translatorRef.current = translator;
+		return translator;
+	}, [sourceLanguage, targetLanguage]);
 
-  const translate = React.useCallback(
-    async (text: string): Promise<string> => {
-      setIsTranslating(true);
-      setError(null);
-      try {
-        if (isLanguagePairSupported === false) {
-          throw new Error('The selected language pair is not supported.');
-        }
-        const translator = await ensureTranslator();
-        const result = await translator.translate(text);
-        setTranslation(result);
-        return result;
-      } catch (err: unknown) {
-        const error = err instanceof Error ? err : new Error('Failed to translate text.');
-        setError(error);
-        throw error;
-      } finally {
-        setIsTranslating(false);
-      }
-    }, [isLanguagePairSupported, ensureTranslator]
-  );
+	const translate = React.useCallback(
+		async (text: string): Promise<string> => {
+			setIsTranslating(true);
+			setError(null);
+			try {
+				if (isLanguagePairSupported === false) {
+					throw new Error('The selected language pair is not supported.');
+				}
+				const translator = await ensureTranslator();
+				const result = await translator.translate(text);
+				setTranslation(result);
+				return result;
+			} catch (err: unknown) {
+				const error =
+					err instanceof Error ? err : new Error('Failed to translate text.');
+				setError(error);
+				throw error;
+			} finally {
+				setIsTranslating(false);
+			}
+		},
+		[isLanguagePairSupported, ensureTranslator]
+	);
 
-  React.useEffect(() => {
-    return () => {
-      translatorRef.current?.destroy();
-      translatorRef.current = null;
-    }
-  }, []);
+	React.useEffect(() => {
+		return () => {
+			translatorRef.current?.destroy();
+			translatorRef.current = null;
+		};
+	}, []);
 
 	return {
 		checkLanguageSupport,

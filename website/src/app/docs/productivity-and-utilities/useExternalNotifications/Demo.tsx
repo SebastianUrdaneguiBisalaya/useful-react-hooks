@@ -1,8 +1,9 @@
 'use client';
 
 import { useState, useEffect } from "react";
+
 import { useExternalNotifications } from "../../../../../../src";
-import LayoutDemo from "@/layouts/LayoutDemo";
+import LayoutDemo from "@/layouts/Layout";
 import LayoutNotMounted from "@/layouts/LayoutNotMounted";
 import LayoutNotSupported from "@/layouts/LayoutNotSupported";
 
@@ -18,8 +19,8 @@ export default function Demo() {
 
   const handleAlert = () => {
     notify({
-      title: 'New Update',
       body: 'External notification triggered!',
+      title: 'New Update',
     });
   }
 

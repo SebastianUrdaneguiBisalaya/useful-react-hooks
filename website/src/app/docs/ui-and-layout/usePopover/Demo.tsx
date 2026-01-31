@@ -1,19 +1,19 @@
 'use client';
 
 import { usePopover } from "../../../../../../src";
-import LayoutDemo from "@/layouts/LayoutDemo";
 import { Button } from "@/components/ui/Button";
+import LayoutDemo from "@/layouts/Layout";
 
 export default function Demo() {
-  const { isOpen, toggle, anchorRef, popoverRef } = usePopover<HTMLButtonElement, HTMLDivElement>();
+  const { anchorRef, isOpen, popoverRef, toggle } = usePopover<HTMLButtonElement, HTMLDivElement>();
   return (
     <LayoutDemo
       title="Popover"
     >
       <div className="relative flex flex-col items-center w-fit">
         <Button.Primary
-          ref={anchorRef}
           onClick={toggle}
+          ref={anchorRef}
         >
           Actions
         </Button.Primary>

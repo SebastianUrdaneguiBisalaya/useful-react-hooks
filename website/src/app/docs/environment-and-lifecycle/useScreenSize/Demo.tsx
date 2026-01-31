@@ -1,10 +1,10 @@
 'use client';
 
 import { useScreenSize } from "../../../../../../src";
-import LayoutDemo from "@/layouts/LayoutDemo";
+import LayoutDemo from "@/layouts/Layout";
 
 export default function Demo() {
-	const { width, height } = useScreenSize();
+	const { height, width } = useScreenSize();
 
   return (
 		<LayoutDemo

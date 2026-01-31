@@ -1,20 +1,27 @@
 'use client';
 
 import { useState, useEffect } from "react";
+
 import { useTranslator } from "../../../../../../src";
-import LayoutDemo from "@/layouts/LayoutDemo";
-import LayoutNotMounted from "@/layouts/LayoutNotMounted";
-import LayoutNotSupported from "@/layouts/LayoutNotSupported";
 import { Button } from "@/components/ui/Button";
 import { TextArea } from "@/components/ui/TextArea";
+import { Layout } from "@/layouts/Layout";
 
 export default function Demo() {
-  const { error, isLanguagePairSupported, checkLanguageSupport, isSupported, isTranslating, translation, translate } = useTranslator({
-    sourceLanguage: "es",
-    targetLanguage: "en-US",
+  const {
+    checkLanguageSupport,
+    error,
+    isLanguagePairSupported,
+    isSupported,
+    isTranslating,
+    translate,
+    translation
+  } = useTranslator({
     onLanguageSupportCheck: (supported) => {
       console.log("Language pair supported:", supported);
     },
+    sourceLanguage: "es",
+    targetLanguage: "en-US",
   });
 
   const [isMounted, setIsMounted] = useState<boolean>(false);
@@ -39,23 +46,30 @@ export default function Demo() {
     setText(event.target.value);
   }
 
-  if (!isMounted) return <LayoutNotMounted />;
-  if (!isSupported) return <LayoutNotSupported title="The Translator API is not supported in this browser."/>;
+  if (!isMounted) {
+    return (
+      <Layout>
+        <Layout.ContentLoading />
+      </Layout>
+    )
+  }
+  if (!isSupported) {
+    return (
+      <Layout>
+        <Layout.ContentNotSupported>
+          The Translator API is not supported in this browser.
+        </Layout.ContentNotSupported>
+      </Layout>
+    )
+  };
+
 	return (
-		<LayoutDemo
-      title="Translator AI"
-    >
-      {
-        error && (
-          <p className="text-center font-reddit-sans text-white/70">
-            Error: <span className="font-black text-red-500">{error?.message}</span>
-          </p>
-        )
-      }
+		<Layout>
+      {error && <Layout.Error>{error?.message}</Layout.Error>}
       <TextArea.Primary
-        value={text}
         onChange={handleChangeText}
         placeholder="Enter text here..."
+        value={text}
       />
       <Button.Primary
         disabled={!isLanguagePairSupported || !isSupported || isTranslating}
@@ -63,13 +77,9 @@ export default function Demo() {
       >
         {isTranslating ? 'Translating...' : 'Translate'}
       </Button.Primary>
-      {
-        translation && (
-          <p className="font-reddit-sans text-sm text-center text-white">
-            {translation}
-          </p>
-        )
-      }
-		</LayoutDemo>
+      <Layout.Paragraph>
+        {translation}
+      </Layout.Paragraph>
+		</Layout>
 	);
 }

@@ -4,8 +4,8 @@ import { useResettableState } from "../../../../../../src";
 
 export default function Demo() {
   const [filters, setFilters, resetFilters] = useResettableState({
-    query: '',
     category: 'all',
+    query: '',
     sortBy: 'relevance'
   });
 
@@ -19,11 +19,11 @@ export default function Demo() {
 
       <div className="w-full max-w-sm flex flex-col items-center gap-4">
         <input
-          type="text"
-          value={filters.query}
+          className="w-full px-4 py-3 border border-white/40 rounded-md font-reddit-sans focus:ring-0 focus:outline-none"
           onChange={handleQueryChange}
           placeholder="Search products..."
-          className="w-full px-4 py-3 border border-white/40 rounded-md font-reddit-sans focus:ring-0 focus:outline-none"
+          type="text"
+          value={filters.query}
         />
 
         <div className="w-full flex flex-col md:flex-row items-center gap-4">

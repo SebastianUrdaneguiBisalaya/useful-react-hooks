@@ -23,10 +23,10 @@ export interface UseLocalStorageReturn<T> {
 	 */
 	update(updater: (prev: T | null) => T): void;
 
-  /**
-   * The current value of the key.
-   */
-  value: T;
+	/**
+	 * The current value of the key.
+	 */
+	value: T;
 }
 
 const listeners = new Set<() => void>();
@@ -44,13 +44,13 @@ function subscribe(listener: () => void) {
 }
 
 function readFromStorage<T>(key: string, fallback: T): T {
-  if (typeof window === 'undefined') return fallback;
-  try {
-    const raw = window.localStorage.getItem(key);
-    return raw === null ? fallback : JSON.parse(raw) as T;
-  } catch {
-    return fallback;
-  }
+	if (typeof window === 'undefined') return fallback;
+	try {
+		const raw = window.localStorage.getItem(key);
+		return raw === null ? fallback : (JSON.parse(raw) as T);
+	} catch {
+		return fallback;
+	}
 }
 
 /**
@@ -82,45 +82,47 @@ export function useLocalStorage<T>(
 ): UseLocalStorageReturn<T> {
 	const { fallback } = options;
 
-  const getSnapshot = React.useCallback((): T => {
-    if (!cache.has(key)) {
-      cache.set(key, readFromStorage(key, fallback));
-    }
-    return cache.get(key) as T;
-  }, [key, fallback]);
+	const getSnapshot = React.useCallback((): T => {
+		if (!cache.has(key)) {
+			cache.set(key, readFromStorage(key, fallback));
+		}
+		return cache.get(key) as T;
+	}, [key, fallback]);
 
-  const value = React.useSyncExternalStore(
-    subscribe,
-    getSnapshot,
-    () => fallback
-  );
+	const value = React.useSyncExternalStore(
+		subscribe,
+		getSnapshot,
+		() => fallback
+	);
 
-  const set = React.useCallback(
-    (next: T) => {
-      if (typeof window === 'undefined') return;
-      cache.set(key, next);
-      window.localStorage.setItem(key, JSON.stringify(next));
-      emit();
-    }, [key]
-  );
+	const set = React.useCallback(
+		(next: T) => {
+			if (typeof window === 'undefined') return;
+			cache.set(key, next);
+			window.localStorage.setItem(key, JSON.stringify(next));
+			emit();
+		},
+		[key]
+	);
 
-  const update = React.useCallback(
-    (updater: (prev: T) => T) => {
-      set(updater(value));
-    }, [value, set]
-  );
+	const update = React.useCallback(
+		(updater: (prev: T) => T) => {
+			set(updater(value));
+		},
+		[value, set]
+	);
 
-  const remove = React.useCallback(() => {
-    if (typeof window === 'undefined') return;
-    cache.delete(key);
-    window.localStorage.removeItem(key);
-    emit();
-  }, [key]);
+	const remove = React.useCallback(() => {
+		if (typeof window === 'undefined') return;
+		cache.delete(key);
+		window.localStorage.removeItem(key);
+		emit();
+	}, [key]);
 
 	return {
 		remove,
 		set,
 		update,
-    value,
+		value,
 	};
 }

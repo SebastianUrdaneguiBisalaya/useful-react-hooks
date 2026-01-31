@@ -11,7 +11,11 @@ export default defineConfig([
 	globalIgnores([
 		'node_modules',
 		'dist',
-		'website',
+		'website/node_modules',
+		'website/.next',
+		'website/public',
+		'website/pnpm-workspace.yaml',
+		'website/pnpm-lock.yaml',
 		'public',
 		'pnpm-lock.yaml',
 	]),
@@ -69,6 +73,8 @@ export default defineConfig([
 				'error',
 				{ order: 'asc', type: 'natural' },
 			],
+      'react/jsx-uses-react': 'off',
+      'react/react-in-jsx-scope': 'off',
 		},
 		settings: {
 			react: {

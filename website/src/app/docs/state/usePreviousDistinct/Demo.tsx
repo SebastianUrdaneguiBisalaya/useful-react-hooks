@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+
 import { usePreviousDistinct } from '../../../../../../src/index';
 
 const colors = ['#3b82f6', '#ef4444', '#10b981', '#f59e0b'];
@@ -34,9 +35,9 @@ export default function Demo() {
       <div className="grid grid-cols-4 gap-2">
         {colors.map((c) => (
           <button
+            className="h-8 rounded-md transition-transform active:scale-95 cursor-pointer"
             key={c}
             onClick={() => setColor(c)}
-            className="h-8 rounded-md transition-transform active:scale-95 cursor-pointer"
             style={{ backgroundColor: c }}
             title={`Set to ${c}`}
           />

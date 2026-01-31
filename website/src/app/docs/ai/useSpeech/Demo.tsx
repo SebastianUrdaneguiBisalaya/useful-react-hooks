@@ -1,30 +1,35 @@
 'use client';
 
 import { useSpeech } from "../../../../../../src";
-import LayoutDemo from "@/layouts/LayoutDemo";
 import { Button } from "@/components/ui/Button";
 import { TextArea } from "@/components/ui/TextArea";
+import { Layout } from "@/layouts/Layout";
 
 export default function Demo() {
   const { error, reset, start, status, stop, transcript } = useSpeech({
-    lang: 'en-PE',
     continuous: true,
     interimResults: true,
+    lang: 'en-PE',
   });
+
+  if (status === 'unsupported') {
+    return (
+      <Layout>
+        <Layout.ContentNotSupported>
+          Speech API is not supported in this browser.
+        </Layout.ContentNotSupported>
+      </Layout>
+    )
+  };
 	return (
-		<LayoutDemo
-      title="Speech AI"
-    >
-      <p className="text-center font-reddit-sans text-white/70">
-        Status: <span className="font-black text-white/80">{status}</span>
-      </p>
-      {
-        error && (
-          <p className="text-center font-reddit-sans text-white/70">
-            Error: <span className="font-black text-red-500">{error?.message}</span>
-          </p>
-        )
-      }
+		<Layout>
+      <Layout.Title>
+        Speech AI
+      </Layout.Title>
+      <Layout.Caption>
+        Status: {status}
+      </Layout.Caption>
+      {error && <Layout.Error>Error: {error?.message}</Layout.Error>}
       <div className="flex flex-row gap-2">
         <Button.Primary onClick={start}>
           Start
@@ -37,10 +42,10 @@ export default function Demo() {
         </Button.Destructive>
       </div>
       <TextArea.Primary
+        placeholder="Transcript will appear here..."
         readOnly
         value={transcript}
-        placeholder="Transcript will appear here..."
       />
-		</LayoutDemo>
+		</Layout>
 	);
 }

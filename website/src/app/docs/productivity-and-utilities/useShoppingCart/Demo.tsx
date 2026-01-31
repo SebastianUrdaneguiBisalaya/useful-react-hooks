@@ -1,7 +1,7 @@
 'use client';
 
 import { useShoppingCart } from "../../../../../../src";
-import LayoutDemo from "@/layouts/LayoutDemo";
+import LayoutDemo from "@/layouts/Layout";
 
 export interface Product {
   id: string;
@@ -13,8 +13,8 @@ export interface Product {
 export default function Demo() {
   const cart = useShoppingCart<Product>({
     getItemKey: (item) => item.id,
-    getItemQuantity: (item) => item.quantity,
     getItemPrice: (item) => item.price,
+    getItemQuantity: (item) => item.quantity,
   });
 
   const addDummy = () => {

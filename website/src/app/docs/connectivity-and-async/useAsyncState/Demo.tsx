@@ -1,8 +1,9 @@
 'use client';
 
 import { useState } from "react";
+
 import { useAsyncState } from "../../../../../../src";
-import LayoutDemo from "@/layouts/LayoutDemo";
+import LayoutDemo from "@/layouts/Layout";
 
 export interface Post {
   id: number;
@@ -13,12 +14,12 @@ export default function Demo() {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const {
     data,
-    isLoading,
-    isError,
     error,
     execute,
-    retry,
-    reset
+    isError,
+    isLoading,
+    reset,
+    retry
   } = useAsyncState<Post[]>();
 
   const handleFetch = () => {
@@ -37,18 +38,18 @@ export default function Demo() {
       <div className="w-full grid grid-cols-2 md:flex gap-2">
         <input
           className="max-md:col-span-full flex-1 w-full px-4 py-3 font-reddit-sans border border-white/40 rounded-lg focus:outline-none"
+          onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Search posts..."
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
         />
         <button
-          onClick={handleFetch}
-          disabled={isLoading}
           className="px-6 py-2 bg-purple-500 font-reddit-sans cursor-pointer hover:bg-purple-600 transition-colors duration-500 ease-in-out text-white rounded-md font-semibold disabled:bg-blue-300 disabled:text-black"
+          disabled={isLoading}
+          onClick={handleFetch}
         >
           {isLoading ? 'Loading...' : 'Search'}
         </button>
-        <button onClick={reset} className="px-4 py-3 font-reddit-sans cursor-pointer border border-white/30 rounded-md text-white/60 hover:text-white/70 transition-colors duration-500 ease-in-out">
+        <button className="px-4 py-3 font-reddit-sans cursor-pointer border border-white/30 rounded-md text-white/60 hover:text-white/70 transition-colors duration-500 ease-in-out" onClick={reset}>
           Reset
         </button>
       </div>
@@ -58,8 +59,8 @@ export default function Demo() {
           <div className="p-4 bg-red-50 border border-red-200 rounded-xl">
             <p className="text-red-700 font-medium font-reddit-sans">Error: {error?.message}</p>
             <button
-              onClick={() => retry()}
               className="mt-2 text-sm font-bold font-reddit-sans text-red-800 underline"
+              onClick={() => retry()}
             >
               Try Again
             </button>
@@ -75,7 +76,7 @@ export default function Demo() {
         {data && (
           <ul className="divide-y divide-white/40 overflow-hidden">
             {data.map(post => (
-              <li key={post.id} className="px-4 py-2 bg-neutral-900 hover:bg-neutral-700 transition-colors duration-500 ease-in-out">
+              <li className="px-4 py-2 bg-neutral-900 hover:bg-neutral-700 transition-colors duration-500 ease-in-out" key={post.id}>
                 <h4 className="font-medium text-sm text-white/80 capitalize">{post.title}</h4>
                 <p className="text-xs text-white/50 font-reddit-sans">ID: {post.id}</p>
               </li>

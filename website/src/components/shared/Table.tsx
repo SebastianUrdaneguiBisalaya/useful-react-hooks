@@ -1,10 +1,11 @@
 import type { ReactElement } from 'react';
+
 import { toUpperCaseFirstLetter } from '@/lib/functions';
 
 export interface TableItemProps {
+  description: string;
   name: string;
   type: string;
-  description: string;
 }
 
 export interface BaseTableProps {

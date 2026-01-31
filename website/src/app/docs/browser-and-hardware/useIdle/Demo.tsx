@@ -1,7 +1,7 @@
 'use client';
 
 import { useIdle } from "../../../../../../src";
-import LayoutDemo from "@/layouts/LayoutDemo";
+import LayoutDemo from "@/layouts/Layout";
 import { cn } from "@/lib/cn";
 
 export default function Demo() {

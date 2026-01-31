@@ -88,7 +88,6 @@ function isChrome(): boolean {
 	return isChromium && !isEdge && !isBrave;
 }
 
-
 /**
  * `useSpeech` is a React hook that provides unopinionated access to the Speech API.
  *
@@ -107,12 +106,12 @@ function isChrome(): boolean {
  */
 export function useSpeech(options: UseSpeechOptions = {}): UseSpeechResult {
 	const isClient = typeof window !== 'undefined';
-  const isChromeBrowser = React.useMemo(() => isChrome(), []);
+	const isChromeBrowser = React.useMemo(() => isChrome(), []);
 
 	const recognitionRef = React.useRef<SpeechRecognition | null>(null);
 	const isManuallyStoppedRef = React.useRef<boolean>(false);
 	const shouldRestartRef = React.useRef<boolean>(false);
-  const nextStatusRef = React.useRef<SpeechStatus | null>(null);
+	const nextStatusRef = React.useRef<SpeechStatus | null>(null);
 
 	const [status, setStatus] = React.useState<SpeechStatus>('idle');
 	const [error, setError] = React.useState<Error | null>(null);
@@ -122,10 +121,10 @@ export function useSpeech(options: UseSpeechOptions = {}): UseSpeechResult {
 	const initializeRecognition = React.useCallback(() => {
 		if (!isClient) return;
 
-    if (!isChromeBrowser) {
-      setStatus('unsupported');
-      return;
-    }
+		if (!isChromeBrowser) {
+			setStatus('unsupported');
+			return;
+		}
 
 		const SpeechRecognitionCtor =
 			window.SpeechRecognition ?? window.webkitSpeechRecognition;
@@ -166,7 +165,7 @@ export function useSpeech(options: UseSpeechOptions = {}): UseSpeechResult {
 			}
 		};
 
-		recognition.onerror = (event) => {
+		recognition.onerror = event => {
 			if (isManuallyStoppedRef.current) return;
 
 			if (event.error === 'no-speech') {
@@ -190,7 +189,7 @@ export function useSpeech(options: UseSpeechOptions = {}): UseSpeechResult {
 				return;
 			}
 
-      if (status === 'error') return;
+			if (status === 'error') return;
 
 			if (shouldRestartRef.current) {
 				try {
@@ -241,7 +240,7 @@ export function useSpeech(options: UseSpeechOptions = {}): UseSpeechResult {
 	}, []);
 
 	const reset = React.useCallback(() => {
-    nextStatusRef.current = 'idle';
+		nextStatusRef.current = 'idle';
 		stop();
 		setFinalTranscript('');
 		setInterimTranscript('');

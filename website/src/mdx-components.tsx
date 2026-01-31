@@ -1,6 +1,7 @@
 import type { MDXComponents } from 'mdx/types';
-import { CodeBlock } from '@/components/shared/Codeblock';
 import { bundledLanguages } from 'shiki';
+
+import CodeBlock from '@/components/shared/Codeblock';
 
 const components = {
     a: ({ children, href }) => (
@@ -30,13 +31,10 @@ const components = {
     p: ({ children }) => (
         <p className='font-reddit-sans leading-7 mt-[1em] mb-[1em]'>{children}</p>
     ),
-    ul: ({ children }) => (
-        <ul className='font-reddit-sans'>{children}</ul>
-    ),
     pre: ({ children }) => {
       const child = children as React.ReactElement<{
-        className?: string;
         children?: string;
+        className?: string;
       }>;
       if (!child.props) {
         return <pre className='font-reddit-sans'>{children}</pre>;
@@ -50,12 +48,15 @@ const components = {
 
       return (
         <CodeBlock
+          classNameCode='reddit-sans text-sm'
           code={code}
           language={language}
-          classNameCode='reddit-sans text-sm'
         />
       )
-    }
+    },
+    ul: ({ children }) => (
+        <ul className='font-reddit-sans'>{children}</ul>
+    )
 } satisfies MDXComponents;
 
 export function useMDXComponents() {

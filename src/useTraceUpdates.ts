@@ -60,13 +60,13 @@ export function useTraceUpdates(value: Record<string, unknown>, name?: string) {
 					};
 				}
 			}
-      if (Object.keys(changes).length > 0) {
-        console.log(
-          `[useTraceUpdates] ${name ?? 'Component'} changes:`,
-          changes
-        );
-      }
+			if (Object.keys(changes).length > 0) {
+				console.log(
+					`[useTraceUpdates] ${name ?? 'Component'} changes:`,
+					changes
+				);
+			}
 		}
-    prev.current = value;
+		prev.current = value;
 	}, [value, name]);
 }

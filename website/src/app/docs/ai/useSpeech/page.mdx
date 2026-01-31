@@ -1,4 +1,4 @@
-import { CodeBlock } from "@/components/shared/Codeblock";
+import CodeBlock from "@/components/shared/Codeblock";
 import Demo from "@/app/docs/ai/useSpeech/Demo";
 import Table from "@/components/shared/Table";
 import data from "@/app/docs/ai/useSpeech/data.json";
@@ -39,8 +39,8 @@ To avoid non-deterministic behavior, crashes, or infinite restart loops, this ho
 ```tsx
 'use client';
 
-import { useSpeech } from "@vibehooks/react/useSpeech";
-import LayoutDemo from "@/layouts/LayoutDemo";
+import { useSpeech } from "../../../../../../src";
+import { Layout } from "@/layouts/Layout";
 import { Button } from "@/components/ui/Button";
 import { TextArea } from "@/components/ui/TextArea";
 
@@ -50,20 +50,26 @@ export default function Demo() {
     continuous: true,
     interimResults: true,
   });
+
+  if (status === 'unsupported') {
+    return (
+      <Layout>
+        <Layout.ContentNotSupported>
+          Speech API is not supported in this browser.
+        </Layout.ContentNotSupported>
+      </Layout>
+    )
+  };
+
 	return (
-		<LayoutDemo
-      title="Speech AI"
-    >
-      <p className="text-center font-reddit-sans text-white/70">
-        Status: <span className="font-black text-white/80">{status}</span>
-      </p>
-      {
-        error && (
-          <p className="text-center font-reddit-sans text-white/70">
-            Error: <span className="font-black text-red-500">{error?.message}</span>
-          </p>
-        )
-      }
+		<Layout>
+      <Layout.Title>
+        Speech AI
+      </Layout.Title>
+      <Layout.Caption>
+        Status: {status}
+      </Layout.Caption>
+      {error && <Layout.Error>Error: {error?.message}</Layout.Error>}
       <div className="flex flex-row gap-2">
         <Button.Primary onClick={start}>
           Start
@@ -80,7 +86,7 @@ export default function Demo() {
         value={transcript}
         placeholder="Transcript will appear here..."
       />
-		</LayoutDemo>
+		</Layout>
 	);
 }
 ```

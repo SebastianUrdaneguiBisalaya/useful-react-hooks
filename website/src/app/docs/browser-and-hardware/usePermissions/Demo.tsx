@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from "react";
+
 import { usePermissions, type PermissionState } from "../../../../../../src/usePermissions";
 import { cn } from '@/lib/cn';
 
@@ -38,7 +39,7 @@ export default function Demo() {
                 const status = permissions[name];
 
                 return (
-                  <div key={name} className="flex items-center justify-between p-3 border border-white/40 rounded-lg">
+                  <div className="flex items-center justify-between p-3 border border-white/40 rounded-lg" key={name}>
                     <span className="capitalize font-medium font-reddit-sans">{name}</span>
                     <StatusBadge status={status} />
                   </div>
@@ -62,10 +63,10 @@ export default function Demo() {
 
 function StatusBadge({ status }: { status?: PermissionState }) {
   const colors: Record<string, string> = {
-    granted: 'bg-green-100 text-green-800',
     denied: 'bg-red-100 text-red-800',
-    prompt: 'bg-yellow-100 text-yellow-800',
+    granted: 'bg-green-100 text-green-800',
     loading: 'bg-gray-100 text-gray-400',
+    prompt: 'bg-yellow-100 text-yellow-800',
   };
 
   const currentStatus = status || 'loading';

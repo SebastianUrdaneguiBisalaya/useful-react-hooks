@@ -1,10 +1,11 @@
 'use client';
 
 import { useEffect } from "react";
+
 import { useDebouncedState } from "../../../../../../src";
 
 export default function Demo() {
-  const { value, debouncedValue, setValue } = useDebouncedState('', { delay: 500 });
+  const { debouncedValue, setValue, value } = useDebouncedState('', { delay: 500 });
   const isSearching = value !== debouncedValue && Boolean(value);
 
   useEffect(() => {
@@ -22,10 +23,10 @@ export default function Demo() {
         <label className="text-sm font-bold font-sora text-white/60">Search Products</label>
         <div className="relative">
           <input
-            value={value}
-            onChange={(e) => setValue(e.target.value)}
             className="w-full px-4 py-2 border border-white/40 rounded-md focus:outline-none"
+            onChange={(e) => setValue(e.target.value)}
             placeholder="Type quickly..."
+            value={value}
           />
           {isSearching && (
             <div className="absolute right-3 top-2.5 animate-spin h-5 w-5 border-2 border-purple-500 border-t-transparent rounded-full" />

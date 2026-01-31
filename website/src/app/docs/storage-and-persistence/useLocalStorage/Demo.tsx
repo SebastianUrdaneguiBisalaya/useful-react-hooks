@@ -1,10 +1,11 @@
 'use client';
 
 import { useState, useEffect } from "react";
+
 import { useLocalStorage } from "../../../../../../src";
-import LayoutDemo from "@/layouts/LayoutDemo";
-import LayoutNotMounted from "@/layouts/LayoutNotMounted";
 import { Button } from "@/components/ui/Button";
+import LayoutDemo from "@/layouts/Layout";
+import LayoutNotMounted from "@/layouts/LayoutNotMounted";
 import { cn } from "@/lib/cn";
 
 export interface Preferences {

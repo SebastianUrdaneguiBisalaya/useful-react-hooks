@@ -1,11 +1,12 @@
 'use client';
 
 import { useState, useEffect } from "react";
+
 import { usePictureInPicture } from "../../../../../../src";
-import LayoutDemo from "@/layouts/LayoutDemo";
+import { Button } from "@/components/ui/Button";
+import LayoutDemo from "@/layouts/Layout";
 import LayoutNotMounted from "@/layouts/LayoutNotMounted";
 import LayoutNotSupported from "@/layouts/LayoutNotSupported";
-import { Button } from "@/components/ui/Button";
 
 export default function Demo() {
   const [isMounted, setIsMounted] = useState<boolean>(false);
@@ -26,21 +27,21 @@ export default function Demo() {
     >
       <div className="flex flex-col items-center gap-2">
         <video
-          ref={videoRef}
-          src="/video.mp4"
           className="aspect-video rounded-md w-full"
           controls
+          ref={videoRef}
+          src="/video.mp4"
         />
         <div className="flex flex-row items-center gap-2">
           <Button.Primary
-            onClick={enter}
             disabled={!isSupported || isActive}
+            onClick={enter}
           >
             Enter PiP
           </Button.Primary>
           <Button.Secondary
-            onClick={exit}
             disabled={!isActive}
+            onClick={exit}
           >
             Exit PiP
           </Button.Secondary>

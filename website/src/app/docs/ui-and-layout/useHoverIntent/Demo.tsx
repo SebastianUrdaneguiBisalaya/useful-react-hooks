@@ -1,8 +1,8 @@
 'use client';
 
 import { useHoverIntent } from "../../../../../../src";
-import LayoutDemo from "@/layouts/LayoutDemo";
 import { Button } from "@/components/ui/Button";
+import LayoutDemo from "@/layouts/Layout";
 
 export default function Demo() {
   const hover = useHoverIntent({

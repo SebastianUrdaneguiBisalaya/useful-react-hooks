@@ -1,12 +1,13 @@
 'use client';
 
 import { useState, useEffect } from "react";
+
 import { useVibration } from "../../../../../../src";
 import { cn } from "@/lib/cn";
 
 export default function Demo() {
   const [mounted, setMounted] = useState<boolean>(false);
-  const { isSupported, vibrate, cancel } = useVibration();
+  const { cancel, isSupported, vibrate } = useVibration();
   const [lastResult, setLastResult] = useState<boolean | null>(null);
   const handleVibrate = (pattern: number | number[]) => {
   const result = vibrate(pattern);
@@ -38,31 +39,31 @@ export default function Demo() {
           <>
             <div className="space-y-3">
               <button
-                onClick={() => handleVibrate(200)}
                 className="cursor-pointer w-full rounded-lg bg-indigo-500 hover:bg-indigo-600 transition-colors duration-500 ease-in-out px-4 py-3 font-reddit-sans text-sm font-medium"
+                onClick={() => handleVibrate(200)}
               >
                 Vibrate 200ms
               </button>
 
               <button
-                onClick={() => handleVibrate([100, 50, 100])}
                 className="cursor-pointer w-full rounded-lg bg-indigo-500 hover:bg-indigo-600 transition-colors duration-500 ease-in-out px-4 py-3 font-reddit-sans text-sm font-medium"
+                onClick={() => handleVibrate([100, 50, 100])}
               >
                 Vibrate pattern [100, 50, 100]
               </button>
 
 
               <button
-                onClick={() => handleVibrate([300, 100, 300, 100, 300])}
                 className="cursor-pointer w-full rounded-lg bg-indigo-500 hover:bg-indigo-600 transition-colors duration-500 ease-in-out px-4 py-3 font-reddit-sans text-sm font-medium"
+                onClick={() => handleVibrate([300, 100, 300, 100, 300])}
               >
                 Vibrate long pattern
               </button>
 
 
               <button
-                onClick={cancel}
                 className="cursor-pointer w-full rounded-lg bg-neutral-800 hover:bg-neutral-900 transition-colors duration-500 ease-in-out px-4 py-3 font-reddit-sans text-sm"
+                onClick={cancel}
               >
                 Cancel vibration
               </button>

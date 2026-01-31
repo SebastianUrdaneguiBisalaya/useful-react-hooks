@@ -1,7 +1,7 @@
 'use client';
 
 import { useIsDesktop } from "../../../../../../src";
-import LayoutDemo from "@/layouts/LayoutDemo";
+import LayoutDemo from "@/layouts/Layout";
 
 export default function Demo() {
   const isDesktop = useIsDesktop(1024);
