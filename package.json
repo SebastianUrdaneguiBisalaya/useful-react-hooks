@@ -2,10 +2,10 @@
 	"name": "@vibehooks/react",
 	"type": "module",
 	"version": "0.0.1",
-	"description": "Modern, unopinionated React hooks with a focus on developer experience.",
+	"description": "Modern and unopinionated React hooks with a focus on developer experience.",
 	"author": "Sebastian Marat Urdanegui Bisalaya <sebasurdanegui@gmail.com>",
 	"license": "MIT",
-	"homepage": "https://github.com/author/library#readme",
+	"homepage": "https://vibehooks.sebastianurdanegui.com",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/SebastianUrdaneguiBisalaya/vibehooks.git"
