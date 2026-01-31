@@ -3,6 +3,7 @@
 import { useSpeech } from "../../../../../../src";
 import LayoutDemo from "@/layouts/LayoutDemo";
 import { Button } from "@/components/ui/Button";
+import { TextArea } from "@/components/ui/TextArea";
 
 export default function Demo() {
   const { error, reset, start, status, stop, transcript } = useSpeech({
@@ -35,11 +36,10 @@ export default function Demo() {
           Cancel
         </Button.Destructive>
       </div>
-      <textarea
+      <TextArea.Primary
         readOnly
         value={transcript}
         placeholder="Transcript will appear here..."
-        className="w-full p-4 border border-white/20 rounded-md font-reddit-sans text-sm text-white/90 text-left"
       />
 		</LayoutDemo>
 	);

@@ -6,6 +6,7 @@ import LayoutDemo from "@/layouts/LayoutDemo";
 import LayoutNotMounted from "@/layouts/LayoutNotMounted";
 import LayoutNotSupported from "@/layouts/LayoutNotSupported";
 import { Button } from "@/components/ui/Button";
+import { TextArea } from "@/components/ui/TextArea";
 
 export default function Demo() {
   const { error, isLanguagePairSupported, checkLanguageSupport, isSupported, isTranslating, translation, translate } = useTranslator({
@@ -51,11 +52,10 @@ export default function Demo() {
           </p>
         )
       }
-      <textarea
+      <TextArea.Primary
         value={text}
         onChange={handleChangeText}
         placeholder="Enter text here..."
-        className="w-full focus:outline-none p-4 border border-white/20 rounded-md font-reddit-sans text-sm text-white/90 text-left"
       />
       <Button.Primary
         disabled={!isLanguagePairSupported || !isSupported || isTranslating}
