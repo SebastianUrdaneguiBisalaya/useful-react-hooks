@@ -1,13 +1,9 @@
 <p align="center">
-    <img src="./public/icon.png" alt="useful-react-hooks" height="80px">
-</p>
-
-<p align="center">
     <img src="./public/logo.png" alt="useful-react-hooks" height="40px">
 </p>
 
 <p align="center" style="font-size: 1.2rem; font-weight: bold;">
-Modern, unopinionated React hooks with a focus<br/>on developer experience.
+Modern React and Next.js hooks, unopinionated and focused on developer experience.
 </p>
 
 ## **Installation**
