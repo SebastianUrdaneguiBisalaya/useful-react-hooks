@@ -3,11 +3,12 @@
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
+import Footer from "@/components/shared/Footer";
 import Navbar from "@/components/shared/Navbar";
 
 export default function NotFound() {
   return (
-    <div className="w-full grow flex flex-col items-center">
+    <div className="w-full max-w-3xl grow flex flex-col items-center py-4 md:py-6 px-8">
       <Navbar />
       <main className="flex flex-col gap-8 items-center justify-center p-8 grow w-full h-full">
         <h3 className="font-sora text-4xl md:text-5xl font-bold text-white">404</h3>
@@ -22,6 +23,7 @@ export default function NotFound() {
           </span>
         </Link>
       </main>
+      <Footer />
     </div>
   )
 }

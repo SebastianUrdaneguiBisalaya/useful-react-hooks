@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import { Sora, Reddit_Sans, Jersey_15, Cascadia_Code } from 'next/font/google';
 
 import "./globals.css";
-import Footer from "@/components/shared/Footer";
-import Navigation from "@/components/shared/Navigation";
 
 const sora = Sora({
   subsets: ["latin"],
@@ -42,10 +40,8 @@ export default function RootLayout({
       <body
         className={`${sora.variable} ${redditSans.variable} ${jersey15.variable} ${cascadiaCode.variable} antialiased`}
       >
-        <div className="max-w-3xl w-full min-h-screen h-full flex flex-col">
+        <div className="w-full min-h-screen mx-auto h-full flex flex-col items-center">
           {children}
-          <Navigation />
-          <Footer />
         </div>
       </body>
     </html>

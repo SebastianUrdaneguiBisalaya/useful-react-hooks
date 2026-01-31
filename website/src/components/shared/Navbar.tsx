@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function Navbar() {
   return (
-    <nav className="flex gap-4 w-full items-center justify-between pt-4 md:pt-6 pb-8 md:pb-12">
+    <nav className="flex gap-4 w-full items-center justify-between pb-8 md:pb-12">
       <Link className="flex" href="/">
         <span className="font-jersey-15 text-3xl md:text-4xl">vibe</span>
         <span className="font-jersey-15 text-purple-500 text-3xl md:text-4xl">Hooks</span>
