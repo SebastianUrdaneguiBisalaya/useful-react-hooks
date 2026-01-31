@@ -40,7 +40,8 @@ const components = {
         return <pre className='font-reddit-sans'>{children}</pre>;
       }
       const className = child.props.className ?? '';
-      const code = child.props.children ?? '';
+      const rawCode = child.props.children ?? '';
+      const code = typeof rawCode === 'string' ? rawCode.trim() : rawCode;
 
       const language = className?.startsWith('language-')
         ? className.replace('language-', '') as keyof typeof bundledLanguages
@@ -48,7 +49,7 @@ const components = {
 
       return (
         <CodeBlock
-          classNameCode='reddit-sans text-sm'
+          classNameCode='cascadia-code text-sm'
           code={code}
           language={language}
         />

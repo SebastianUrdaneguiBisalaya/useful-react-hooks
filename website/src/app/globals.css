@@ -36,10 +36,12 @@ body {
 
 pre code span span {
   font-family: var(--font-jersey-15);
+  font-size: 1.25rem;
 }
 
-.reddit-sans pre code span span {
+.cascadia-code pre code span span {
   font-family: var(--font-cascadia-code);
+  font-size: 0.85rem;
 }
 
 .motion-slider-gradient {

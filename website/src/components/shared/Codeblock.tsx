@@ -59,9 +59,12 @@ export default function Codeblock({
                 theme,
                 transformers: [
                     {
+                        code(node) {
+                            node.properties.style = 'display: block;'
+                        },
                         pre(node) {
-                            node.properties.style = ''
-                        }
+                            node.properties.style = 'background: transparent; tab-size: 2;'
+                        },
                     }
                 ]
             });
@@ -118,7 +121,7 @@ export default function Codeblock({
             </div>
             <div
                 className={cn(
-                  'leading-relaxed border-x border-b border-white/20 rounded-b-md py-3 px-4 bg-[rgba(0,0,0,1)] overflow-x-auto text-xl',
+                  'border-x border-b border-white/20 rounded-b-md py-3 px-4 bg-[rgba(0,0,0,1)] overflow-x-auto',
                   classNameCode
                 )}
                 dangerouslySetInnerHTML={{ __html: html }}
