@@ -5,7 +5,7 @@ import LayoutDemo from "@/layouts/LayoutDemo";
 import { Button } from "@/components/ui/Button";
 
 export default function Demo() {
-  const { error, start, status, stop, transcript } = useSpeech({
+  const { error, reset, start, status, stop, transcript } = useSpeech({
     lang: 'en-PE',
     continuous: true,
     interimResults: true,
@@ -28,8 +28,11 @@ export default function Demo() {
         <Button.Primary onClick={start}>
           Start
         </Button.Primary>
-        <Button.Destructive onClick={stop}>
+        <Button.Warning onClick={stop}>
           Stop
+        </Button.Warning>
+        <Button.Destructive onClick={reset}>
+          Cancel
         </Button.Destructive>
       </div>
       <textarea

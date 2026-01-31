@@ -76,8 +76,26 @@ const Destructive = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
 Destructive.displayName = 'Button.Destructive';
 
+const Warning = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  (props, ref) => {
+    return (
+      <BaseButton
+        ref={ref}
+        {...props}
+        className={cn(
+          'bg-yellow-900/50 text-yellow-400 border border-transparent hover:bg-yellow-900/60',
+          props.className
+        )}
+      />
+    )
+  }
+);
+
+Warning.displayName = 'Button.Warning';
+
 export const Button = Object.assign(BaseButton, {
   Primary,
   Secondary,
   Destructive,
+  Warning
 });

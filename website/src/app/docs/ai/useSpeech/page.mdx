@@ -18,6 +18,10 @@ import data from "@/app/docs/ai/useSpeech/data.json";
 
 The **useSpeech** wraps the **SpeechRecognition** interface, allowing developers to convert audio from a microphone into real-time text strings. It handles cross-browser prefixes (e.g., **webkitSpeechRecognition**), manages internal state transitions (listening, stopped, error), and cleans up listeners automatically.
 
+**Important:** The **useSpeech** hook depends on the Web Speech API. At the time of writing, this API is only production-ready in **Google Chrome**. Other browsers may partially implement the interfaces but do not provide a stable recognition service.
+
+To avoid non-deterministic behavior, crashes, or infinite restart loops, this hook performs a runtime browser check and will not activate outside of Chrome.
+
 #### **Parameters**
 
 <Table data={data.parameters} />
@@ -33,5 +37,50 @@ The **useSpeech** wraps the **SpeechRecognition** interface, allowing developers
 #### **Source code**
 
 ```tsx
+'use client';
 
+import { useSpeech } from "@vibehooks/react/useSpeech";
+import LayoutDemo from "@/layouts/LayoutDemo";
+import { Button } from "@/components/ui/Button";
+
+export default function Demo() {
+  const { error, reset, start, status, stop, transcript } = useSpeech({
+    lang: 'en-PE',
+    continuous: true,
+    interimResults: true,
+  });
+	return (
+		<LayoutDemo
+      title="Speech AI"
+    >
+      <p className="text-center font-reddit-sans text-white/70">
+        Status: <span className="font-black text-white/80">{status}</span>
+      </p>
+      {
+        error && (
+          <p className="text-center font-reddit-sans text-white/70">
+            Error: <span className="font-black text-red-500">{error?.message}</span>
+          </p>
+        )
+      }
+      <div className="flex flex-row gap-2">
+        <Button.Primary onClick={start}>
+          Start
+        </Button.Primary>
+        <Button.Warning onClick={stop}>
+          Stop
+        </Button.Warning>
+        <Button.Destructive onClick={reset}>
+          Cancel
+        </Button.Destructive>
+      </div>
+      <textarea
+        readOnly
+        value={transcript}
+        placeholder="Transcript will appear here..."
+        className="w-full p-4 border border-white/20 rounded-md font-reddit-sans text-sm text-white/90 text-left"
+      />
+		</LayoutDemo>
+	);
+}
 ```
