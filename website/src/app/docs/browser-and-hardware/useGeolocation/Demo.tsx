@@ -3,23 +3,35 @@
 import { useState, useEffect } from 'react';
 
 import { useGeolocation } from "../../../../../../src";
+import { Button } from "@/components/ui/Button";
+import { Layout } from "@/layouts/Layout";
 
 export default function Demo() {
   const { clearWatch, error, getCurrentPosition, isSupported, permissionState, position, watchPosition } = useGeolocation();
 
   const [watcherId, setWatcherId] = useState<number | null>(null);
-  const [mounted, setMounted] = useState<boolean>(false);
+  const [isMounted, setIsMounted] = useState<boolean>(false);
 
   useEffect(() => {
-    setTimeout(() => setMounted(true), 100);
+    setTimeout(() => setIsMounted(true), 100);
   }, []);
 
-  if (!mounted) {
+  if (!isMounted) {
     return (
-      <div className="w-full border border-white/20 p-4 flex items-center justify-center">
-        <span className="text-white/20 text-sm text-center">Loading geolocation info…</span>
-      </div>
-    );
+      <Layout>
+        <Layout.ContentLoading />
+      </Layout>
+    )
+  }
+
+  if (!isSupported) {
+    return (
+      <Layout>
+        <Layout.ContentNotSupported>
+          The Geolocation API is not supported in this browser.
+        </Layout.ContentNotSupported>
+      </Layout>
+    )
   }
 
   const toggleTracking = () => {
@@ -31,54 +43,41 @@ export default function Demo() {
       setWatcherId(id);
     }
   };
+
   return (
-    <div className="w-full space-y-4 p-4 border border-white/20 rounded-lg shadow-md">
-      <div className="flex gap-2 justify-between items-center">
-        <h3 className="text-lg font-bold text-white/60 font-sora">Geolocation</h3>
-        <span className={`px-2 py-1 rounded text-[10px] font-bold uppercase ${
-          permissionState === 'granted' ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-500'
-        }`}>
-          {permissionState}
-        </span>
-      </div>
+    <Layout>
+      <Layout.Title>Geolocation</Layout.Title>
+      <Layout.Caption>
+        Status: {permissionState}
+      </Layout.Caption>
 
       {!isSupported ? (
         <p className="text-sm text-red-500 bg-red-50 p-3 rounded font-reddit-sans">Geolocation not supported.</p>
       ) : (
         <div className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
-            <div className="p-3 border border-white/20 rounded-md space-y-2">
-              <p className="text-[10px] uppercase font-reddit-sans font-bold text-white/60">Latitude</p>
-              <p className="text-sm font-reddit-sans">{position?.coords.latitude.toFixed(6) ?? '—'}</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="flex flex-col items-center p-2 border border-white/20 rounded-md space-y-2">
+              <Layout.Caption className='font-bold'>Latitude</Layout.Caption>
+              <Layout.Paragraph>{position?.coords.latitude.toFixed(6) ?? '—'}</Layout.Paragraph>
             </div>
-            <div className="p-3 border border-white/20 rounded-md space-y-2">
-              <p className="text-[10px] uppercase font-reddit-sans font-bold text-white/60">Longitude</p>
-              <p className="text-sm font-reddit-sans">{position?.coords.longitude.toFixed(6) ?? '—'}</p>
+            <div className="flex flex-col items-center p-2 border border-white/20 rounded-md space-y-2">
+              <Layout.Caption className='font-bold'>Longitude</Layout.Caption>
+              <Layout.Paragraph>{position?.coords.longitude.toFixed(6) ?? '—'}</Layout.Paragraph>
             </div>
           </div>
 
-          {error && (
-            <p className="text-xs text-red-500 bg-red-50 p-2 rounded font-reddit-sans">Error: {error.message}</p>
-          )}
+          {error && <Layout.Error>Error: {error.message}</Layout.Error>}
 
-          <div className="flex gap-4">
-            <button
-              className="flex-1 cursor-pointer px-4 py-2 font-reddit-sans bg-purple-400 text-white rounded-lg text-sm font-medium hover:bg-purple-500 transition-colors duration-500 ease-in-out"
-              onClick={() => getCurrentPosition()}
-            >
-              Get Once
-            </button>
-            <button
-              className={`flex-1 cursor-pointer px-4 py-2 font-reddit-sans rounded-lg text-sm font-medium border transition-colors duration-500 ease-in-out ${
-                watcherId !== null ? 'bg-red-50 border-red-200 text-red-600' : 'bg-white border-slate-200 text-slate-700'
-              }`}
-              onClick={toggleTracking}
-            >
+          <div className="flex gap-2">
+            <Button.Primary onClick={() => getCurrentPosition()}>
+              Get once
+            </Button.Primary>
+            <Button.Secondary onClick={toggleTracking}>
               {watcherId !== null ? 'Stop Tracking' : 'Start Watch'}
-            </button>
+            </Button.Secondary>
           </div>
         </div>
       )}
-    </div>
+    </Layout>
   )
 }

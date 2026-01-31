@@ -1,7 +1,7 @@
 'use client';
 
 import { useIdle } from "../../../../../../src";
-import LayoutDemo from "@/layouts/Layout";
+import { Layout } from "@/layouts/Layout";
 import { cn } from "@/lib/cn";
 
 export default function Demo() {
@@ -11,9 +11,8 @@ export default function Demo() {
   });
 
   return (
-    <LayoutDemo
-      title="Idle"
-    >
+    <Layout>
+      <Layout.Title>Idle</Layout.Title>
       <div className="flex items-center space-x-2">
         <span className='relative flex h-3 w-3'>
           {!isIdle && (
@@ -27,20 +26,18 @@ export default function Demo() {
           >
           </span>
         </span>
-        <span className="text-sm font-reddit-sans text-white/80 font-medium">
+        <Layout.Caption>
           Status: {isIdle ? 'User is Idle' : 'User is Active'}
-        </span>
+        </Layout.Caption>
       </div>
 
-      <p className="text-sm font-reddit-sans text-white/70">
-        Last Activity: {new Date(lastActiveAt).toLocaleTimeString()}
-      </p>
+      <Layout.Caption>Last Activity: {new Date(lastActiveAt).toLocaleTimeString()}</Layout.Caption>
 
       {isIdle && (
-        <p className="text-sm text-amber-500 font-reddit-sans">
-          <strong>Note:</strong> Auto-pausing background processes to save resources.
-        </p>
+        <Layout.Caption className="text-amber-500">
+          Note: Auto-pausing background processes to save resources.
+        </Layout.Caption>
       )}
-    </LayoutDemo>
+    </Layout>
   )
 }

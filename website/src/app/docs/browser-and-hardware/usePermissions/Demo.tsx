@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 
 import { usePermissions, type PermissionState } from "../../../../../../src/usePermissions";
+import { Layout } from "@/layouts/Layout";
 import { cn } from '@/lib/cn';
 
 const PERMISSIONS_TO_TRACK: PermissionName[] = [
@@ -14,23 +15,33 @@ const PERMISSIONS_TO_TRACK: PermissionName[] = [
 
 export default function Demo() {
   const { isSupported, permissions } = usePermissions(PERMISSIONS_TO_TRACK);
-  const [mounted, setMounted] = useState<boolean>(false);
+  const [isMounted, setIsMounted] = useState<boolean>(false);
 
   useEffect(() => {
-    setTimeout(() => setMounted(true), 100);
+    setTimeout(() => setIsMounted(true), 100);
   }, []);
 
-  if (!mounted) {
+  if (!isMounted) {
     return (
-      <div className="w-full border border-white/20 p-4 flex items-center justify-center">
-        <span className="text-white/20 text-sm text-center">Loading permissions info…</span>
-      </div>
-    );
+      <Layout>
+        <Layout.ContentLoading />
+      </Layout>
+    )
+  }
+
+  if (!isSupported) {
+    return (
+      <Layout>
+        <Layout.ContentNotSupported>
+          The Permissions API is not supported in this browser.
+        </Layout.ContentNotSupported>
+      </Layout>
+    )
   }
 
   return (
-    <div className="w-full p-4 rounded-lg shadow-sm border border-white/20">
-      <h2 className="text-xl font-bold mb-4 font-sora text-white/60">Browser Permissions Tracker</h2>
+    <Layout>
+      <Layout.Title>Browser Permissions Tracker</Layout.Title>
       {
         isSupported ? (
           <>
@@ -39,25 +50,25 @@ export default function Demo() {
                 const status = permissions[name];
 
                 return (
-                  <div className="flex items-center justify-between p-3 border border-white/40 rounded-lg" key={name}>
-                    <span className="capitalize font-medium font-reddit-sans">{name}</span>
+                  <div className="flex gap-4 items-center justify-between p-2 border border-white/20 rounded-lg" key={name}>
+                    <Layout.Paragraph className="capitalize">{name}</Layout.Paragraph>
                     <StatusBadge status={status} />
                   </div>
                 );
               })}
             </div>
 
-            <footer className="mt-6 text-sm text-white/60 font-reddit-sans">
+            <Layout.Caption>
               Try changing permissions in your browser settings to see the UI update automatically.
-            </footer>
+            </Layout.Caption>
           </>
         ) : (
-          <div className="p-4 bg-red-100 font-reddit-sans text-red-700 rounded-md">
-            <strong>Error:</strong> The Permissions API is not supported in this browser.
-          </div>
+          <Layout.Error>
+            Error: The Permissions API is not supported in this browser.
+          </Layout.Error>
         )
       }
-    </div>
+    </Layout>
   )
 }
 
@@ -73,7 +84,7 @@ function StatusBadge({ status }: { status?: PermissionState }) {
 
   return (
     <span className={cn(
-      'px-2 py-1 rounded text-xs font-reddit-sans font-bold uppercase',
+      'px-2 py-1 rounded text-xs font-reddit-sans font-medium capitalize',
       colors[currentStatus]
     )}>
       {currentStatus}

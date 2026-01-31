@@ -3,7 +3,8 @@
 import { useState, useEffect } from 'react';
 
 import { useUserActivation } from '../../../../../../src';
-import { cn } from '@/lib/cn';
+import { Button } from "@/components/ui/Button";
+import { Layout } from "@/layouts/Layout";
 
 export default function UserActivationDemo() {
   const {
@@ -13,109 +14,67 @@ export default function UserActivationDemo() {
     refresh,
   } = useUserActivation();
 
-  const [mounted, setMounted] = useState<boolean>(false);
+  const [isMounted, setIsMounted] = useState<boolean>(false);
 
   useEffect(() => {
     setTimeout(() => {
-      setMounted(true);
+      setIsMounted(true);
     }, 100);
   }, []);
 
-  if (!mounted) {
+  if (!isMounted) {
     return (
-      <div className="w-full max-w-md self-center border border-white/20 p-4 flex items-center justify-center bg-neutral-900">
-        <span className="text-white/20 text-sm text-center font-reddit-sans">Loading screen wake lock info…</span>
-      </div>
-    );
+      <Layout>
+        <Layout.ContentLoading />
+      </Layout>
+    )
+  }
+
+  if (!isSupported) {
+    return (
+      <Layout>
+        <Layout.ContentNotSupported>
+          The User Activation API is not supported in this browser.
+        </Layout.ContentNotSupported>
+      </Layout>
+    )
   }
 
   return (
-    <div className="w-full flex items-center justify-center">
-      <div className="w-full max-w-md rounded-2xl border border-white/20 bg-neutral-900 p-6 space-y-6">
-        <header className="space-y-1">
-          <h3 className="text-xl font-semibold font-sora text-white/60">
-            User&nbsp;Activation
-          </h3>
-          <p className="text-sm text-white/40 font-reddit-sans">
-            Monitors the user&apos;s activation status in the browser.
-          </p>
-        </header>
-
-        {!isSupported && (
-          <div className="rounded-lg bg-neutral-950 text-red-400 p-4 text-sm">
-            The userActivation API is not supported in this browser.
-          </div>
-        )}
-
-        {isSupported && (
-          <>
-            <div className="space-y-3 text-sm">
-              <StatusRow
-                label="Did the user ever interact?"
-                value={hasBeenActive}
-              />
-              <StatusRow
-                label="Current transient activation"
-                value={isActive}
-              />
-            </div>
-
-            <div className="flex flex-col md:flex-row items-center gap-3">
-              <button
-                className="w-full flex-1 rounded-lg bg-neutral-800 hover:bg-neutral-700 transition-colors duration-500 ease-in-out px-4 py-3 text-sm cursor-pointer font-reddit-sans"
-                onClick={refresh}
-              >
-                Status Refresh
-              </button>
-
-              <button
-                className="w-full flex-1 rounded-lg px-4 py-3 text-sm font-medium transition
-                  disabled:cursor-not-allowed
-                  disabled:bg-neutral-800
-                  disabled:text-neutral-500
-                  bg-indigo-600 hover:bg-indigo-500 cursor-pointer font-reddit-sans"
-                disabled={!isActive}
-                onClick={() => alert('Sensitive action executed.')}
-              >
-                Sensitive Action
-              </button>
-            </div>
-
-            {!hasBeenActive && (
-              <p className="text-xs text-white/60 font-reddit-sans">
-                Interact with the page (click, keyboard, touch) to activate the state.
-              </p>
-            )}
-
-            {hasBeenActive && !isActive && (
-              <p className="text-xs text-white/60 font-reddit-sans">
-                The temporary activation is fleeting. Try clicking and performing the action immediately.
-              </p>
-            )}
-          </>
-        )}
+    <Layout>
+      <Layout.Title>User Activation</Layout.Title>
+      <Layout.Caption>Monitors the user&apos;s activation status in the browser.</Layout.Caption>
+      <div className="w-full flex flex-col md:flex-row items-center justify-center gap-4">
+        <div className='flex flex-row items-center justify-center gap-2 w-full border border-white/20 rounded-lg p-2'>
+          <Layout.Caption className='text-left'>Did the user ever interact?</Layout.Caption>
+          <Layout.Caption className='text-right'>{hasBeenActive ? 'true' : 'false'}</Layout.Caption>
+        </div>
+        <div className='flex flex-row items-center justify-center gap-2 w-full border border-white/20 rounded-lg p-2'>
+          <Layout.Caption className='text-left'>Current transient activation</Layout.Caption>
+          <Layout.Caption className='text-right'>{isActive ? 'true' : 'false'}</Layout.Caption>
+        </div>
       </div>
-    </div>
-  );
-}
 
-interface StatusRowProps {
-  label: string;
-  value: boolean;
-}
+      <div className="flex flex-col md:flex-row items-center gap-2">
+        <Button.Primary onClick={refresh}>
+          Status refresh
+        </Button.Primary>
+        <Button.Secondary disabled={!isActive} onClick={() => alert('Sensitive action executed.')}>
+          Sensitive Action
+        </Button.Secondary>
+      </div>
 
-function StatusRow({ label, value }: StatusRowProps) {
-  return (
-    <div className="flex items-center justify-between">
-      <span className="text-white/60 font-reddit-sans">{label}</span>
-      <span
-        className={cn(
-          'font-medium font-reddit-sans',
-          value ? 'text-emerald-400' : 'text-white/60'
-        )}
-      >
-        {value ? 'true' : 'false'}
-      </span>
-    </div>
+      {!hasBeenActive && (
+        <Layout.Caption>
+          Interact with the page (click, keyboard, touch) to activate the state.
+        </Layout.Caption>
+      )}
+
+      {hasBeenActive && !isActive && (
+        <Layout.Caption>
+          The temporary activation is fleeting. Try clicking and performing the action immediately.
+        </Layout.Caption>
+      )}
+    </Layout>
   );
 }

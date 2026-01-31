@@ -32,30 +32,35 @@ The **useScreenOrientation** hook allows you to track changes in the device's or
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useScreenOrientation } from "@vibehooks/react/useScreenOrientation";
+
+import { useScreenOrientation } from "../../../../../../src";
+import { Button } from "@/components/ui/Button";
+import { Layout } from "@/layouts/Layout";
 
 export default function Demo() {
-  const { isSupported, type, angle, lock, unlock } = useScreenOrientation();
-  const [mounted, setMounted] = useState<boolean>(false);
+  const { angle, isSupported, lock, type, unlock } = useScreenOrientation();
+  const [isMounted, setIsMounted] = useState<boolean>(false);
 
   useEffect(() => {
-    setTimeout(() => setMounted(true), 100);
+    setTimeout(() => setIsMounted(true), 100);
   }, []);
 
-  if (!mounted) {
+  if (!isMounted) {
     return (
-      <div className="w-full border border-white/20 p-4 flex items-center justify-center">
-        <span className="text-white/20 text-sm text-center">Loading screen orientation info…</span>
-      </div>
-    );
+      <Layout>
+        <Layout.ContentLoading />
+      </Layout>
+    )
   }
 
   if (!isSupported) {
     return (
-      <div className="p-4 bg-red-100 font-reddit-sans text-red-700 rounded-md">
-        <strong>Error:</strong> The Screen Orientation API is not supported in this browser.
-      </div>
-    );
+      <Layout>
+        <Layout.ContentNotSupported>
+          The Screen Orientation API is not supported in this browser.
+        </Layout.ContentNotSupported>
+      </Layout>
+    )
   }
 
   const handleLock = async () => {
@@ -65,41 +70,32 @@ export default function Demo() {
       console.error('Error locking screen orientation:', error);
     }
   }
+
   return (
-    <div className="p-4 space-y-4 w-full border border-white/20 rounded-lg shadow-sm">
-      <h2 className="text-2xl font-bold text-white/60 font-sora">Screen Orientation</h2>
-
-      <div className="grid grid-cols-2 gap-4 mb-8">
-        <div className="p-4 rounded-lg shadow-sm border border-white/40 space-y-2">
-          <p className="text-xs uppercase text-gray-500 font-semibold font-reddit-sans">Current Type</p>
-          <p className="text-lg font-reddit-sans text-white">{type || 'Unknown'}</p>
+    <Layout>
+      <Layout.Title>Screen Orientation</Layout.Title>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="flex flex-col items-center p-3 rounded-lg shadow-sm border border-white/20 gap-1">
+          <Layout.Caption className='font-bold'>Current Type</Layout.Caption>
+          <Layout.Paragraph>{type || 'Unknown'}</Layout.Paragraph>
         </div>
-        <div className="p-4 rounded-lg shadow-sm border border-white/40 space-y-2">
-          <p className="text-xs uppercase text-gray-500 font-semibold font-reddit-sans">Rotation Angle</p>
-          <p className="text-lg text-white font-reddit-sans">{angle}°</p>
+        <div className="flex flex-col items-center p-3 rounded-lg shadow-sm border border-white/20 gap-1">
+          <Layout.Caption className='font-bold'>Rotation Angle</Layout.Caption>
+          <Layout.Paragraph>{angle}°</Layout.Paragraph>
         </div>
       </div>
-
-      <div className="flex flex-col gap-3">
-        <button
-          onClick={handleLock}
-          className="w-full px-4 py-3 bg-purple-500 text-white rounded-lg font-semibold hover:bg-purple-600 transition-colors duration-500 ease-in-out cursor-pointer font-reddit-sans"
-        >
-          Force Landscape Lock
-        </button>
-
-        <button
-          onClick={() => unlock()}
-          className="w-full px-4 py-3 bg-white border border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-gray-50 transition-colors duration-500 ease-in-out cursor-pointer font-reddit-sans"
-        >
-          Unlock Orientation
-        </button>
+      <div className="flex flex-col md:flex-row gap-2">
+        <Button.Primary onClick={handleLock}>
+          Force Lock
+        </Button.Primary>
+        <Button.Secondary onClick={() => unlock()}>
+          Unlock
+        </Button.Secondary>
       </div>
-
-      <p className="mt-4 text-xs text-white/60 font-reddit-sans">
+      <Layout.Caption>
         * Orientation locking usually requires a user gesture or active full-screen mode depending on the browser.
-      </p>
-    </div>
+      </Layout.Caption>
+    </Layout>
   )
 }
 ```

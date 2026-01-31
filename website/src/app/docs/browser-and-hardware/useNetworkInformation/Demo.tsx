@@ -1,54 +1,83 @@
 'use client';
 
+import { useState, useEffect } from 'react';
+
 import { useNetworkInformation } from "../../../../../../src";
+import { Button } from "@/components/ui/Button";
+import { Layout } from "@/layouts/Layout";
 import { cn } from '@/lib/cn';
 
 export default function Demo() {
-  const network = useNetworkInformation();
+  const {
+    downlink,
+    effectiveType,
+    rtt,
+    saveData,
+    supported,
+    type,
+  } = useNetworkInformation();
 
-  if (!network.supported) {
-    return <DefaultExperience />;
+  const [isMounted, setIsMounted] = useState<boolean>(false);
+
+  useEffect(() => {
+    setTimeout(() => setIsMounted(true), 100);
+  }, []);
+
+  if (!isMounted) {
+    return (
+      <Layout>
+        <Layout.ContentLoading />
+      </Layout>
+    )
   }
 
-  const isSlow = network.effectiveType === '2g' || network.effectiveType === 'slow-2g';
-  const isDataSaver = network.saveData === true;
+  if (!supported) {
+    return (
+      <Layout>
+        <Layout.ContentNotSupported>
+          The Network Information API is not supported in this browser.
+        </Layout.ContentNotSupported>
+      </Layout>
+    )
+  }
+
+  const isSlow = effectiveType === '2g' || effectiveType === 'slow-2g';
+  const isDataSaver = saveData === true;
   const shouldOptimize = isSlow || isDataSaver;
+
   return (
-    <div className="w-full p-4 border border-white/20 rounded-lg shadow-md">
-      <header className="flex justify-between items-center mb-6">
-        <h3 className="text-lg font-bold text-white/60 font-sora">Adaptive UI</h3>
-        <div className="flex gap-2 items-center">
-          <Badge color={shouldOptimize ? 'orange' : 'green'}>
-            {network.effectiveType?.toUpperCase()}
-          </Badge>
-          {network.type && <Badge color="blue">{network.type}</Badge>}
-        </div>
-      </header>
+    <Layout>
+      <Layout.Title>Adaptive UI</Layout.Title>
+      <div className="flex gap-2 items-center">
+        <Badge color={shouldOptimize ? 'orange' : 'green'}>
+          {effectiveType?.toUpperCase()}
+        </Badge>
+        {type && <Badge color="blue">{type}</Badge>}
+      </div>
       <div className="space-y-4">
         <div className="aspect-video rounded-lg flex items-center justify-center relative overflow-hidden">
           {shouldOptimize ? (
             <div className="text-center p-4">
-              <p className="text-xs font-medium text-white/60 font-reddit-sans">Low-res preview active</p>
-              <button className="mt-2 text-[10px] underline text-indigo-600 font-reddit-sans">Load High-res</button>
+              <Layout.Paragraph>Low-res preview active</Layout.Paragraph>
+              <Button.Primary>Load High-res</Button.Primary>
             </div>
           ) : (
-            <div className="absolute font-reddit-sans inset-0 bg-linear-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-white font-bold">
+            <div className="absolute font-reddit-sans inset-0 bg-neutral-950 flex items-center justify-center text-white font-bold">
               Full HD Media
             </div>
           )}
         </div>
         <div className="grid grid-cols-2 gap-3">
-          <Metric label="Latency" value={`${network.rtt}ms`} />
-          <Metric label="Bandwidth" value={`${network.downlink} Mb/s`} />
+          <Metric label="Latency" value={`${rtt}ms`} />
+          <Metric label="Bandwidth" value={`${downlink} Mb/s`} />
         </div>
-
         {isDataSaver && (
-          <p className="text-xs text-orange-500 font-reddit-sans bg-orange-50 p-2 rounded text-center font-medium">
+          <Layout.Caption className='text-amber-500'>
             Data Saver is active: Prefetching disabled
-          </p>
+          </Layout.Caption>
         )}
       </div>
-    </div>
+    </Layout>
   )
 }
 
@@ -61,7 +90,7 @@ function Badge ({ children, color }: { children: React.ReactNode, color: string 
   return (
     <span
       className={cn(
-        'px-2 py-0.5 rounded text-[10px] font-bold',
+        'px-2 py-0.5 rounded text-[10px] font-bold font-reddit-sans',
         colors[color]
       )}
     >
@@ -73,14 +102,8 @@ function Badge ({ children, color }: { children: React.ReactNode, color: string 
 function Metric({ label, value }: { label: string, value: string }) {
   return (
     <div className="p-2 space-y-1 rounded border border-white/40 text-center">
-      <p className="text-[10px] uppercase font-bold text-white/60">{label}</p>
-      <p className="text-sm font-semibold text-white/80">{value}</p>
+      <Layout.Caption>{label}</Layout.Caption>
+      <Layout.Paragraph>{value}</Layout.Paragraph>
     </div>
   );
-}
-
-function DefaultExperience() {
-  return (
-    <p className="font-reddit-sans text-white/80 text-center w-full">Standard Experience</p>
-  )
 }

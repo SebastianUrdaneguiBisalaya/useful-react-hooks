@@ -3,15 +3,16 @@
 import { useState, useEffect } from "react";
 
 import { useScreenWakeLock } from "../../../../../../src";
-import { cn } from "@/lib/cn";
+import { Button } from "@/components/ui/Button";
+import { Layout } from "@/layouts/Layout";
 
 export default function Demo() {
   const { isActive, isSupported, release, request } = useScreenWakeLock();
-  const [mounted, setMounted] = useState<boolean>(false);
+  const [isMounted, setIsMounted] = useState<boolean>(false);
 
   useEffect(() => {
     setTimeout(() => {
-      setMounted(true);
+      setIsMounted(true);
     }, 100);
   }, []);
 
@@ -21,20 +22,22 @@ export default function Demo() {
     }
   }, [release]);
 
-  if (!mounted) {
+  if (!isMounted) {
     return (
-      <div className="w-full border border-white/20 p-4 flex items-center justify-center">
-        <span className="text-white/20 text-sm text-center">Loading screen wake lock info…</span>
-      </div>
-    );
+      <Layout>
+        <Layout.ContentLoading />
+      </Layout>
+    )
   }
 
   if (!isSupported) {
     return (
-      <div className="p-4 bg-red-100 font-reddit-sans text-red-700 rounded-md">
-        <strong>Error:</strong> The Screen Wake Lock API is not supported in this browser.
-      </div>
-    );
+      <Layout>
+        <Layout.ContentNotSupported>
+          The Screen Wake Lock API is not supported in this browser.
+        </Layout.ContentNotSupported>
+      </Layout>
+    )
   }
 
   const toggleWakeLock = async () => {
@@ -46,37 +49,22 @@ export default function Demo() {
   }
 
   return (
-    <div className="p-4 space-y-4 w-full border border-white/20 rounded-lg shadow-sm">
-      <h3 className="text-xl text-white/60 font-bold font-sora">Screen Wake Lock</h3>
-      <p className="text-white/70 leading-relaxed font-reddit-sans">
+    <Layout>
+      <Layout.Title>Screen Wake Lock</Layout.Title>
+      <Layout.Caption>
         {isActive
           ? "Your screen is now prevented from dimming or locking."
           : "Enable wake lock to keep your screen active during use."}
-      </p>
-
-      <button
-        className={cn(
-          'w-full px-4 py-3 rounded-md cursor-pointer font-medium font-reddit-sans transition-all',
-          isActive
-            ? 'bg-red-500 hover:bg-red-600 text-white'
-            : 'bg-indigo-600 hover:bg-indigo-700 text-white'
-        )}
+      </Layout.Caption>
+      <Button.Primary
         onClick={toggleWakeLock}
       >
         {isActive ? 'Release Wake Lock' : 'Request Wake Lock'}
-      </button>
+      </Button.Primary>
 
-      <div className="flex items-center justify-center gap-2">
-        <span
-          className={cn(
-            'w-2 h-2 rounded-full',
-            isActive ? 'bg-green-500 animate-pulse' : 'bg-gray-300'
-          )}
-        />
-        <span className="text-sm font-medium text-white/40 font-reddit-sans">
-          Status: {isActive ? 'Active' : 'Inactive'}
-        </span>
-      </div>
-    </div>
+      <Layout.Caption>
+        Status: {isActive ? 'Active' : 'Inactive'}
+      </Layout.Caption>
+    </Layout>
   )
 }

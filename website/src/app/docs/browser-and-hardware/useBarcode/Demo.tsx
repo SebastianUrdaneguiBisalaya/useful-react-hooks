@@ -3,12 +3,11 @@
 import { useState, useEffect, useRef } from "react";
 
 import { useBarcode } from "../../../../../../src";
-import LayoutDemo from "@/layouts/Layout";
-import LayoutNotMounted from "@/layouts/LayoutNotMounted";
-import LayoutNotSupported from "@/layouts/LayoutNotSupported";
+import { Button } from "@/components/ui/Button";
+import { Layout } from "@/layouts/Layout";
 
 export default function Demo() {
-  const [mounted, setMounted] = useState<boolean>(false);
+  const [isMounted, setIsMounted] = useState<boolean>(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const seenRef = useRef<Set<string>>(new Set());
   const [codes, setCodes] = useState<DetectorBarcode[]>([]);
@@ -26,17 +25,30 @@ export default function Demo() {
 
   useEffect(() => {
     setTimeout(() => {
-      setMounted(true);
+      setIsMounted(true);
     }, 100);
   }, []);
 
-  if (!mounted) return <LayoutNotMounted />;
-  if (!supported) return <LayoutNotSupported title="Barcode" />;
+  if (!isMounted) {
+    return (
+      <Layout>
+        <Layout.ContentLoading />
+      </Layout>
+    )
+  }
+
+  if (!supported) {
+    return (
+      <Layout>
+        <Layout.ContentNotSupported>
+          The Barcode API is not supported in this browser.
+        </Layout.ContentNotSupported>
+      </Layout>
+    )
+  }
 
   return (
-    <LayoutDemo
-      title="Barcode"
-    >
+    <Layout>
       <div className="relative overflow-hidden rounded-md bg-black aspect-video">
         <video
           className="w-full h-full object-cover"
@@ -46,27 +58,25 @@ export default function Demo() {
         />
       </div>
 
-      <div className="w-full flex flex-row items-center gap-4">
-        <button
-          className="px-4 py-3 text-sm rounded-md w-full flex flex-col items-center font-reddit-sans bg-purple-500 hover:bg-purple-600 transition-colors duration-500 ease-in-out cursor-pointer text-white/70"
-          onClick={start}
-        >
-          Start scan
-        </button>
-        <button
-          className="px-4 py-3 text-sm rounded-md w-full flex flex-col items-center font-reddit-sans bg-red-500 hover:bg-red-600 transition-colors duration-500 ease-in-out cursor-pointer text-white/70"
-          onClick={() => stop()}
-        >
-          Stop scan
-        </button>
+      <div className="flex flex-row items-center gap-2">
+        <Button.Primary onClick={start}>
+          Start
+        </Button.Primary>
+        <Button.Secondary onClick={stop}>
+          Stop
+        </Button.Secondary>
       </div>
 
       {current && (
         <div
           className="flex flex-row gap-2 items-center justify-center w-full"
         >
-          <span className="font-reddit-sans text-white/60">Detected code:</span>
-          <span className="font-reddit-sans text-white/90 font-medium">{current.rawValue}</span>
+          <Layout.Caption>
+            Detected last code:
+          </Layout.Caption>
+          <Layout.Paragraph>
+            {current.rawValue}
+          </Layout.Paragraph>
         </div>
       )}
 
@@ -74,18 +84,18 @@ export default function Demo() {
         <div
           className="w-full flex flex-col items-center gap-2"
         >
-          <h4 className="text-md text-white/70 font-sora">Detected codes:</h4>
-          <p>
+          <Layout.Caption>
+            Detected codes:
+          </Layout.Caption>
+          <Layout.Paragraph>
             {codes.map(word => `"${word}"`).join(', ')}
-          </p>
+          </Layout.Paragraph>
         </div>
       )}
 
-      <div className="text-center">
-        <p className="text-xs font-reddit-sans text-white/40">
-          Point your camera at a QR code or barcode to see the result.
-        </p>
-      </div>
-    </LayoutDemo>
+      <Layout.Caption>
+        Point your camera at a QR code or barcode to see the result.
+      </Layout.Caption>
+    </Layout>
   )
 }

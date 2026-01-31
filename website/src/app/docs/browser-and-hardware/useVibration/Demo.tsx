@@ -3,10 +3,11 @@
 import { useState, useEffect } from "react";
 
 import { useVibration } from "../../../../../../src";
-import { cn } from "@/lib/cn";
+import { Button } from "@/components/ui/Button";
+import { Layout } from "@/layouts/Layout";
 
 export default function Demo() {
-  const [mounted, setMounted] = useState<boolean>(false);
+  const [isMounted, setIsMounted] = useState<boolean>(false);
   const { cancel, isSupported, vibrate } = useVibration();
   const [lastResult, setLastResult] = useState<boolean | null>(null);
   const handleVibrate = (pattern: number | number[]) => {
@@ -16,87 +17,58 @@ export default function Demo() {
 
   useEffect(() => {
     setTimeout(() => {
-      setMounted(true);
+      setIsMounted(true);
     }, 100);
   }, []);
 
-  if (!mounted) {
+  if (!isMounted) {
     return (
-      <div className="w-full max-w-md self-center border border-white/20 p-4 flex items-center justify-center bg-neutral-900">
-        <span className="text-white/20 text-sm text-center font-reddit-sans">Loading Vibration API info…</span>
-      </div>
-    );
+      <Layout>
+        <Layout.ContentLoading />
+      </Layout>
+    )
+  }
+
+  if (!isSupported) {
+    return (
+      <Layout>
+        <Layout.ContentNotSupported>
+          The Vibration API is not supported in this browser.
+        </Layout.ContentNotSupported>
+      </Layout>
+    )
   }
 
   return (
-    <div className="flex items-center justify-center">
-      <div className="w-full max-w-md rounded-2xl border border-neutral-800 bg-neutral-900 p-6 space-y-6">
-        <header className="space-y-1">
-          <h3 className="text-lg text-white/60 font-semibold font-sora">Vibration API</h3>
-        </header>
-
-        {isSupported && (
-          <>
-            <div className="space-y-3">
-              <button
-                className="cursor-pointer w-full rounded-lg bg-indigo-500 hover:bg-indigo-600 transition-colors duration-500 ease-in-out px-4 py-3 font-reddit-sans text-sm font-medium"
-                onClick={() => handleVibrate(200)}
-              >
-                Vibrate 200ms
-              </button>
-
-              <button
-                className="cursor-pointer w-full rounded-lg bg-indigo-500 hover:bg-indigo-600 transition-colors duration-500 ease-in-out px-4 py-3 font-reddit-sans text-sm font-medium"
-                onClick={() => handleVibrate([100, 50, 100])}
-              >
-                Vibrate pattern [100, 50, 100]
-              </button>
-
-
-              <button
-                className="cursor-pointer w-full rounded-lg bg-indigo-500 hover:bg-indigo-600 transition-colors duration-500 ease-in-out px-4 py-3 font-reddit-sans text-sm font-medium"
-                onClick={() => handleVibrate([300, 100, 300, 100, 300])}
-              >
-                Vibrate long pattern
-              </button>
-
-
-              <button
-                className="cursor-pointer w-full rounded-lg bg-neutral-800 hover:bg-neutral-900 transition-colors duration-500 ease-in-out px-4 py-3 font-reddit-sans text-sm"
-                onClick={cancel}
-              >
-                Cancel vibration
-              </button>
-            </div>
-
-            <div className="rounded-lg bg-neutral-800 p-3 text-sm">
-              <p className="text-white/60">
-                Last result:
-              </p>
-              <p
-                className={cn(
-                  'font-medium font-reddit-sans',
-                  lastResult === null
-                    ? 'text-neutral-500'
-                    : lastResult
-                    ? 'text-emerald-400'
-                    : 'text-red-400'
-                )}
-              >
-                {lastResult === null
-                ? '—'
-                : lastResult
-                ? 'Accepted by the user agent'
-                : 'Rejected by the user agent'}
-              </p>
-            </div>
-
-            <p className="text-xs text-white/40 font-reddit-sans">
-              Note: Vibration only occurs if triggered by an explicit user gesture (click, tap).
-            </p>
-          </>
-        )}
+    <Layout>
+      <Layout.Title>Vibration API</Layout.Title>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+        <Button.Secondary className="w-full" onClick={() => handleVibrate(200)}>
+          Vibrate 200ms
+        </Button.Secondary>
+        <Button.Secondary className="w-full" onClick={() => handleVibrate([100, 50, 100])}>
+          Vibrate pattern [100, 50, 100]
+        </Button.Secondary>
+        <Button.Secondary className="w-full" onClick={() => handleVibrate([300, 100, 300, 100, 300])}>
+          Vibrate long pattern
+        </Button.Secondary>
+        <Button.Destructive className="w-full" onClick={cancel}>
+          Cancel vibration
+        </Button.Destructive>
       </div>
-    </div>
+      <div className="flex flex-col items-center gap-1 rounded-lg bg-neutral-800 p-2">
+        <Layout.Caption>Last result:</Layout.Caption>
+        <Layout.Paragraph>
+          {lastResult === null
+          ? '—'
+          : lastResult
+          ? 'Accepted by the user agent'
+          : 'Rejected by the user agent'}
+        </Layout.Paragraph>
+      </div>
+      <Layout.Caption>
+        Note: Vibration only occurs if triggered by an explicit user gesture (click, tap).
+      </Layout.Caption>
+    </Layout>
   )
 }
