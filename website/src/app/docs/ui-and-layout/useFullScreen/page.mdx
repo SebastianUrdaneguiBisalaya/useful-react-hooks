@@ -3,34 +3,34 @@ import Demo from "@/app/docs/ui-and-layout/useFullscreen/Demo";
 import Table from "@/components/shared/Table";
 import data from "@/app/docs/ui-and-layout/useFullscreen/data.json";
 
-# **useFullScreen**
+# useFullScreen
 
 ### A declarative interface for managing the browser Fullscreen API on a specific DOM element.
 
-#### **Installation**
+#### Installation
 
 <CodeBlock
   code={`npm install @vibehooks/react/useFullScreen`}
   language="bash"
 />
 
-#### **Description**
+#### Description
 
 The **useFullscreen** hook abstracts the complexity of the Fullscreen API, providing a reactive state to track whether an element is currently occupying the full screen. It allows consumers to enter, exit, or toggle fullscreen mode easily. It automatically listens for **fullscreenchange** events to keep the React state in sync with the native browser state.
 
-#### **Parameters**
+#### Parameters
 
 <Table data={data.parameters} />
 
-#### **Return values**
+#### Return values
 
 <Table data={data.returnValues} />
 
-#### **Demo**
+#### Demo
 
 <Demo />
 
-#### **Source code**
+#### Source code
 
 ```tsx
 'use client';

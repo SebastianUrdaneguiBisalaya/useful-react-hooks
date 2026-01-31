@@ -3,36 +3,36 @@ import Demo from "@/app/docs/connectivity-and-async/useIntervalSafe/Demo";
 import Table from "@/components/shared/Table";
 import data from "@/app/docs/connectivity-and-async/useIntervalSafe/data.json";
 
-# **useIntervalSafe**
+# useIntervalSafe
 
 ### A declarative and robust React hook for managing **setInterval** lifecycles with execution limits and manual controls.
 
-#### **Installation**
+#### Installation
 
 <CodeBlock
   code={`npm install @vibehooks/react/useIntervalSafe`}
   language="bash"
 />
 
-#### **Description**
+#### Description
 
 The **useIntervalSafe** hook provides a safe way to handle intervals in React by using a **ref** for the callback to prevent stale closures. It extends the native **setInterval** functionality by adding features such as execution capping (**maxExecutions**), immediate execution, and a managed **isActive** state. It is designed to be SSR-safe and automatically cleans up the interval when the component unmounts to prevent memory leaks.
 
 
-#### **Parameters**
+#### Parameters
 
 <Table data={data.parameters} />
 
-#### **Return values**
+#### Return values
 
 <Table data={data.returnValues} />
 
-#### **Demo**
+#### Demo
 
 <Demo />
 
 
-#### **Source code**
+#### Source code
 
 ```tsx
 'use client';

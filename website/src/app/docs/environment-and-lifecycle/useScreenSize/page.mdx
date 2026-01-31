@@ -3,30 +3,30 @@ import Demo from "@/app/docs/environment-and-lifecycle/useScreenSize/Demo";
 import Table from "@/components/shared/Table";
 import data from "@/app/docs/environment-and-lifecycle/useScreenSize/data.json";
 
-# **useScreenSize**
+# useScreenSize
 
 ### Returns the current inner dimensions of the browser window.
 
-#### **Installation**
+#### Installation
 
 <CodeBlock
   code={`npm install @vibehooks/react/useScreenSize`}
   language="bash"
 />
 
-#### **Description**
+#### Description
 
 A reactive hook that tracks the **window.innerWidth** and **window.innerHeight**. It attaches a single resize listener on mount and cleans it up on unmount, providing a real-time object of the viewport dimensions.
 
-#### **Return values**
+#### Return values
 
 <Table data={data.returnValues} />
 
-#### **Demo**
+#### Demo
 
 <Demo />
 
-#### **Source code**
+#### Source code
 
 ```tsx
 'use client';

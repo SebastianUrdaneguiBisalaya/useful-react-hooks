@@ -8,7 +8,7 @@ const components = {
         <a className='font-reddit-sans' href={href}>{children}</a>
     ),
     h1: ({ children }) => (
-        <h1 className='font-sora text-2xl md:text-3xl mb-[0.888889em]'>{children}</h1>
+        <h1 className='font-sora font-black text-2xl md:text-3xl mb-[0.888889em]'>{children}</h1>
     ),
     h2: ({ children }) => (
         <h2 className='font-sora text-xl md:text-2xl mt-[2em] mb-[1em]'>{children}</h2>
@@ -17,7 +17,7 @@ const components = {
         <h3 className='font-sora text-lg md:text-xl my-[0.6em]'>{children}</h3>
     ),
     h4: ({ children }) => (
-        <h4 className='font-sora mt-[1.6em] mb-[1em]'>{children}</h4>
+        <h4 className='font-sora font-bold mt-[1.6em] mb-[1em]'>{children}</h4>
     ),
     h5: ({ children }) => (
         <h5 className='font-sora'>{children}</h5>
@@ -55,6 +55,9 @@ const components = {
         />
       )
     },
+    strong: ({ children }) => (
+        <strong className='bg-black-950 rounded-[3px] px-[0.4rem] py-[0.3rem]'>{children}</strong>
+    ),
     ul: ({ children }) => (
         <ul className='font-reddit-sans'>{children}</ul>
     )

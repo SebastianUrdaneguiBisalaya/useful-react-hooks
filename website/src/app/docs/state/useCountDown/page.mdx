@@ -3,36 +3,36 @@ import Demo from "@/app/docs/state/useCountDown/Demo";
 import Table from "@/components/shared/Table";
 import data from "@/app/docs/state/useCountDown/data.json";
 
-# **useCountDown**
+# useCountDown
 
 ### High-precision React hook for managing synchronized countdown timers with manual lifecycle controls and drift-correction.
 
-#### **Installation**
+#### Installation
 
 <CodeBlock
   code={`npm install @vibehooks/react/useCountDown`}
   language="bash"
 />
 
-#### **Description**
+#### Description
 
 The **useCountDown** manages time remaining by comparing the current system clock against a target absolute timestamp. This approach eliminates cumulative time drift caused by **setInterval** execution delays, ensuring sub-second accuracy even during heavy main-thread activity or browser tab throttling.
 
 The hook provides explicit lifecycle management via a **status** state and memoized control functions. It supports manual starting, pausing, resetting, and dynamic time increments, making it suitable for complex timing logic like game loops, persistent timers, or transaction expirations.
 
-#### **Parameters**
+#### Parameters
 
 <Table data={data.parameters} />
 
-#### **Return values**
+#### Return values
 
 <Table data={data.returnValues} />
 
-#### **Demo**
+#### Demo
 
 <Demo />
 
-#### **Source code**
+#### Source code
 
 ```tsx
 'use client';

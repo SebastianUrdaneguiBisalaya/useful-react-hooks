@@ -2,7 +2,7 @@
 
 This is the source code for the vibeHooks website.
 
-## **Contributing**
+## Contributing
 
 If you’d like to improve this project, follow these steps:
 

@@ -3,36 +3,36 @@ import Demo from "@/app/docs/state/useThrottledCallback/Demo";
 import Table from "@/components/shared/Table";
 import data from "@/app/docs/state/useThrottledCallback/data.json";
 
-# **useThrottledCallback**
+# useThrottledCallback
 
 ### A performance-optimization hook that limits the execution frequency of a callback to one per specified time window.
 
-#### **Installation**
+#### Installation
 
 <CodeBlock
   code={`npm install @vibehooks/react/useThrottledCallback`}
   language="bash"
 />
 
-#### **Description**
+#### Description
 
 The **useThrottledCallback** transforms a high-frequency function into a throttled version that executes at most once every **delay** milliseconds. It is specifically designed for handling intensive events like **scroll**, **resize**, or **mousemove** where executing logic on every browser trigger would degrade UI performance.
 
 The hook utilizes a **Leading-Edge** execution strategy: the first invocation triggers the callback inmediately, while subsequent calls within the delay window are ignored.
 
-#### **Parameters**
+#### Parameters
 
 <Table data={data.parameters} />
 
-#### **Return values**
+#### Return values
 
 <Table data={data.returnValues} />
 
-#### **Demo**
+#### Demo
 
 <Demo />
 
-#### **Source code**
+#### Source code
 
 ```tsx
 'use client';

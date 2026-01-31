@@ -2,6 +2,7 @@
 
 import { ChevronRight, Terminal } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 import { hooksList } from "@/constants/constants";
@@ -18,6 +19,7 @@ export interface HookProps {
 }
 
 export default function Navigation() {
+  const pathname = usePathname();
   const listMajorItems = hooksList.map(item => ({
     show: false,
     title: item.title,
@@ -59,7 +61,7 @@ export default function Navigation() {
                     id={`open-${item.title}-hooks-list`}
                     onClick={() => toggleMajorItem(item.title)}
                   >
-                    <span className="font-sora text-sm font-bold text-white/95 group-hover:text-white">{item.title}</span>
+                    <span className="font-reddit-sans text-sm font-semibold text-white/95 group-hover:text-white">{item.title}</span>
                     <ChevronRight
                       className={cn(
                         "w-4.5 text-white/50 transition-all duration-500 ease-out group-hover:text-white",
@@ -69,7 +71,7 @@ export default function Navigation() {
                   </button>
                   <div
                     className={cn(
-                      "grid transition-[grid-template-rows,opacity] duration-400 ease-out overflow-hidden",
+                      "w-full grid transition-[grid-template-rows,opacity] duration-400 ease-out overflow-hidden",
                       listMajorItemsState[item.title]
                         ? "grid-rows-[1fr] opacity-100"
                         : "grid-rows-[0fr] opacity-0"
@@ -79,7 +81,10 @@ export default function Navigation() {
                       {
                         item.hooks.map(hook => (
                           <Link
-                              className="font-sora text-xs text-white/60 hover:text-white transition-all duration-500 ease-in-out cursor-pointer px-2 py-2 border-l border-l-white/20 w-full"
+                              className={cn(
+                                'font-sora text-xs text-white/60 hover:text-white transition-all duration-500 ease-in-out cursor-pointer px-2 py-2 border-l border-l-white/20 w-full',
+                                pathname === hook.path && 'font-semibold text-white/90 border-l-white/90'
+                              )}
                               href={hook.path}
                               key={hook.name}
                             >
@@ -98,7 +103,7 @@ export default function Navigation() {
       <button
         aria-label="Open modal to show hooks list"
         className={cn(
-          "relative w-full flex flex-row items-center gap-2 px-6 py-4 group cursor-pointer",
+          "relative w-full flex flex-row items-center gap-1.5 px-6 py-4 group cursor-pointer",
           showList && "border-t border-white/20",
         )}
         id="open-modal-to-show-hook-list"
@@ -107,16 +112,16 @@ export default function Navigation() {
         <Terminal className="w-5 text-white/50 transition-all duration-500 ease-in-out hover:text-white" />
         <div className="relative w-fit flex">
           <span className={cn(
-            "absolute top-1/2 -translate-y-1/2 text-nowrap text-white/70 group-hover:text-white transition-all duration-500 ease-out font-sora text-xs",
+            "absolute top-1/2 -translate-y-1/2 text-nowrap text-white/70 group-hover:text-white transition-all duration-500 ease-out font-reddit-sans text-xs",
             showList ? "opacity-0 scale-50" : "opacity-100 scale-100",
           )}>
-            Show hooks
+            Show List
           </span>
           <span className={cn(
-            "absolute top-1/2 -translate-y-1/2 text-nowrap text-white/70 group-hover:text-white transition-all duration-500 ease-out font-sora text-xs",
+            "absolute top-1/2 -translate-y-1/2 text-nowrap text-white/70 group-hover:text-white transition-all duration-500 ease-out font-reddit-sans text-xs",
             showList ? "opacity-100 scale-100" : "opacity-0 scale-50",
           )}>
-            Hidden hooks
+            Hide List
           </span>
         </div>
       </button>

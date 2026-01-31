@@ -3,36 +3,36 @@ import Demo from "@/app/docs/state/useDebouncedState/Demo";
 import Table from "@/components/shared/Table";
 import data from "@/app/docs/state/useDebouncedState/data.json";
 
-# **useDebouncedState**
+# useDebouncedState
 
 ### A state management hook that tracks immediate value changes while providing a delayed update for performance-heavy operations.
 
-#### **Installation**
+#### Installation
 
 <CodeBlock
   code={`npm install @vibehooks/react/useDebouncedState`}
   language="bash"
 />
 
-#### **Description**
+#### Description
 
 The **useDebouncedState** manages two versions of a state: an **immediate value** for responsive UI (like input typing) and a **debounced value** for expensive side effects (like API calls or heavy filtering). The debounced value only updates once the user has stopped changing the immediate value for a specified duration.
 
 This pattern is the industry standard for search bars, preventing "server hammering" by ensuring a request is only sent after the user finishes typing their query.
 
-#### **Parameters**
+#### Parameters
 
 <Table data={data.parameters} />
 
-#### **Return values**
+#### Return values
 
 <Table data={data.returnValues} />
 
-#### **Demo**
+#### Demo
 
 <Demo />
 
-#### **Source code**
+#### Source code
 
 ```tsx
 'use client';

@@ -3,30 +3,30 @@ import Demo from "@/app/docs/browser-and-hardware/useVibration/Demo";
 import Table from "@/components/shared/Table";
 import data from "@/app/docs/browser-and-hardware/useVibration/data";
 
-# **useVibration**
+# useVibration
 
 ### A React hook that provides an SSR-safe interface to interact with the device's physical vibration hardware.
 
-#### **Installation**
+#### Installation
 
 <CodeBlock
   code={`npm install @vibehooks/react/useVibration`}
   language="bash"
 />
 
-#### **Description**
+#### Description
 
 The **useVibration hook** abstracts the **navigator.vibrate** API, allowing you to trigger haptic feedback through a single pulse or complex patterns (vibrate-pause sequences). It is designed to be unopinionated and safely handles environments where the API is unavailable, such as desktop browsers or Server-Side Rendering (SSR) contexts.
 
-#### **Return values**
+#### Return values
 
 <Table data={data.returnValues} />
 
-#### **Demo**
+#### Demo
 
 <Demo />
 
-#### **Source code**
+#### Source code
 
 ```tsx
 'use client';

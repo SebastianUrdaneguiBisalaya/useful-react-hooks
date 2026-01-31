@@ -3,30 +3,30 @@ import Demo from "@/app/docs/browser-and-hardware/useScreenOrientation/Demo";
 import Table from "@/components/shared/Table";
 import data from "@/app/docs/browser-and-hardware/useScreenOrientation/data";
 
-# **useScreenOrientation**
+# useScreenOrientation
 
 ### A React hook that provides real-time access to the device's screen orientation state and control methods via the Screen Orientation API.
 
-#### **Installation**
+#### Installation
 
 <CodeBlock
   code={`npm install @vibehooks/react/useScreenOrientation`}
   language="bash"
 />
 
-#### **Description**
+#### Description
 
 The **useScreenOrientation** hook allows you to track changes in the device's orientation (type and angle) and manage orientation locks programmatically. It synchronizes the state with the browser's **screen.orientation** object and automatically updates whenever device is rotated, making it ideal for games, video players, or immersive mobile experiences.
 
-#### **Return values**
+#### Return values
 
 <Table data={data.returnValues} />
 
-#### **Demo**
+#### Demo
 
 <Demo />
 
-#### **Source code**
+#### Source code
 
 ```tsx
 'use client';

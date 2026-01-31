@@ -3,35 +3,35 @@ import Demo from "@/app/docs/connectivity-and-async/useTimeout/Demo";
 import Table from "@/components/shared/Table";
 import data from "@/app/docs/connectivity-and-async/useTimeout/data.json";
 
-# **useTimeout**
+# useTimeout
 
 ### A declarative React hook for managing the lifecycle of single-execution timers with manual controls and SSR safety.
 
-#### **Installation**
+#### Installation
 
 <CodeBlock
   code={`npm install @vibehooks/react/useTimeout`}
   language="bash"
 />
 
-#### **Description**
+#### Description
 
 The **useTimeout** hook provides a structured way to handle **setTimeout** within React components. By using a persistent reference for the callback, it avoids common pitfalls like stale closures or unexpected re-executions during re-renders. It offers a reactive **isActive** state and granular control methods (**start**, **cancel**, **reset**), ensuring that timers are cleaned up automatically when the component unmounts.
 
-#### **Parameters**
+#### Parameters
 
 <Table data={data.parameters} />
 
-#### **Return values**
+#### Return values
 
 <Table data={data.returnValues} />
 
-#### **Demo**
+#### Demo
 
 <Demo />
 
 
-#### **Source code**
+#### Source code
 
 ```tsx
 'use client';

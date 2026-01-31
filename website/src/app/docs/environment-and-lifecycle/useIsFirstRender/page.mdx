@@ -3,31 +3,31 @@ import Demo from "@/app/docs/environment-and-lifecycle/useIsFirstRender/Demo";
 import Table from "@/components/shared/Table";
 import data from "@/app/docs/environment-and-lifecycle/useIsFirstRender/data.json";
 
-# **useIsFirstRender**
+# useIsFirstRender
 
 ### Tracks whether the current render cycle is the initial mount of the component.
 
-#### **Installation**
+#### Installation
 
 <CodeBlock
   code={`npm install @vibehooks/react/useIsFirstRender`}
   language="bash"
 />
 
-#### **Description**
+#### Description
 
 Utilizes a **useRef** to persist a boolean flag that is only **true** during the very first render. Subsequent re-renders will always return **false**. This is particularly useful for skipping **useEffect** logic on mount or triggering "Welcome" animations.
 
-#### **Return values**
+#### Return values
 
 <Table data={data.returnValues} />
 
-#### **Demo**
+#### Demo
 
 <Demo />
 
 
-#### **Source code**
+#### Source code
 
 ```tsx
 'use client';

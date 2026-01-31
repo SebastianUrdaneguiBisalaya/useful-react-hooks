@@ -10,7 +10,7 @@
 Modern, unopinionated React hooks with a focus<br/>on developer experience.
 </p>
 
-## **Installing**
+## **Installation**
 
 **Coming soon...**
 
@@ -114,6 +114,6 @@ If you do not want create your custom hook, you can also contribute to the packa
 | [**useVibration**](https://github.com/SebastianUrdaneguiBisalaya/vibehooks/blob/main/src/useVibration.ts)                         | A React hook that provides an SSR-safe interface to interact with the device's physical vibration hardware.                                      |
 | [**useWebsocket**](https://github.com/SebastianUrdaneguiBisalaya/vibehooks/blob/main/src/useWebsocket.ts)                         | A comprehensive React hook for managing WebSocket connections with built-in auto-reconnection logic, message history, and SSR safety.            |
 
-## **License**
+## License
 
 [MIT](https://github.com/SebastianUrdaneguiBisalaya/vibehooks?tab=MIT-1-ov-file)

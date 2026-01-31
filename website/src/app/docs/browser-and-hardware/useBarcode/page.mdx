@@ -3,34 +3,34 @@ import Demo from "@/app/docs/browser-and-hardware/useBarcode/Demo";
 import Table from "@/components/shared/Table";
 import data from "@/app/docs/browser-and-hardware/useBarcode/data";
 
-# **useBarcode**
+# useBarcode
 
 ### A React hook that provides a high-level interface for detecting barcodes and QR codes in real-time using the browser's Barcode Detection API.
 
-#### **Installation**
+#### Installation
 
 <CodeBlock
   code={`npm install @vibehooks/react/useBarcode`}
   language="bash"
 />
 
-#### **Description**
+#### Description
 
 The **useBarcode** hook automates the lifecycle of barcode detection. It handles camera stream initialization (using the environment/rear camera by default), executes a continuous scanning loop via **requestAnimationFrame**, and manages the underlying **BarcodeDetector** instance. It can process input from video streams, static images, or canvas elements, returning the raw data and format of the first detected barcode.
 
-#### **Parameters**
+#### Parameters
 
 <Table data={data.parameters} />
 
-#### **Return values**
+#### Return values
 
 <Table data={data.returnValues} />
 
-#### **Demo**
+#### Demo
 
 <Demo />
 
-#### **Source code**
+#### Source code
 
 ```tsx
 'use client';

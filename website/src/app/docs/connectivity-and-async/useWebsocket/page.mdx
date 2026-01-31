@@ -3,35 +3,35 @@ import Demo from "@/app/docs/connectivity-and-async/useWebsocket/Demo";
 import Table from "@/components/shared/Table";
 import data from "@/app/docs/connectivity-and-async/useWebsocket/data.json";
 
-# **useWebsocket**
+# useWebsocket
 
 ### A comprehensive React hook for managing WebSocket connections with built-in auto-reconnection logic, message history, and SSR safety.
 
-#### **Installation**
+#### Installation
 
 <CodeBlock
   code={`npm install @vibehooks/react/useWebsocket`}
   language="bash"
 />
 
-#### **Description**
+#### Description
 
 The **useWebsocket** hook simplifies full-duplex communication in React applications by encapsulating the native **WebSocket API**. It automatically handles the connection lifecycle, provides reactive states for connection status and incoming data, and includes a configurable exponential-like reconnection mechanism for when connections are lost unexpectedly. It also handles JSON parsing by default and ensures clean resource disposal upon component unmounting.
 
-#### **Parameters**
+#### Parameters
 
 <Table data={data.parameters} />
 
-#### **Return values**
+#### Return values
 
 <Table data={data.returnValues} />
 
-#### **Demo**
+#### Demo
 
 <Demo />
 
 
-#### **Source code**
+#### Source code
 
 ```tsx
 

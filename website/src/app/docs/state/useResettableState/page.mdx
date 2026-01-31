@@ -3,36 +3,36 @@ import Demo from "@/app/docs/state/useResettableState/Demo";
 import Table from "@/components/shared/Table";
 import data from "@/app/docs/state/useResettableState/data.json";
 
-# **useResettableState**
+# useResettableState
 
 ### Extends standard state management with a memoized reset mechanism to revert to the initial value.
 
-#### **Installation**
+#### Installation
 
 <CodeBlock
   code={`npm install @vibehooks/react/useResettableState`}
   language="bash"
 />
 
-#### **Description**
+#### Description
 
 The **useResettableState** is a specialized wrapper around **useState** that captures the initial value upon the first render. It provides an explicit **reset** function that, when called, restores the state to its original provided value, regardless of subsequent updates.
 
 This hook is particularly useful for managing temporary inputs, filters, or complex forms when a **Discard Changes** or **Reset to Default** feature is required. It handles both direct values and lazy initialization functions identically to the native **useState** API.
 
-#### **Parameters**
+#### Parameters
 
 <Table data={data.parameters} />
 
-#### **Return values**
+#### Return values
 
 <Table data={data.returnValues} />
 
-#### **Demo**
+#### Demo
 
 <Demo />
 
-#### **Source code**
+#### Source code
 
 ```tsx
 'use client';

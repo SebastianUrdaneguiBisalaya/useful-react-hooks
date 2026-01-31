@@ -7,6 +7,7 @@
 @theme inline {
   --color-background: var(--background);
   --color-white-100: #E5E5E5;
+  --color-black-950: #171717;
   --font-sora: var(--font-sora);
   --font-reddit-sans: var(--font-reddit-sans);
   --font-jersey-15: var(--font-jersey-15);
@@ -52,10 +53,4 @@ pre code span span {
     rgba(0,0,0,1) 90%,
     rgba(0,0,0,0)
   );
-}
-
-p > strong {
-  background-color: #171717;
-  padding: 0.3rem 0.4rem;
-  border-radius: 3px;
 }

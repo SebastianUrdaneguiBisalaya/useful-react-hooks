@@ -3,36 +3,36 @@ import Demo from "@/app/docs/state/useToggle/Demo";
 import Table from "@/components/shared/Table";
 import data from "@/app/docs/state/useToggle/data.json";
 
-# **useToggle**
+# useToggle
 
 ### A lightweight, unopinionated hook to manage boolean state toggling with memoized handlers.
 
-#### **Installation**
+#### Installation
 
 <CodeBlock
   code={`npm install @vibehooks/react/useToggle`}
   language="bash"
 />
 
-#### **Description**
+#### Description
 
 The **useToggle** simplifies the management of binary states such as switches, modals, and visibility toggles. By encapsulating a boolean state and providing memoized update function, it ensures that child components do not undergo  unnecessary re-renders when the toggle logic is passed down as a prop.
 
 This hook is designed to be highly predictable and minimal, serving as a foundational utility for UI components that require a simple **"on/off"** mechanism without the boilerplate of manual state management.
 
-#### **Parameters**
+#### Parameters
 
 <Table data={data.parameters} />
 
-#### **Return values**
+#### Return values
 
 <Table data={data.returnValues} />
 
-#### **Demo**
+#### Demo
 
 <Demo />
 
-#### **Source code**
+#### Source code
 
 ```tsx
 'use client';

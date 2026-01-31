@@ -3,34 +3,34 @@ import Demo from "@/app/docs/multimedia/useSmartVideo/Demo";
 import Table from "@/components/shared/Table";
 import data from "@/app/docs/multimedia/useSmartVideo/data.json";
 
-# **useSmartVideo**
+# useSmartVideo
 
 ### An advanced video hook that combines intersection logic with playback control for automated "smart" behavior.
 
-#### **Installation**
+#### Installation
 
 <CodeBlock
   code={`npm install @vibehooks/react/useSmartVideo`}
   language="bash"
 />
 
-#### **Description**
+#### Description
 
 The **useSmartVideo** leverages the **useIntersectionObserver** to trigger video actions based on the element's visibility in the viewport. It is ideal for social media feeds or landing pages where videos should play automatically when visible and pause or reset when scrolled out of view. It includes safety checks for browser autoplay policies (requiring **muted** and **playsInline**) and manages the internal playback state reactively.
 
-#### **Parameters**
+#### Parameters
 
 <Table data={data.parameters} />
 
-#### **Return values**
+#### Return values
 
 <Table data={data.returnValues} />
 
-#### **Demo**
+#### Demo
 
 <Demo />
 
-#### **Source code**
+#### Source code
 
 ```tsx
 'use client';

@@ -3,30 +3,30 @@ import Demo from "@/app/docs/multimedia/usePictureInPicture/Demo";
 import Table from "@/components/shared/Table";
 import data from "@/app/docs/multimedia/usePictureInPicture/data.json";
 
-# **usePictureInPicture**
+# usePictureInPicture
 
 ### A specialized hook to manage the Picture-in-Picture (PiP) Web API for floating video playback.
 
-#### **Installation**
+#### Installation
 
 <CodeBlock
   code={`npm install @vibehooks/react/usePictureInPicture`}
   language="bash"
 />
 
-#### **Description**
+#### Description
 
 The **usePictureInPicture** hook allows developers to transition video content into a floating window that stays on top of other windows. It monitors browser support, tracks the active state of the PiP window, and provides safe **enter** and **exit** methods. It handles the native **enterpictureinpicture** and **leavepictureinpicture** events to ensure the React state stays synchronized even if the user closes the PiP window via browser UI.
 
-#### **Return values**
+#### Return values
 
 <Table data={data.returnValues} />
 
-#### **Demo**
+#### Demo
 
 <Demo />
 
-#### **Source code**
+#### Source code
 
 ```tsx
 'use client';
