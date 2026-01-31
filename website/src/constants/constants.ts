@@ -1,4 +1,4 @@
-import type { HooksListProps } from "@/components/shared/Navigation";
+import type { HooksListProps } from "@/components/shared/NavigationList";
 
 const hooksList: HooksListProps[] = [
   {

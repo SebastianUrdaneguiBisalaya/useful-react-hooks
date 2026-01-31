@@ -1,8 +1,20 @@
 'use client';
 
+import { PanelLeftClose } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
+
+import NavigationList from "@/components/shared/NavigationList";
+import { Button } from "@/components/ui/Button";
+import { cn } from "@/lib/cn";
 
 export default function Navbar() {
+  const [showModalMobile, setShowModalMobile] = useState<boolean>(false);
+
+  const toggleMobile = () => {
+    setShowModalMobile(prev => !prev);
+  }
+
   return (
     <nav className="flex gap-4 w-full items-center justify-between pb-8 md:pb-12">
       <Link className="flex" href="/">
@@ -17,10 +29,31 @@ export default function Navbar() {
             <span className="font-sora text-sm text-white/70 pt-0.5 group-hover:text-white transition-all duration-500 ease-in-out">1</span>
           </div>
         </Link>
-        <button className="block md:hidden cursor-pointer text-white/70 hover:text-white hover:scale-[1.05] transition-all duration-500 ease-in-out">
+        <button
+          className="block md:hidden cursor-pointer text-white/70 hover:text-white hover:scale-[1.05] transition-all duration-500 ease-in-out"
+          onClick={toggleMobile}
+        >
           <svg height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M3 18v-2h18v2zm0-5v-2h18v2zm0-5V6h18v2z" fill="currentColor"/></svg>
         </button>
       </div>
+      <div
+        className={cn(
+          "transition-transform duration-500 ease-in-out z-50 fixed max-md:top-0 max-md:right-0 w-fit flex md:hidden flex-col items-start justify-start bg-[rgba(255,255,255,0.05)] border-t border-t-[rgba(255,255,255,0.4)] border-l border-l-[rgba(255,255,255,0.3)] shadow-[3px_3px_3px_rgba(0,0,0,0.089)] backdrop-blur-[10px] max-md:rounded-bl-lg max-md:rounded-tl-lg md:rounded-lg h-screen overflow-hidden",
+            showModalMobile ? "max-md:translate-x-0" : "max-md:translate-x-full"
+        )}
+      >
+        <div className="w-full px-6 py-4">
+          <Button.Primary className="flex flex-row items-center gap-1.5" onClick={toggleMobile}>
+            <PanelLeftClose className="w-4 h-4" />
+            Close
+          </Button.Primary>
+        </div>
+        <NavigationList />
+      </div>
+      <div
+        className={cn('fixed inset-0 z-40 bg-black/50 w-full h-screen transition-transform duration-500 ease-in-out', showModalMobile ? 'flex' : 'hidden')}
+        onClick={toggleMobile}
+      />
     </nav>
   )
 }
