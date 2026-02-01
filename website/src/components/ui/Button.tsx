@@ -12,7 +12,7 @@ const BaseButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <button
         className={cn(
-          'w-fit font-reddit-sans text-sm transition-colors duration-500 ease-in-out px-4 py-1.5 rounded-lg cursor-pointer focus:outline-none',
+          'w-fit h-8 bg-clip-padding inline-flex items-center justify-center whitespace-nowrap overflow-hidden shrink-0 outline-none select-none leading-none font-reddit-sans text-sm transition-colors duration-500 ease-in-out px-4 py-1.5 rounded-lg cursor-pointer focus:outline-none disabled:pointer-events-none disabled:opacity-50',
           className
         )}
         ref={ref}
