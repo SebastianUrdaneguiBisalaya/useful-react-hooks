@@ -3,7 +3,10 @@
 import { useState } from "react";
 
 import { useAsyncState } from "../../../../../../src";
-import LayoutDemo from "@/layouts/Layout";
+import { Button } from "@/components/ui/Button";
+import { Input } from "@/components/ui/Input";
+import { Tag } from "@/components/ui/Tag";
+import { Layout } from "@/layouts/Layout";
 
 export interface Post {
   id: number;
@@ -32,51 +35,42 @@ export default function Demo() {
     });
   }
   return (
-    <LayoutDemo
-      title="Async State"
-    >
-      <div className="w-full grid grid-cols-2 md:flex gap-2">
-        <input
-          className="max-md:col-span-full flex-1 w-full px-4 py-3 font-reddit-sans border border-white/40 rounded-lg focus:outline-none"
+    <Layout>
+      <Layout.Title>Async State</Layout.Title>
+      <div className="w-full flex max-md:items-center flex-col md:flex-row gap-4">
+        <Input.Primary
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Search posts..."
           value={searchQuery}
         />
-        <button
-          className="px-6 py-2 bg-purple-500 font-reddit-sans cursor-pointer hover:bg-purple-600 transition-colors duration-500 ease-in-out text-white rounded-md font-semibold disabled:bg-blue-300 disabled:text-black"
-          disabled={isLoading}
-          onClick={handleFetch}
-        >
-          {isLoading ? 'Loading...' : 'Search'}
-        </button>
-        <button className="px-4 py-3 font-reddit-sans cursor-pointer border border-white/30 rounded-md text-white/60 hover:text-white/70 transition-colors duration-500 ease-in-out" onClick={reset}>
-          Reset
-        </button>
+        <div className="flex flex-row items-center gap-2">
+          <Button.Primary disabled={isLoading} onClick={handleFetch}>
+            {isLoading ? 'Loading...' : 'Search'}
+          </Button.Primary>
+          <Button.Warning onClick={reset}>
+            Reset
+          </Button.Warning>
+        </div>
       </div>
 
-      <div className="space-y-4">
+      <div className="flex flex-col items-center gap-4">
         {isError && (
-          <div className="p-4 bg-red-50 border border-red-200 rounded-xl">
-            <p className="text-red-700 font-medium font-reddit-sans">Error: {error?.message}</p>
-            <button
-              className="mt-2 text-sm font-bold font-reddit-sans text-red-800 underline"
-              onClick={() => retry()}
-            >
-              Try Again
-            </button>
+          <div className="flex flex-col items-center gap-2">
+            <Layout.Error>
+              <strong>Error:</strong> {error?.message}
+            </Layout.Error>
+            <Button.Secondary onClick={() => retry()}>
+              Try again
+            </Button.Secondary>
           </div>
         )}
 
-        {isLoading && (
-          <div className="flex items-center justify-center p-12">
-            <div className="w-8 h-8 font-reddit-sans border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
-          </div>
-        )}
+        {isLoading && <Tag.Primary>Loading</Tag.Primary>}
 
         {data && (
-          <ul className="divide-y divide-white/40 overflow-hidden">
+          <ul className="divide-y divide-white/20 overflow-hidden">
             {data.map(post => (
-              <li className="px-4 py-2 bg-neutral-900 hover:bg-neutral-700 transition-colors duration-500 ease-in-out" key={post.id}>
+              <li className="px-4 py-2 bg-neutral-900 hover:bg-neutral-800 transition-colors duration-500 ease-in-out" key={post.id}>
                 <h4 className="font-medium text-sm text-white/80 capitalize">{post.title}</h4>
                 <p className="text-xs text-white/50 font-reddit-sans">ID: {post.id}</p>
               </li>
@@ -84,12 +78,10 @@ export default function Demo() {
           </ul>
         )}
 
-        <div className="text-center">
-          <p className="text-xs font-reddit-sans text-white/40">
-            Enter a query and click &quot;Fetch Posts&quot; to see results.
-          </p>
-        </div>
+        <Layout.Caption>
+          Click &quot;Fetch Posts&quot; to see results.
+        </Layout.Caption>
       </div>
-    </LayoutDemo>
+    </Layout>
   )
 }
