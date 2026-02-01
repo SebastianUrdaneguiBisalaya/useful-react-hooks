@@ -65,7 +65,7 @@ export default function Demo() {
           </div>
         )}
 
-        {isLoading && <Tag.Primary>Loading</Tag.Primary>}
+        {isLoading && <Tag.Loading>Loading</Tag.Loading>}
 
         {data && (
           <ul className="divide-y divide-white/20 overflow-hidden">
